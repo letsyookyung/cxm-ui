@@ -1,0 +1,92 @@
+{
+  "name": "cxm-ui-admin",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@asseinfo/react-kanban": "2.2.0",
+    "@emotion/cache": "11.10.8",
+    "@emotion/react": "11.10.8",
+    "@emotion/styled": "11.10.8",
+    "@fullcalendar/core": "^6.1.6",
+    "@fullcalendar/daygrid": "6.1.6",
+    "@fullcalendar/interaction": "6.1.6",
+    "@fullcalendar/react": "6.1.6",
+    "@fullcalendar/timegrid": "6.1.6",
+    "@mui/icons-material": "5.11.16",
+    "@mui/material": "5.12.3",
+    "@react-jvectormap/core": "1.0.4",
+    "@react-jvectormap/world": "1.1.2",
+    "@stomp/stompjs": "^7.0.0",
+    "chart.js": "4.3.0",
+    "chroma-js": "2.4.2",
+    "draft-convert": "^2.1.13",
+    "draft-js": "^0.11.7",
+    "dropzone": "6.0.0-beta.2",
+    "flatpickr": "4.6.13",
+    "formik": "2.2.9",
+    "history": "^5.3.0",
+    "html-react-parser": "3.0.16",
+    "jwt-decode": "^3.1.2",
+    "mobx": "^6.9.1",
+    "mobx-react-lite": "^4.0.3",
+    "prop-types": "^15.8.1",
+    "query-string": "^8.1.0",
+    "react": "18.2.0",
+    "react-chartjs-2": "5.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "18.2.0",
+    "react-draft-wysiwyg": "^1.15.0",
+    "react-error-boundary": "^4.0.10",
+    "react-flatpickr": "3.10.13",
+    "react-github-btn": "1.4.0",
+    "react-images-viewer": "1.7.1",
+    "react-markdown": "^8.0.7",
+    "react-router-dom": "6.11.0",
+    "react-scripts": "5.0.1",
+    "react-table": "7.8.0",
+    "styled-components": "^6.0.4",
+    "stylis": "4.1.4",
+    "stylis-plugin-rtl": "2.1.1",
+    "superagent": "^8.0.9",
+    "superagent-promise": "^1.1.0",
+    "sweetalert2": "^11.7.18",
+    "uuid": "9.0.0",
+    "ws": "^8.13.0",
+    "yup": "1.1.1"
+  },
+  "scripts": {
+    "start": "cp ./env/.env.local ./.env && mkdir -p ./public/config && cp ./config/config_fin.js ./public/config/config.js && react-app-rewired start",
+    "build": "rm -rf ./build && rm -rf ./public/config && cp ./env/.env.server ./.env && react-app-rewired build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/eslint-parser": "^7.22.9",
+    "@babel/plugin-proposal-decorators": "^7.22.7",
+    "customize-cra": "^1.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react": "^7.32.2",
+    "react-app-rewired": "^2.2.1"
+  }
+}
