@@ -4,6 +4,8 @@ import jwtDecode from "jwt-decode";
 
 const superagent = superagentPromise(_superagent, global.Promise);
 const API_ROOT = window.runConfig.REACT_APP_API_URL;
+// const { REACT_APP_API_URL } = window["runConfig"];
+// const API_ROOT = process.env.REACT_APP_API_URL
 const AUTH_BAKCEND_ROOT = `${window.runConfig.REACT_APP_AUTH_URL}/backend`;
 
 const handleErrors = (err) => {

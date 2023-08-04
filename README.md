@@ -13,6 +13,7 @@
   yarn add -D eslint-plugin-react
   yarn add -D eslint-config-airbnb
   yarn add -D eslint-config-prettier
+  yarn add -D eslint-plugin-prettier
   ```
 - rewired 구성
   ```
@@ -20,10 +21,15 @@
   yarn add --dev react-app-rewired
   yarn add --dev @babel/plugin-proposal-decorators
   ```
-- mobx
+- test 도구
+  ```
+  yarn add --dev jest
+  yarn add --dev @testing-library/jest-dom
+  yarn add --dev @testing-library/react
+  ```
+- mobx 상태관리
   ```
   yarn add mobx
-  yarn add mobx-react-lite
   ```
 - role 처리를 위한 jwt decoder
   ```
@@ -71,3 +77,36 @@
   ```
   yarn add react-error-boundary
   ```
+- react-query
+  ```
+  yarn add react-query
+  ```
+- axios
+  ```
+  yarn add axios
+  ```
+
+## Directory Hierarchy
+```bash
+cxm-ui-admin
+├─ config
+├─ env
+├─ public
+└─ src
+    ├─ asset_carrot
+    ├─ components_carrot
+    ├─ conext_carrot
+    ├─ errors
+    ├─ layouts_carrot
+    ├─ stores
+    ├─ utils
+    └─ views
+```
+
+## Source Hierarchy
+```bash
+index
+ └─ App
+     └─ Sidenav
+         └─ routes_carrot
+```

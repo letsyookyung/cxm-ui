@@ -89,10 +89,10 @@ class UserStore {
   }
 
   @action initHistory() {
-    let totalHistoryObj = JSON.parse(localStorage.getItem("MAPHistory"));
+    let totalHistoryObj = JSON.parse(localStorage.getItem("cxmHistory"));
 
-    if (!localStorage.getItem("MAPHistory")) {
-      localStorage.setItem("MAPHistory", JSON.stringify({}));
+    if (!localStorage.getItem("cxmHistory")) {
+      localStorage.setItem("cxmHistory", JSON.stringify({}));
       totalHistoryObj = {};
     }
 
@@ -100,7 +100,7 @@ class UserStore {
 
     if (!historyArr) {
       totalHistoryObj[this.currentUserAud] = [];
-      localStorage.setItem("MAPHistory", JSON.stringify(totalHistoryObj));
+      localStorage.setItem("cxmHistory", JSON.stringify(totalHistoryObj));
 
       historyArr = [];
     }
@@ -113,10 +113,10 @@ class UserStore {
 
     this.history.unshift(history);
 
-    const totalHistoryObj = JSON.parse(localStorage.getItem("MAPHistory"));
+    const totalHistoryObj = JSON.parse(localStorage.getItem("cxmHistory"));
     totalHistoryObj[this.currentUserAud] = this.history;
 
-    localStorage.setItem("MAPHistory", JSON.stringify(totalHistoryObj));
+    localStorage.setItem("cxmHistory", JSON.stringify(totalHistoryObj));
   }
 
   @action resetHistory() {

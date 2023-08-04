@@ -78,7 +78,7 @@ class AuthStore {
   }
 
   @action
-  async login(ssoId) {
+  async jwtLogin(ssoId) {
     this.inProgress = true;
     this.errors = undefined;
 
@@ -88,10 +88,13 @@ class AuthStore {
         realm: window.runConfig.REACT_APP_AUTH_REALM,
       });
 
+      console.log(jwtResponse);
+      console.log(`@@ ssoId: ${ssoId}`);
+
       this.setAccessToken(jwtResponse.access_token);
       this.setRefreshToken(jwtResponse.refresh_token);
 
-      return { ssoId };
+      return ssoId;
     } catch (err) {
       this.errors = err.response && err.response.body && err.response.body.errors;
       throw err;

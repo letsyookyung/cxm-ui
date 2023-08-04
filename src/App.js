@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -27,20 +27,25 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components_carrot/MDBox";
 
 // Material Dashboard 2 PRO React examples
-import Sidenav from "views/Sidenav";
+// import Sidenav from "views/Sidenav";
+
 import Configurator from "views/Configurator";
 
 // Material Dashboard 2 PRO React themes
 import theme from "assets_carrot/theme";
 
 // Material Dashboard 2 PRO React routes
-import routes from "routes_carrot";
+import routes from "routes";
 
 // Material Dashboard 2 PRO React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images
 import carrotBrand from "assets_carrot/images/logo_square.png";
+
+import AuthErrorBoundary from "error/AuthErrorBoundary";
+import AuthProvider from "utils/AuthProvider";
+import AppSkeleton from "main/AppSkeleton"
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -116,30 +121,38 @@ export default function App() {
   );
 
   useEffect(() => {
-    console.log(`@@layout: ${layout}`);
+    console.log(`@@ App: layout: ${layout}`);
   }, []);
+
+  const Sidenav = React.lazy(() => import("views/Sidenav")); // test suspense
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={carrotBrand}
-            brandName="CXM"
-            routes={routes}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
-          {/* <Configurator />
-          {configsButton} */}
-        </>
-      )}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
-      </Routes>
+      <AuthErrorBoundary>
+        <AuthProvider>
+          <Suspense fallback={<AppSkeleton />}>
+            {layout === "dashboard" && (
+              <>
+                <Sidenav
+                  color={sidenavColor}
+                  brand={carrotBrand}
+                  brandName="CXM"
+                  routes={routes}
+                  onMouseEnter={handleOnMouseEnter}
+                  onMouseLeave={handleOnMouseLeave}
+                />
+                {/* <Configurator />
+                {configsButton} */}
+              </>
+            )}
+            <Routes>
+              {getRoutes(routes)}
+              <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
+            </Routes>
+          </Suspense>
+        </AuthProvider>
+      </AuthErrorBoundary>
     </ThemeProvider>
   );
 }

@@ -4,57 +4,66 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended",
+        "eslint:recommended",
         "airbnb",
         "prettier",
         "plugin:import/errors",
         "plugin:import/warnings"
     ],
     "parserOptions": {
+        "ecmaFeatures": { "jsx": true },
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react", "prettier", "import"
     ],
     "rules": {
-        "no-console": "off",
+        "react/function-component-definition": [
+            2,
+            { "namedComponents": ["arrow-function", "function-declaration"] }
+        ],
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/jsx-props-no-spreading": [
-          1,
-          {
-            "custom": "ignore",
-            "exceptions": ["input"]
-          }
+            1,
+            {
+                "custom": "ignore",
+                "exceptions": ["input"]
+            }
         ],
-        "no-restricted-syntax": ["error"],
+        "react/jsx-no-useless-fragment": "warn",
         "react/jsx-curly-spacing": [2, "never"],
-        "import/no-unresolved": "off",
-        "lines-between-class-members": "off",
-        "no-unused-vars": "warn",
         "react/prop-types": "off",
-        "radix": "off",
-        "no-restricted-globals": "off",
-        "no-use-before-define": "off",
-        "import/prefer-default-export": "warn",
         "react/no-array-index-key": "off",
-        "no-param-reassign": "off",
-        "import/no-extraneous-dependencies": "warn",
         "react/no-children-prop": "off",
         "react/destructuring-assignment": "warn",
         "react/require-default-props": "off",
-        "global-require": "off",
+        "react/forbid-prop-types": "off",
+        "no-console": "off",
+        "no-restricted-syntax": ["error"],
+        "no-unused-vars": "warn",
+        "no-restricted-globals": "off",
+        "no-use-before-define": "off",
+        "no-param-reassign": "off",
         "no-plusplus": "off",
-        "eqeqeq": "off",
+        "no-alert": "off",
         "no-shadow": "off",
+        "no-undef": "warn",
+        "no-underscore-dangle": "off",
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "warn",
+        "import/no-extraneous-dependencies": "warn",
+        "import/extensions": "off",
+        "lines-between-class-members": "off",
+        "radix": "off",
+        "global-require": "off",
+        "eqeqeq": "off",
         "consistent-return": "off",
         "class-methods-use-this": "warn",
-        "import/extensions": "off",
-        "no-undef": "warn",
-        "react/forbid-prop-types": "off",
-        "no-underscore-dangle": "off",
         "jsx-a11y/label-has-associated-control": "off",
-        "no-alert": "off"
-    }
+        "arrow-body-style": ["warn", "as-needed"],
+        "no-promise-executor-return": "off"
+    },
+    "settings": { "import/resolver": { "node": { "paths": ["src"] } } }
 }

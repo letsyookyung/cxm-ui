@@ -13,6 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import { lazy, useEffect, useState } from "react";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -26,7 +28,6 @@ import Footer from "views/Footer";
 import ComplexStatisticsCard from "views/Cards/StatisticsCards/ComplexStatisticsCard";
 
 function Analytics() {
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

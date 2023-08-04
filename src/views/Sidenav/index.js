@@ -71,7 +71,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
-    console.log(`@@ ${collapseName}, ${itemParentName}`)
+    console.log(`@@ Sidenav: ${collapseName}, ${itemParentName}`)
     setOpenCollapse(collapseName);
     setOpenNestedCollapse(itemParentName);
   }, []);
