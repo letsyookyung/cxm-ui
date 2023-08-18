@@ -9,11 +9,12 @@
 <b>패키지 추가되는 경우 사용 목적 및 절차를 아래에 작성</b>
 - ESLint
   ```
-  yarn add -D eslint @babel/core @babel/eslint-parser
-  yarn add -D eslint-plugin-react
-  yarn add -D eslint-config-airbnb
-  yarn add -D eslint-config-prettier
-  yarn add -D eslint-plugin-prettier
+  yarn add --dev eslint @babel/core @babel/eslint-parser
+  yarn add --dev eslint-plugin-react
+  yarn add --dev eslint-config-airbnb
+  yarn add --dev eslint-config-prettier
+  yarn add --dev eslint-plugin-prettier
+  yarn add --dev eslint-plugin-react-hooks
   ```
 - rewired 구성
   ```
@@ -30,6 +31,8 @@
 - mobx 상태관리
   ```
   yarn add mobx
+  yarn add mobx-react
+  yarn add mobx-react-lite
   ```
 - role 처리를 위한 jwt decoder
   ```
@@ -85,6 +88,10 @@
   ```
   yarn add axios
   ```
+- qs
+  ```
+  yarn add qs
+  ```
 
 ## Directory Hierarchy
 ```bash
@@ -109,4 +116,12 @@ index
  └─ App
      └─ Sidenav
          └─ routes_carrot
+```
+## Error Message
+```
+{
+  "code": -4,
+  "message": "Unauthorized",
+  "errors": []
+}
 ```

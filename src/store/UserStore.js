@@ -1,5 +1,6 @@
-import { makeAutoObservable } from "mobx";
+import { action, autorun, computed, makeAutoObservable, makeObservable, observable } from "mobx";
 import JwtDecode from "jwt-decode";
+import { createContext } from "react";
 
 class UserClass {
   currentUserAud; // 로그인 직원 번호
@@ -14,6 +15,38 @@ class UserClass {
 
   constructor() {
     makeAutoObservable(this);
+    // makeObservable(this, {
+    //   currentUserAud: observable,
+    //   currentUserRole: observable,
+    //   currentUserName: observable,
+    //   currentUserPosition: observable,
+    //   currentUserDept: observable,
+    //   currentUserDeptCode: observable,
+    //   ssoId: observable,
+    //   email: observable,
+    //   history: observable,
+
+    //   pullUser: action,
+    //   forgetUser: action,
+    //   initHistory: action,
+    //   setHistory: action,
+    //   resetHistory: action,
+    //   setCurrentUserRole: action,
+    //   setCurrentUserName: action,
+    //   setEmail: action,
+    //   getUserRole: computed,
+    //   getUserName: computed,
+    //   getEmail: computed,
+    // });
+    // this.currentUserAud = undefined;
+    // this.currentUserRole = undefined;
+    // this.currentUserName = undefined;
+    // this.currentUserPosition = undefined;
+    // this.currentUserDept = undefined;
+    // this.currentUserDeptCode = undefined;
+    // this.ssoId = undefined;
+    // this.email = undefined;
+    // this.history = [];
   }
 
   pullUser = (token) => {
@@ -100,5 +133,7 @@ class UserClass {
   }
 }
 
+// export default createContext(new UserClass());
 const UserStore = new UserClass();
-export default UserStore;
+// export default UserStore;
+export default createContext(UserStore);

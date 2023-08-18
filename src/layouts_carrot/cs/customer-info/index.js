@@ -30,7 +30,9 @@ import Footer from "views/Footer";
 import DataTable from "views/Tables/DataTable";
 
 // Store
-import AgentStore from "store/AgentStore";
+// import AgentStore from "store/AgentStore";
+// import Agent from "utils/Agent";
+import AuthStore from "store/AuthStore";
 
 // Data
 import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
@@ -38,25 +40,35 @@ import dataTableData from "layouts_carrot/applications/data-tables/data/dataTabl
 export const apiURL = "/ui/cs/customer-info";
 
 const CustomerInfo = () => {
-  const agentStore = useContext(AgentStore);
+  // const agentStore = useContext(AgentStore);
 
   // 처음 렌더링 시 API 호출
-  const getPage = async () => {
-    let param;
-    const response = await agentStore.requests.get(`${apiURL}/retrieve`, param);
-  };
+  // const getPage = async () => {
+  //   let param;
+    // const response = await Agent.requests.get(`${apiURL}/retrieve`, param);
+  // };
 
   // 초기 메서드
-  useEffect(() => {
-    console.log("@@ CustomerInfo: useEffect");
+  // useEffect(() => {
+  //   console.log("@@ CustomerInfo: useEffect");
     // getPage();
-  }, []);
+  // }, []);
+
+  const logout = () => {
+    AuthStore.setAccessToken(undefined);
+    AuthStore.setRefreshToken(undefined);
+    window.localStorage.removeItem("cxmAccessToken");
+    window.localStorage.removeItem("cxmRefreshToken");
+  };
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Card>
+          <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => logout}>
+            로그아웃
+          </MDButton>
           <MDBox p={3} lineHeight={1}>
             <MDTypography variant="h5" fontWeight="medium">
               Datatable Search

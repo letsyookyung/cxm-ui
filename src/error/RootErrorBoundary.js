@@ -13,7 +13,7 @@ const RootErrorBoundary = ({ children }) => {
         <div>
             <h1> 데이터를 불러오는데 실패하였습니다. </h1>
             <p> 에러가 지속되면 관리자에게 문의하세요. </p>
-            <footer> {error} </footer>
+            <footer> {error?.response?.data?.message} </footer>
         </div>
     );
   }, []);

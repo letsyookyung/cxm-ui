@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // @mui material components
@@ -17,10 +17,12 @@ import { ErrorBoundary } from "react-error-boundary";
 const AuthErrorBoundary = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
   const navigate = useNavigate();
+  // const [axiosError, setAxiosError] = useState({});
 
   // 에러 화면
   const authFallback = useCallback(({ error, resetErrorBoundary }) => {
-    console.log(error);
+    console.log(`AuthErrorBoundary: ${error}`);
+    // setAxiosError(error);
 
     return(
       <MDBox my={25}>
@@ -29,16 +31,16 @@ const AuthErrorBoundary = ({ children }) => {
             <Card>
               <MDBox pt={2} px={2} textAlign="center">
                 <MDTypography component="p" variant="h4" fontWeight="regular" color="text">
-                  <b>{error.code}: {error.display ? error.display : error.messsage}</b>
+                  <b>{error?.response?.data?.code ?? error?.response?.status}: {error?.display ?? error?.response?.data?.message}</b>
                 </MDTypography>
               </MDBox>
               <MDBox my={5} />
               <Divider />
               <MDBox pt={2} px={2}>
                 <Grid container spacing={3} justifyContent="flex-end">
-                  <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => navigate(-1)}>
+                  {/* <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => navigate(-1)}>
                     이전 화면
-                  </MDButton>
+                  </MDButton> */}
                   <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => resetErrorBoundary()}>
                     재 로그인
                   </MDButton>
@@ -56,7 +58,8 @@ const AuthErrorBoundary = ({ children }) => {
         onReset={reset}
         onError={({ error }) => {
           // 이 ErrorBoundary에서 처리하면 안되는 오류의 경우 상위 ErrorBoundary로 위임
-          if (error?.status === 500 && !error?.display) {
+          console.log(`onError ${error}`);
+          if (error?.response?.status === 500) {
             throw error
           }
         }}

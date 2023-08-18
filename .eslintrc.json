@@ -8,7 +8,8 @@
         "airbnb",
         "prettier",
         "plugin:import/errors",
-        "plugin:import/warnings"
+        "plugin:import/warnings",
+        "plugin:react-hooks/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": { "jsx": true },

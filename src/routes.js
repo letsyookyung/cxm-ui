@@ -28,18 +28,21 @@ const routes = [
     route: "/dashboards/analytics",
     component: <Analytics />,
     noCollapse: true,
+    role: "ROLE_DASHBOARD",
   },
   {
     type: "collapse",
     name: "CS",
     key: "cs",
     icon: <PermIdentityIcon fontSize="medium" />,
+    role: "ROLE_CUSTOMER_INFO_2",
     collapse: [
       {
         name: "고객 정보 조회",
         key: "customer-info",
         route: "/cs/customer-info",
         component: <DataTables />,
+        role: "ROLE_CUSTOMER_INFO_2",
       },
     ],
   },

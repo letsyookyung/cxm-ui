@@ -1,8 +1,5 @@
 import { makeAutoObservable } from "mobx";
-
-import Agent from "utils/Agent";
-
-const { REACT_APP_AUTH_REDIRECT_URL, REACT_APP_HISTORY_PREFIX } = window.runConfig;
+import { createContext } from "react";
 
 class AuthClass {
   accessToken = "";
@@ -29,53 +26,6 @@ class AuthClass {
     this.role = role;
   }
 
-  ssoLogin = async () => {
-    const response = await Agent.authRequests.post("/auth/sso/login", {
-      redirectUrl: REACT_APP_AUTH_REDIRECT_URL,
-    });
-
-    if (response.redirectUrl) {
-      window.location.href = response.redirectUrl;
-    }
-    return response;
-  }
-
-  jwtLogin = async (ssoId) => {
-    const jwtResponse = await Agent.authRequests.post("/auth/login", {
-      id: ssoId,
-      realm: window.runConfig.REACT_APP_AUTH_REALM,
-    });
-
-    console.log(jwtResponse);
-    console.log(`@@ ssoId: ${ssoId}`);
-
-    this.setAccessToken(jwtResponse.access_token);
-    this.setRefreshToken(jwtResponse.refresh_token);
-
-    return ssoId;
-  }
-
-  logout = async () => {
-    window.localStorage.removeItem("cxmAccessToken");
-    window.localStorage.removeItem("cxmRefreshToken");
-    const response = await Agent.authRequests.put("/auth/sso/logout");
-
-    if (response.redirectUrl === undefined) {
-      return;
-    }
-
-    this.setAccessToken(undefined);
-    this.setRefreshToken(undefined);
-
-    Agent.superagent
-    .get(response.redirectUrl)
-    .withCredentials()
-    .then(() => {})
-    .finally(() => {
-      window.location.href = `${REACT_APP_HISTORY_PREFIX}/`;
-    });
-  }
-
   get getAccessToken() {
       return this.accessToken;
   }
@@ -89,5 +39,6 @@ class AuthClass {
   }
 }
 
+// export default createContext(new AuthClass());
 const AuthStore = new AuthClass();
 export default AuthStore;

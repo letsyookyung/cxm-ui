@@ -27,7 +27,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components_carrot/MDBox";
 
 // Material Dashboard 2 PRO React examples
-import Sidenav from "views/Sidenav";
+// import Sidenav from "views/Sidenav";
 
 import Configurator from "views/Configurator";
 
@@ -52,13 +52,14 @@ import AuthErrorBoundary from "error/AuthErrorBoundary";
 import AuthProvider from "utils/AuthProvider";
 import AuthSkeleton from "main/AuthSkeleton"
 import AppSkeleton from "main/AppSkeleton"
-import { observer, Provider } from "mobx-react";
+import App from "App";
+import { Provider, observer } from "mobx-react";
+import { trace } from "mobx";
 // import useStores from "store/useStores";
 
 const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
-// function App() {
-const App = observer(() => {
+const Auth = observer(() => {
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -94,10 +95,11 @@ const App = observer(() => {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const userStore = useContext(UserStore);
+  // const UserStore = useContext(UserStore);
   // const { getAccessToken } = useContext(AuthStore);
   // const { userStore } = useStores();
-  
+  trace(true)
+  const userStore = useContext(UserStore);
 
   const getRoutes = useCallback((allRoutes) => 
     allRoutes
@@ -138,33 +140,29 @@ const App = observer(() => {
   );
 
   useEffect(() => {
-    console.log(`@@ App: layout: ${layout}`);
-  }, []);
+    console.log(`@@ Auth: layout: ${layout}`);
+    console.log(userStore.getUserRole);
+  }, [userStore]);
 
   // const Sidenav = React.lazy(() => import("views/Sidenav")); // test suspense
 
   return (
-  <>
-  {layout === "dashboard" && (
-    <>
-      <Sidenav
-        color={sidenavColor}
-        brand={carrotBrand}
-        brandName="CXM"
-        routes={routes}
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
-      />
-      <Provider userStore={userStore}>
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
-      </Routes>
-      </Provider>
-    </>
-  )}
-  </>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthErrorBoundary>
+        <Suspense fallback={<AuthSkeleton />}>
+          <AuthProvider>
+            <Suspense fallback={<AppSkeleton />}>
+              {/* <Provider userStore={userStore}> */}
+                {userStore.getUserRole && <App />}
+              {/* </Provider> */}
+              {/* <App /> */}
+            </Suspense>
+          </AuthProvider>
+        </Suspense>
+      </AuthErrorBoundary>
+    </ThemeProvider>
   );
 })
 
-export default App;
+export default Auth;

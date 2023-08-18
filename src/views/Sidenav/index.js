@@ -48,6 +48,8 @@ import {
   setWhiteSidenav,
 } from "context";
 
+import UserStore from "store/UserStore";
+
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
   const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
@@ -71,13 +73,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
-    console.log(`@@ Sidenav: ${collapseName}, ${itemParentName}`)
+    console.log(`@@ Sidenav: ${collapseName}, ${itemParentName}`);
     setOpenCollapse(collapseName);
     setOpenNestedCollapse(itemParentName);
   }, []);
 
   useEffect(() => {
-    console.log(routes)
+    console.log(routes);
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
@@ -163,8 +165,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(
-    ({ type, name, icon, title, collapse, noCollapse, key, href, route }) => {
+    ({ type, name, icon, title, collapse, noCollapse, key, href, route, role }) => {
       let returnValue;
+
+      if (UserStore.getUserRole === undefined || UserStore.getUserRole.indexOf(role) == -1) {
+        return null;
+      }
 
       if (type === "collapse") {
         if (href) {
