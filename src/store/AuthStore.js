@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { createContext } from "react";
 
 class AuthClass {
   accessToken = "";
@@ -39,6 +38,5 @@ class AuthClass {
   }
 }
 
-// export default createContext(new AuthClass());
 const AuthStore = new AuthClass();
 export default AuthStore;

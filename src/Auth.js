@@ -34,32 +34,20 @@ import Configurator from "views/Configurator";
 // Material Dashboard 2 PRO React themes
 import theme from "assets_carrot/theme";
 
-// Material Dashboard 2 PRO React layouts
-import Analytics from "layouts_carrot/dashboards/analytics";
-
-// Material Dashboard 2 PRO React routes
-import routes from "routes";
-
 // Material Dashboard 2 PRO React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
-// Images
-import carrotBrand from "assets_carrot/images/logo_square.png";
-
 import UserStore from "store/UserStore";
-import AuthStore from "store/AuthStore";
 import AuthErrorBoundary from "error/AuthErrorBoundary";
 import AuthProvider from "utils/AuthProvider";
 import AuthSkeleton from "main/AuthSkeleton"
 import AppSkeleton from "main/AppSkeleton"
+import WithTimer from "utils/WithTimer";
 import App from "App";
-import { Provider, observer } from "mobx-react";
-import { trace } from "mobx";
-// import useStores from "store/useStores";
 
 const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
-const Auth = observer(() => {
+const Auth = () => {
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -95,15 +83,9 @@ const Auth = observer(() => {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  // const UserStore = useContext(UserStore);
-  // const { getAccessToken } = useContext(AuthStore);
-  // const { userStore } = useStores();
-  trace(true)
-  const userStore = useContext(UserStore);
-
   const getRoutes = useCallback((allRoutes) => 
     allRoutes
-      .filter((route) => userStore.getUserRole.indexOf(route.role) > -1)
+      .filter((route) => UserStore.getUserRole.indexOf(route.role) > -1)
       .map((route) => {
         if (route.collapse) {
           return getRoutes(route.collapse);
@@ -139,13 +121,6 @@ const Auth = observer(() => {
     </MDBox>
   );
 
-  useEffect(() => {
-    console.log(`@@ Auth: layout: ${layout}`);
-    console.log(userStore.getUserRole);
-  }, [userStore]);
-
-  // const Sidenav = React.lazy(() => import("views/Sidenav")); // test suspense
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -153,16 +128,15 @@ const Auth = observer(() => {
         <Suspense fallback={<AuthSkeleton />}>
           <AuthProvider>
             <Suspense fallback={<AppSkeleton />}>
-              {/* <Provider userStore={userStore}> */}
-                {userStore.getUserRole && <App />}
-              {/* </Provider> */}
-              {/* <App /> */}
+              <WithTimer>
+                <App />
+              </WithTimer>
             </Suspense>
           </AuthProvider>
         </Suspense>
       </AuthErrorBoundary>
     </ThemeProvider>
   );
-})
+};
 
 export default Auth;

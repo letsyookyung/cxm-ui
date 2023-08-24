@@ -49,6 +49,7 @@ import {
 } from "context";
 
 import UserStore from "store/UserStore";
+import { useCallback } from "react";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
@@ -79,7 +80,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }, []);
 
   useEffect(() => {
-    console.log(routes);
+    console.log(`@@ Sidenav ${routes}`);
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
@@ -168,7 +169,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     ({ type, name, icon, title, collapse, noCollapse, key, href, route, role }) => {
       let returnValue;
 
-      if (UserStore.getUserRole === undefined || UserStore.getUserRole.indexOf(role) == -1) {
+      if (UserStore.currentUserRole === undefined || UserStore.currentUserRole.indexOf(role) == -1) {
         return null;
       }
 

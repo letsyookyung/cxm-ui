@@ -8500,13 +8500,6 @@ mobx-react-lite@^4.0.3:
   dependencies:
     use-sync-external-store "^1.2.0"
 
-mobx-react@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-9.0.0.tgz#056af3ab4dd8ccfb8c3c8258d19d641f084a03a1"
-  integrity sha512-rhUBWXK/k4H/jMXZqbL0uTPncRSvJR23tpmJemoAEjJjm0Fkv6tTLG3Cze9MIgvf882Kradx6msizuQxLAiQwA==
-  dependencies:
-    mobx-react-lite "^4.0.3"
-
 mobx@^6.9.1:
   version "6.9.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.9.1.tgz#e22764561ea89bfe1ed4bf14e4ba733eae465f50"
@@ -11094,10 +11087,10 @@ svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
-sweetalert2@^11.7.18:
-  version "11.7.18"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.7.18.tgz#94772d30f885c049aa12f8c33e5573978da003e4"
-  integrity sha512-Njl5JTDasSP8yRX9cpLdy2fdxHZYPYNmiIGNZykF2Zt1UHIvurwt/W2LmlGe5RbyMDHYDXuHqlD1Q8Vr5/mqlA==
+sweetalert2@^11.7.27:
+  version "11.7.27"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.7.27.tgz#de19294e1b5ae7991de27bb4ae34aff3570aaa0e"
+  integrity sha512-QbRXGQn1sb7HEhzA/K2xtWIwQHh/qkSbb1w6jYcTql2xy17876lTREEt1D4X6Q0x2wHtfUjKJ+Cb8IVkRoq7DQ==
 
 symbol-tree@^3.2.4:
   version "3.2.4"

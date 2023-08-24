@@ -1,11 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
-import AuthStore from "stores_carrot/AuthStore";
-import UserStore from "stores_carrot/UserStore";
+import AuthStore from "store/AuthStore";
+import UserStore from "store/UserStore";
 
-const signoutTime = 1000 * 60 * 60 * 8;
-const warningTime = signoutTime - 1000 * 60;
+// const signoutTime = 1000 * 60 * 60 * 8;
+// const warningTime = signoutTime - 1000 * 60;
+const signoutTime = 1000 * 10;
+const warningTime = signoutTime - 1000 * 5;
 
 const events = ["load", "click", "keypress"];
 
@@ -13,23 +15,22 @@ let warnTimeout;
 let logoutTimeout;
 
 const WithTimer = ({ children }) => {
-  const authStore = useContext(AuthStore);
-  const userStore = useContext(UserStore);
 
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    console.log(`WithTimer showModal=${showModal}`);
     if (!showModal) return;
 
     Swal.fire({
-      title: i18n.t("alert.logout_title"),
-      text: i18n.t("alert.logout_soon"),
+      title: "자동 로그아웃 안내",
+      text: "안전한 거래를 위해 잠시 후 자동 로그아웃 됩니다",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: i18n.t("alert.keep_login"),
-      cancelButtonText: i18n.t("alert.logout_now"),
+      confirmButtonText: "로그인 연장",
+      cancelButtonText: "지금 로그아웃",
     }).then((result) => {
       if (result.isConfirmed || result.dismiss === "backdrop") {
         keepLogin();
@@ -40,8 +41,11 @@ const WithTimer = ({ children }) => {
   }, [showModal]);
 
   useEffect(() => {
+    console.log(`WithTimer eventListener`);
+
     events.forEach((event) => window.addEventListener(event, resetTimeout));
 
+    // componentWillUnmount
     return () => {
       events.forEach((event) => window.removeEventListener(event, resetTimeout));
     };
@@ -70,13 +74,13 @@ const WithTimer = ({ children }) => {
   };
 
   const resetStore = () => {
-    userStore.forgetUser();
-    authStore.logout();
+    UserStore.forgetUser();
+    AuthStore.logout();
   };
 
   const logout = () => {
-    userStore.forgetUser();
-    authStore.logout();
+    UserStore.forgetUser();
+    AuthStore.logout();
   };
 
   const keepLogin = () => {
@@ -84,7 +88,8 @@ const WithTimer = ({ children }) => {
     resetTimeout();
   };
 
-  return <>{children}</>;
+  // return <>{children}</>;
+  return children;
 };
 
 export default WithTimer;

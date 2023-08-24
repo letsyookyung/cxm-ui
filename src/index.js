@@ -31,14 +31,12 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import RootErrorBoundary from "error/RootErrorBoundary";
 import RootSkeleton from "main/RootSkeleton"
-// import userStore from "store/userStore";
-// import AuthStore from "store/AuthStore";
+
 import AuthErrorBoundary from "error/AuthErrorBoundary";
 import AuthProvider from "utils/AuthProvider";
 import AuthSkeleton from "main/AuthSkeleton"
 import Auth from "Auth";
-import { Provider } from "mobx-react";
-import UserStore from "store/UserStore";
+
 
 // import App from "App";
 // const App = React.lazy(() => import("App")); // test suspense
@@ -56,7 +54,6 @@ const queryClient = new QueryClient({
     }
   }
 });
-// const userStore = new UserStore();
 
 root.render(
   <QueryClientProvider client={queryClient}>
@@ -64,18 +61,7 @@ root.render(
       <Suspense fallback={<RootSkeleton />}>
         <BrowserRouter>
           <MaterialUIControllerProvider>
-            {/* <ThemeProvider theme={theme}>
-              <CssBaseline />
-                <AuthErrorBoundary>
-                  <Suspense fallback={<AuthSkeleton />}>
-                    <AuthProvider> */}
-                    <Provider userStore={UserStore}>
-                      <Auth />
-                    </Provider>
-                  {/* </AuthProvider>
-                </Suspense>
-              </AuthErrorBoundary>
-            </ThemeProvider> */}
+            <Auth />
           </MaterialUIControllerProvider>
         </BrowserRouter>
       </Suspense>

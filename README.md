@@ -31,7 +31,6 @@
 - mobx 상태관리
   ```
   yarn add mobx
-  yarn add mobx-react
   yarn add mobx-react-lite
   ```
 - role 처리를 위한 jwt decoder
@@ -91,6 +90,10 @@
 - qs
   ```
   yarn add qs
+  ```
+- alert modal
+  ```
+  yarn add sweetalert2
   ```
 
 ## Directory Hierarchy

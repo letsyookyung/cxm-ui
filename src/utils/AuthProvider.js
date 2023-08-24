@@ -1,35 +1,18 @@
-import React, { useContext, useState, useEffect, lazy, useCallback, useRef } from "react";
-import Swal from "sweetalert2";
+import { useEffect, useCallback } from "react";
 
-// @mui material components
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-
-// Material Dashboard 2 PRO React components
-import MDBox from "components_carrot/MDBox";
-import MDButton from "components_carrot/MDButton";
-import MDTypography from "components_carrot/MDTypography";
-
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import axios from "axios";
 import qs from "qs";
 
 import AuthStore from "store/AuthStore";
 import UserStore from "store/UserStore";
 import Agent from "utils/Agent";
-// import useStores from "store/useStores";
-import { observer } from "mobx-react";
 
 const { REACT_APP_ENV, REACT_APP_AUTH_REDIRECT_URL, REACT_APP_AUTH_REALM } = window.runConfig;
 
 axios.defaults.paramsSerializer = (params) => qs.stringify(params);
 
-const AuthProvider = observer(({ children }) => {
-  // const authStore = useContext(AuthStore);
-  const userStore = useContext(UserStore);
-  // const { userStore } = useStores();
-
+const AuthProvider = ({ children }) => {
   // SSO 로그인
   const ssoLogin = useMutation({
     mutationFn: (payload) => Agent.authRequests.post("/auth/sso/login", payload),
@@ -49,9 +32,6 @@ const AuthProvider = observer(({ children }) => {
   });
 
   const init = () => {
-    // window.localStorage.removeItem("cxmAccessToken");
-    // window.localStorage.removeItem("cxmRefreshToken");
-
     if (REACT_APP_ENV.startsWith("LOCAL")) {
       localLogin();
     } else {
@@ -108,16 +88,21 @@ const AuthProvider = observer(({ children }) => {
       };
       const jwtResponse = jwtLogin.mutate(payload, {
         onSuccess: (data, variables, context) => {
+          console.log(`@@ login success=${data}`);
           // 인증 처리
           AuthStore.setAccessToken(data.access_token);
           AuthStore.setRefreshToken(data.refresh_token);
-          userStore.pullUser(AuthStore.getAccessToken);
-          userStore.initHistory();
+          UserStore.pullUser(AuthStore.getAccessToken);
+          UserStore.initHistory();
         },
         onError: (error, variables, context) => {
+          console.log(`@@ login failure=${error}`);
           switch (error.response.status) {
             case 400:
-              error.display = "잘못된 요청입니다 확인 후 다시 이용해주세요.";
+              if (error.response.data.code === -101)
+                error.display = "권한이 없거나 만료되었습니다 확인 후 다시 이용해주세요.";
+              else
+                error.display = "잘못된 요청입니다 확인 후 다시 이용해주세요.";
               break;
             case 401:
               error.display = "허용되지 않은 요청입니다 확인 후 다시 이용해주세요.";
@@ -142,7 +127,7 @@ const AuthProvider = observer(({ children }) => {
   };
 
   // 로컬 환경 테스트 용도(sso 제외, jwt 만)
-  const localLogin = async () => {
+  const localLogin = useCallback(() => {
       // JWT 로그인 시도
       const payload = {
         id: "9999997",
@@ -153,14 +138,16 @@ const AuthProvider = observer(({ children }) => {
           // 인증 처리
           AuthStore.setAccessToken(data.access_token);
           AuthStore.setRefreshToken(data.refresh_token);
-          userStore.pullUser(AuthStore.getAccessToken);
-          userStore.initHistory();
-          console.log(userStore.getUserRole);
+          UserStore.pullUser(AuthStore.getAccessToken);
+          UserStore.initHistory();
         },
         onError: (error, variables, context) => {
           switch (error.response.status) {
             case 400:
-              error.display = "잘못된 요청입니다 확인 후 다시 이용해주세요.";
+              if (error.response.data.code === -101)
+                error.display = "권한이 없거나 만료되었습니다 확인 후 다시 이용해주세요.";
+              else
+                error.display = "잘못된 요청입니다 확인 후 다시 이용해주세요.";
               break;
             case 401:
               error.display = "허용되지 않은 요청입니다 확인 후 다시 이용해주세요.";
@@ -178,47 +165,15 @@ const AuthProvider = observer(({ children }) => {
           throw error;
         },
       });
-  };
-
-  useEffect(() => {
-    console.log("@@ auth init");
-    init();
-    console.log("@@ auth complete");
   }, []);
 
-    // return
-    // <>
-    //   {userStore.getUserRole ? {children} : (
-    //     <MDBox my={25}>
-    //       <Grid container spacing={3} justifyContent="center">
-    //         <Grid item xs={12} md={8} lg={6}>
-    //           <Card>
-    //             <MDBox pt={2} px={2} textAlign="center">
-    //               <MDTypography component="p" variant="h4" fontWeight="regular" color="text">
-    //                 {/* <b>{error.response.data.code ?? error.response.status}: {error.display ?? error.response.data.message}</b> */}
-    //               </MDTypography>
-    //             </MDBox>
-    //             <MDBox my={5} />
-    //             <Divider />
-    //             <MDBox pt={2} px={2}>
-    //               <Grid container spacing={3} justifyContent="flex-end">
-    //                 {/* <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => navigate(-1)}>
-    //                   이전 화면
-    //                 </MDButton> */}
-    //                 <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => init()}>
-    //                   로그인
-    //                 </MDButton>
-    //               </Grid>
-    //             </MDBox>
-    //           </Card>
-    //         </Grid>
-    //       </Grid>
-    //     </MDBox>
-    //   )}
-    // </>;
+  useEffect(() => {
+    console.log("@@ authProvider init");
+    init();
+    console.log("@@ authProvider complete");
+  }, []);
 
-  // return <>{userStore.getUserRole && (children)}</>;
   return children;
-})
+};
 
 export default AuthProvider;

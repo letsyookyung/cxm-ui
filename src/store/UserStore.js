@@ -120,20 +120,20 @@ class UserClass {
     this.email = email;
   }
 
-  get getUserRole() {
-    return this.currentUserRole;
-  }
+  // get getUserRole() {
+  //   return this.currentUserRole;
+  // }
 
-  get getUserName() {
-    return this.currentUserName;
-  }
+  // get getUserName() {
+  //   return this.currentUserName;
+  // }
 
-  get getEmail() {
-    return this.email;
-  }
+  // get getEmail() {
+  //   return this.email;
+  // }
 }
 
 // export default createContext(new UserClass());
 const UserStore = new UserClass();
-// export default UserStore;
-export default createContext(UserStore);
+export default UserStore;
+// export default createContext(UserStore);

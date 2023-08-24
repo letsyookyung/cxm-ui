@@ -61,14 +61,14 @@ class AgentStore {
           // this.type = "server";
           // this.title = null;
           // this.subTitle = "서버 에러";
-          // this.description = "관리자에게 문의주시기 바랍니다.";
+          // this.description = "관리자에게 문의하시기 바랍니다.";
         }
         break;
       default:
         this.type = "server";
         this.title = null;
         this.subTitle = "서버 에러";
-        this.description = "관리자에게 문의주시기 바랍니다.";
+        this.description = "관리자에게 문의하시기 바랍니다.";
         break;
     }
     throw err;
@@ -101,7 +101,7 @@ class AgentStore {
         this.type = "server";
         this.title = null;
         this.subTitle = "서버 에러";
-        this.description = "관리자에게 문의주시기 바랍니다.";
+        this.description = "관리자에게 문의하시기 바랍니다.";
     }
     throw err;
   };

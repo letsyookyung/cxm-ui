@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { useState, useEffect, Suspense, useCallback, useContext } from "react";
+import React, { useState, useEffect, Suspense, useCallback, useContext, useMemo } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -52,13 +52,11 @@ import AuthErrorBoundary from "error/AuthErrorBoundary";
 import AuthProvider from "utils/AuthProvider";
 import AuthSkeleton from "main/AuthSkeleton"
 import AppSkeleton from "main/AppSkeleton"
-import { observer, Provider } from "mobx-react";
-// import useStores from "store/useStores";
+import { observer, Provider } from "mobx-react-lite";
 
 const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
-// function App() {
-const App = observer(() => {
+const App = () => {
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -94,24 +92,20 @@ const App = observer(() => {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const userStore = useContext(UserStore);
-  // const { getAccessToken } = useContext(AuthStore);
-  // const { userStore } = useStores();
-  
-
-  const getRoutes = useCallback((allRoutes) => 
+  const getRoutes = (allRoutes) =>
     allRoutes
-      .filter((route) => userStore.getUserRole.indexOf(route.role) > -1)
-      .map((route) => {
-        if (route.collapse) {
-          return getRoutes(route.collapse);
-        }
+    .filter((route) => UserStore.currentUserRole && UserStore.currentUserRole.indexOf(route.role) > -1)
+    .map((route) => {
+      if (route.collapse) {
+        return getRoutes(route.collapse);
+      }
 
-        if (route.route) {
-          return <Route exact path={REACT_APP_HISTORY_PREFIX + route.route} element={route.component} key={route.key} />;
-        }
+      if (route.route) {
+        return <Route exact path={route.route} element={route.component} key={route.key} />;
+      }
+
       return null;
-    }), []);
+    });
 
   const configsButton = (
     <MDBox
@@ -141,8 +135,6 @@ const App = observer(() => {
     console.log(`@@ App: layout: ${layout}`);
   }, []);
 
-  // const Sidenav = React.lazy(() => import("views/Sidenav")); // test suspense
-
   return (
   <>
   {layout === "dashboard" && (
@@ -155,16 +147,14 @@ const App = observer(() => {
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       />
-      <Provider userStore={userStore}>
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
       </Routes>
-      </Provider>
     </>
   )}
   </>
   );
-})
+};
 
 export default App;
