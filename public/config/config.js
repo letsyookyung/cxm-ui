@@ -6,4 +6,5 @@ window["runConfig"] = {
     REACT_APP_AUTH_REDIRECT_URL: "http://local.carrotins.com:3000",
     REACT_APP_AUTH_REALM: "cxm",
     REACT_APP_HISTORY_PREFIX: "/cxm/web",
+    REACT_APP_SIGNOUT_TIME: 1000 * 60 * 60 * 8,
   };

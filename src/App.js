@@ -13,14 +13,12 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { useState, useEffect, Suspense, useCallback, useContext, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-// @mui material components
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
@@ -30,12 +28,6 @@ import MDBox from "components_carrot/MDBox";
 import Sidenav from "views/Sidenav";
 
 import Configurator from "views/Configurator";
-
-// Material Dashboard 2 PRO React themes
-import theme from "assets_carrot/theme";
-
-// Material Dashboard 2 PRO React layouts
-import Analytics from "layouts_carrot/dashboards/analytics";
 
 // Material Dashboard 2 PRO React routes
 import routes from "routes";
@@ -48,13 +40,6 @@ import carrotBrand from "assets_carrot/images/logo_square.png";
 
 import UserStore from "store/UserStore";
 import AuthStore from "store/AuthStore";
-import AuthErrorBoundary from "error/AuthErrorBoundary";
-import AuthProvider from "utils/AuthProvider";
-import AuthSkeleton from "main/AuthSkeleton"
-import AppSkeleton from "main/AppSkeleton"
-import { observer, Provider } from "mobx-react-lite";
-
-const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
 const App = () => {
   const [controller, dispatch] = useMaterialUIController();

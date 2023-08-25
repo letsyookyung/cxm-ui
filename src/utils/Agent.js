@@ -8,7 +8,7 @@ const AUTH_BAKCEND_ROOT = `${window.runConfig.REACT_APP_AUTH_URL}/backend`;
 axios.defaults.paramsSerializer = (params) => qs.stringify(params);
   
   const headers = () => {
-    const at = localStorage.getItem("accessToken");
+    const at = localStorage.getItem("cxmAccessToken");
     const headers = {};
   
     if (at) {
@@ -32,7 +32,7 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
   };
   
   const authHeaders = () => {
-    const at = localStorage.getItem("accessToken");
+    const at = localStorage.getItem("cxmAccessToken");
     const headers = {};
   
     if (at) {
