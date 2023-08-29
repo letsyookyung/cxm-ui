@@ -13,15 +13,15 @@ import MDTypography from "components_carrot/MDTypography";
 
 import { useQueryErrorResetBoundary } from "react-query";
 import { ErrorBoundary } from "react-error-boundary";
+import { isAxiosError } from "axios";
 
-const AuthErrorBoundary = ({ children }) => {
+const AppErrorBoundary = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
   const navigate = useNavigate();
   // const [axiosError, setAxiosError] = useState({});
 
   // 에러 화면
   const authFallback = useCallback(({ error, resetErrorBoundary }) => {
-    console.log(`AuthErrorBoundary: ${error}`);
     // setAxiosError(error);
 
     return(
@@ -57,10 +57,12 @@ const AuthErrorBoundary = ({ children }) => {
       <ErrorBoundary
         onReset={reset}
         onError={({ error }) => {
-          // 이 ErrorBoundary에서 처리하면 안되는 오류의 경우 상위 ErrorBoundary로 위임
-          console.log(`onError ${error}`);
-          if (error?.response?.status === 500) {
-            throw error
+          if(!(isAxiosError(error) && error?.response?.status)) {
+            // 이 ErrorBoundary에서 처리하면 안되는 오류의 경우 상위 ErrorBoundary로 위임
+            console.log(error);
+            throw error;
+          } else {
+            console.log("AppErrorBoundary");
           }
         }}
         fallbackRender={authFallback}
@@ -70,4 +72,4 @@ const AuthErrorBoundary = ({ children }) => {
   );
 };
 
-export default AuthErrorBoundary;
+export default AppErrorBoundary;

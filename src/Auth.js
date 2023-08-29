@@ -30,15 +30,7 @@ import AppSkeleton from "main/AppSkeleton"
 import WithTimer from "utils/WithTimer";
 import App from "App";
 
-import Loging from "layouts_carrot/authentication/sign-in/test";
-
 const Auth = () => {
-
-  // const [isLogin, setIsLogin] = useState(false);
-
-  // useEffect(() => {
-  //   console.log(`Auth isLogin=${isLogin}`);
-  // }, [isLogin]);
 
   return (
     <ThemeProvider theme={theme}>

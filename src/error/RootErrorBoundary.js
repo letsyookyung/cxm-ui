@@ -7,7 +7,7 @@ const RootErrorBoundary = ({ children }) => {
 
   // 에러 화면
   const rootFallback = useCallback(({ error, resetErrorBoundary }) => {
-    console.log(error);
+    console.log("RootErrorBoundary");
 
     return(
         <div>
