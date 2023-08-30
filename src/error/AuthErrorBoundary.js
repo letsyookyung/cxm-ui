@@ -67,9 +67,16 @@ const AuthErrorBoundary = ({ children }) => {
             throw error;
           } else {
             console.log("AuthErrorBoundary");
+            switch (key) {
+              case value:
+                
+                break;
+            
+              default:
+                break;
+            }
           }
         }}
-        // fallbackRender={authFallback}
         FallbackComponent={authFallback}
       >
         {children}

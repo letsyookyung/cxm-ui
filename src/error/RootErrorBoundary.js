@@ -21,7 +21,10 @@ const RootErrorBoundary = ({ children }) => {
   return (
     <ErrorBoundary
         onReset={reset}
-        fallbackRender={rootFallback}
+        onError={(error) => {
+          console.log(error);
+        }}
+        FallbackComponent={rootFallback}
     >
         {children}
     </ErrorBoundary>

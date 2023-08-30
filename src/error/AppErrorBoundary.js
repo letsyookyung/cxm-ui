@@ -56,7 +56,7 @@ const AppErrorBoundary = ({ children }) => {
   return (
       <ErrorBoundary
         onReset={reset}
-        onError={({ error }) => {
+        onError={( error ) => {
           if(!(isAxiosError(error) && error?.response?.status)) {
             // 이 ErrorBoundary에서 처리하면 안되는 오류의 경우 상위 ErrorBoundary로 위임
             console.log(error);
@@ -65,7 +65,7 @@ const AppErrorBoundary = ({ children }) => {
             console.log("AppErrorBoundary");
           }
         }}
-        fallbackRender={authFallback}
+        FallbackComponent={authFallback}
       >
         {children}
       </ErrorBoundary>
