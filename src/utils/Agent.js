@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import qs from "qs";
 import jwtDecode from "jwt-decode";
 
@@ -52,8 +52,26 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
     return headers;
   };
   
+//   export const post = async <T>(url: string, body: any): Promise<T> => {
+//     try {
+//         const response: AxiosResponse<T> = await axios.post(url, body);
+//         return response.data;
+//     } catch (e) {
+//         const error = e as AxiosError<T>;
+//         return Promise.reject(error.response.data);
+//     }
+// };
+  
   const authRequests = {
-    post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
+    // post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
+    post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders})
+    // .then((r) => r.data)
+    // .catch((e) => {
+    //   console.log(`Agent`);
+    //   console.log(e);
+    //   return Promise.reject(e.response.data);
+    // })
+    ,
     get: (url, params) => axios.get(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
     put: (url, params) => axios.put(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
     delete: (url, params) => axios.delete(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),

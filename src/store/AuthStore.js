@@ -4,9 +4,9 @@ import Agent from "utils/Agent";
 const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
 class AuthClass {
-  accessToken = "";
-  refreshToken = "";
-  role = "";
+  accessToken = undefined;
+  refreshToken = undefined;
+  role = undefined;
 
   constructor() {
     makeAutoObservable(this, {
