@@ -17,12 +17,14 @@ class AuthClass {
 
   setAccessToken = (accessToken) => {
     this.accessToken = accessToken;
-    window.localStorage.setItem("cxmAccessToken", accessToken);
+    if (accessToken) window.localStorage.setItem("cxmAccessToken", accessToken);
+    else window.localStorage.removeItem("cxmAccessToken");
   }
 
   setRefreshToken = (refreshToken) => {
     this.refreshToken = refreshToken;
-    window.localStorage.setItem("cxmRefreshToken", refreshToken);
+    if (refreshToken) window.localStorage.setItem("cxmRefreshToken", refreshToken);
+    else window.localStorage.removeItem("cxmRefreshToken");
   }
 
   *logout() {
@@ -33,8 +35,6 @@ class AuthClass {
       console.log("sso logout failure.");
     }
     UserStore.forgetUser();
-    window.localStorage.removeItem("cxmAccessToken");
-    window.localStorage.removeItem("cxmRefreshToken");
     this.setAccessToken(undefined);
     this.setRefreshToken(undefined);
     window.location.href = `${REACT_APP_HISTORY_PREFIX}/`;

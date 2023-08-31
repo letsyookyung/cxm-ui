@@ -6,9 +6,9 @@ const API_ROOT = window.runConfig.REACT_APP_API_URL;
 const AUTH_BAKCEND_ROOT = `${window.runConfig.REACT_APP_AUTH_URL}/backend`;
 
 axios.defaults.paramsSerializer = (params) => qs.stringify(params);
-  
+
   const headers = () => {
-    const at = window.localStorage.getItem("cxmAccessToken");
+    const at = localStorage.getItem("cxmAccessToken");
     const headers = {};
   
     if (at) {
@@ -20,7 +20,7 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
       if (jwtObj.pri_username != null) headers["X-TRACE-ID"] = jwtObj.aud;
       else headers["X-TRACE-ID"] = null;
     }
-
+    
     return headers;
   };
 

@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useCallback, useState } from "react";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -30,53 +30,86 @@ import Footer from "views/Footer";
 import DataTable from "views/Tables/DataTable";
 
 // Store
-// import AgentStore from "store/AgentStore";
-// import Agent from "utils/Agent";
-import AuthStore from "store/AuthStore";
+import Agent from "utils/Agent";
+
+import { pageOptionInit, pageTotalInit } from "variables/page"
 
 // Data
 import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
+import { useQuery } from "react-query";
 
-export const apiURL = "/ui/cs/customer-info";
+const apiURL = "/ui/cs/customer";
 
 const CustomerInfo = () => {
-  // const agentStore = useContext(AgentStore);
+  const [pageOption, setPageOption] = useState(pageOptionInit);
+  const [pageTotal, setPageTotal] = useState(pageTotalInit);
+  const [list, setList] = useState([]);
 
-  // 처음 렌더링 시 API 호출
-  // const getPage = async () => {
-  //   let param;
-    // const response = await Agent.requests.get(`${apiURL}/retrieve`, param);
+  const searchForm = [];
+  const searchDataInit = {};
+  const columns = [];
+
+  const [path, setPath] = useState("/retrieve");
+  const [param, setParam] = useState("");
+  const { data } = useQuery({
+    queryKey: path+param,
+    queryFn: () => Agent.requests.get(`${apiURL}${path}`, param),
+    useErrorBoundary: true 
+  });
+
+  // const getList = () => {
+  //   Agent.requests.get(path, param);
+  // };
+
+  // const useGetList = (path, param) => {
+  //   const { data } = useQuery({
+  //     queryKey: path + param,
+  //     mutationFn: () => Agent.requests.get(path, param),
+  //     useErrorBoundary: true
+  //   });
+
+  //   return data;
+  // };
+
+  // const getList = () => {
+  //   const param = {
+  //     ...pageOption,
+  //   }
+  //   const { data } = useQuery({
+  //     queryKey: path + param,
+  //     mutationFn: () => Agent.requests.get("/retrieve", param),
+  //     useErrorBoundary: true
+  //   });
+  //   setList(data.content);
+  //   setPageTotal(() => (
+  //     {
+  //       ...prev,
+  //       totalPages: response.totalPages,
+  //       totalElements: response.totalElements,
+  //       numberOfElements: response.numberOfElements,
+  //       empty: response.empty,
+  //     }
+  //   ));
   // };
 
   // 초기 메서드
-  // useEffect(() => {
-  //   console.log("@@ CustomerInfo: useEffect");
-    // getPage();
-  // }, []);
-
-  const logout = () => {
-    AuthStore.setAccessToken(undefined);
-    AuthStore.setRefreshToken(undefined);
-    window.localStorage.removeItem("cxmAccessToken");
-    window.localStorage.removeItem("cxmRefreshToken");
-  };
+  useEffect(() => {
+    console.log("@@ CustomerInfo: useEffect");
+    setList(data);
+  }, []);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Card>
-          <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => logout}>
-            로그아웃
-          </MDButton>
           <MDBox p={3} lineHeight={1}>
             <MDTypography variant="h5" fontWeight="medium">
               Datatable Search
             </MDTypography>
-            <MDTypography variant="button" color="text">
-              A lightweight, extendable, dependency-free javascript HTML table plugin.
-            </MDTypography>
           </MDBox>
+        </Card>
+        <Card>
           <DataTable table={dataTableData} canSearch />
         </Card>
       </MDBox>

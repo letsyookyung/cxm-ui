@@ -76,6 +76,7 @@ const AppErrorBoundary = ({ children }) => {
               case 401:
                 // 권한 오류의 경우 RT 로 AT 재발급
                 AuthStore.tokenRefreshRequest();
+                title = "인가되지 않은 접근입니다.";
                 break;
               case 400:
                 if (errorCode == -6 || errorCode == -7) {
