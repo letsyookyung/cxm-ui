@@ -27,16 +27,16 @@ import Tab from "@mui/material/Tab";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDAvatar from "components_carrot/MDAvatar";
 
 // Material Dashboard 2 PRO React base styles
-import breakpoints from "assets/theme/base/breakpoints";
+import breakpoints from "assets_carrot/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
-import backgroundImage from "assets/images/bg-profile.jpeg";
+import burceMars from "assets_carrot/images/bruce-mars.jpg";
+import backgroundImage from "assets_carrot/images/bg-profile.jpeg";
 
 function Header({ children }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");

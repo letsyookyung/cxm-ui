@@ -28,10 +28,10 @@ import { v4 as uuidv4 } from "uuid";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDButton from "components/MDButton";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
+import MDBox from "components_carrot/MDBox";
+import MDButton from "components_carrot/MDButton";
+import MDTypography from "components_carrot/MDTypography";
+import MDInput from "components_carrot/MDInput";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -39,13 +39,13 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 // Kanban application components
-import Header from "layouts/applications/kanban/components/Header";
+import Header from "layouts_carrot/applications/kanban/components/Header";
 
 // Data
-import boards from "layouts/applications/kanban/data";
+import boards from "layouts_carrot/applications/kanban/data";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function Kanban() {
   const [controller] = useMaterialUIController();

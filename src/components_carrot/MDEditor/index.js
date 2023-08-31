@@ -24,10 +24,10 @@ import { convertToHTML } from "draft-convert";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // Custom styles for the MDEditor
-import MDEditorRoot from "components/MDEditor/MDEditorRoot";
+import MDEditorRoot from "components_carrot/MDEditor/MDEditorRoot";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function MDEditor({ value }) {
   const [controller] = useMaterialUIController();

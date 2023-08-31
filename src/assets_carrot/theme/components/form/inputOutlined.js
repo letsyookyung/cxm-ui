@@ -14,12 +14,12 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 PRO React Base Styles
-import colors from "assets/theme/base/colors";
-import borders from "assets/theme/base/borders";
-import typography from "assets/theme/base/typography";
+import colors from "assets_carrot/theme/base/colors";
+import borders from "assets_carrot/theme/base/borders";
+import typography from "assets_carrot/theme/base/typography";
 
 // Material Dashboard 2 PRO React helper functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets_carrot/theme/functions/pxToRem";
 
 const { inputBorderColor, info, grey, transparent } = colors;
 const { borderRadius } = borders;

@@ -21,19 +21,19 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDButton from "components_carrot/MDButton";
 
 // Invoice page components
-import BaseLayout from "layouts/pages/account/components/BaseLayout";
+import BaseLayout from "layouts_carrot/pages/account/components/BaseLayout";
 
 // Images
-import logoCT from "assets/images/logo-ct.png";
-import logoCTDark from "assets/images/logo-ct-dark.png";
+import logoCT from "assets_carrot/images/logo-ct.png";
+import logoCTDark from "assets_carrot/images/logo-ct-dark.png";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function Invoice() {
   const [controller] = useMaterialUIController();

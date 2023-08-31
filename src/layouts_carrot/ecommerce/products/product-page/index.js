@@ -18,8 +18,8 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -28,11 +28,11 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // ProductPage page components
-import ProductImages from "layouts/ecommerce/products/product-page/components/ProductImages";
-import ProductInfo from "layouts/ecommerce/products/product-page/components/ProductInfo";
+import ProductImages from "layouts_carrot/ecommerce/products/product-page/components/ProductImages";
+import ProductInfo from "layouts_carrot/ecommerce/products/product-page/components/ProductInfo";
 
 // Data
-import dataTableData from "layouts/ecommerce/products/product-page/data/dataTableData";
+import dataTableData from "layouts_carrot/ecommerce/products/product-page/data/dataTableData";
 
 function ProductPage() {
   return (

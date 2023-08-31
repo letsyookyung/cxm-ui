@@ -26,8 +26,8 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDButton from "components_carrot/MDButton";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -35,15 +35,15 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 // NewUser page components
-import UserInfo from "layouts/pages/users/new-user/components/UserInfo";
-import Address from "layouts/pages/users/new-user/components/Address";
-import Socials from "layouts/pages/users/new-user/components/Socials";
-import Profile from "layouts/pages/users/new-user/components/Profile";
+import UserInfo from "layouts_carrot/pages/users/new-user/components/UserInfo";
+import Address from "layouts_carrot/pages/users/new-user/components/Address";
+import Socials from "layouts_carrot/pages/users/new-user/components/Socials";
+import Profile from "layouts_carrot/pages/users/new-user/components/Profile";
 
 // NewUser layout schemas for form and form feilds
-import validations from "layouts/pages/users/new-user/schemas/validations";
-import form from "layouts/pages/users/new-user/schemas/form";
-import initialValues from "layouts/pages/users/new-user/schemas/initialValues";
+import validations from "layouts_carrot/pages/users/new-user/schemas/validations";
+import form from "layouts_carrot/pages/users/new-user/schemas/form";
+import initialValues from "layouts_carrot/pages/users/new-user/schemas/initialValues";
 
 function getSteps() {
   return ["User Info", "Address", "Social", "Profile"];

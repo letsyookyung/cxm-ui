@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import * as Yup from "yup";
-import checkout from "layouts/pages/users/new-user/schemas/form";
+import checkout from "layouts_carrot/pages/users/new-user/schemas/form";
 
 const {
   formField: { firstName, lastName, email, password, repeatPassword, address1, city, zip, twitter },

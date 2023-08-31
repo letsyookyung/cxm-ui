@@ -24,8 +24,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React examples
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
@@ -34,7 +34,7 @@ import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import pageRoutes from "page.routes";
 
 // Images
-import bgImage from "assets/images/bg-pricing.jpg";
+import bgImage from "assets_carrot/images/bg-pricing.jpg";
 
 function Header({ tabValue, tabHandler, children }) {
   return (

@@ -18,7 +18,7 @@ import { useMemo } from "react";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
+import MDBox from "components_carrot/MDBox";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -27,12 +27,12 @@ import Footer from "examples/Footer";
 import EventCalendar from "examples/Calendar";
 
 // Calendar application components
-import Header from "layouts/applications/calendar/components/Header";
-import NextEvents from "layouts/applications/calendar/components/NextEvents";
-import ProductivityChart from "layouts/applications/calendar/components/ProductivityChart";
+import Header from "layouts_carrot/applications/calendar/components/Header";
+import NextEvents from "layouts_carrot/applications/calendar/components/NextEvents";
+import ProductivityChart from "layouts_carrot/applications/calendar/components/ProductivityChart";
 
 // Data
-import calendarEventsData from "layouts/applications/calendar/data/calendarEventsData";
+import calendarEventsData from "layouts_carrot/applications/calendar/data/calendarEventsData";
 
 function Calendar() {
   return (

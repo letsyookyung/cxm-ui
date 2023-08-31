@@ -19,10 +19,10 @@ import { forwardRef } from "react";
 import PropTypes from "prop-types";
 
 // Custom styles for MDButton
-import MDButtonRoot from "components/MDButton/MDButtonRoot";
+import MDButtonRoot from "components_carrot/MDButton/MDButtonRoot";
 
 // Material Dashboard 2 PRO React contexts
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 const MDButton = forwardRef(
   ({ color, variant, size, circular, iconOnly, children, ...rest }, ref) => {

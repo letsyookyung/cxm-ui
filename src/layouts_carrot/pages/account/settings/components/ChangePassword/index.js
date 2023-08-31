@@ -18,10 +18,10 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
-import MDInput from "components/MDInput";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDButton from "components_carrot/MDButton";
+import MDInput from "components_carrot/MDInput";
 
 function ChangePassword() {
   const passwordRequirements = [

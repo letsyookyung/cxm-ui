@@ -14,19 +14,19 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDProgress from "components/MDProgress";
+import MDBox from "components_carrot/MDBox";
+import MDProgress from "components_carrot/MDProgress";
 
 // ProductPage page components
-import ProductCell from "layouts/ecommerce/products/product-page/components/ProductCell";
-import ReviewCell from "layouts/ecommerce/products/product-page/components/ReviewCell";
-import DefaultCell from "layouts/ecommerce/products/product-page/components/DefaultCell";
+import ProductCell from "layouts_carrot/ecommerce/products/product-page/components/ProductCell";
+import ReviewCell from "layouts_carrot/ecommerce/products/product-page/components/ReviewCell";
+import DefaultCell from "layouts_carrot/ecommerce/products/product-page/components/DefaultCell";
 
 // Images
-import blackChair from "assets/images/ecommerce/black-chair.jpeg";
-import chairPink from "assets/images/ecommerce/chair-pink.jpeg";
-import chairSteel from "assets/images/ecommerce/chair-steel.jpeg";
-import chairWood from "assets/images/ecommerce/chair-wood.jpeg";
+import blackChair from "assets_carrot/images/ecommerce/black-chair.jpeg";
+import chairPink from "assets_carrot/images/ecommerce/chair-pink.jpeg";
+import chairSteel from "assets_carrot/images/ecommerce/chair-steel.jpeg";
+import chairWood from "assets_carrot/images/ecommerce/chair-wood.jpeg";
 
 const dataTableData = {
   columns: [

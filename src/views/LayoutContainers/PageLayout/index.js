@@ -25,7 +25,7 @@ import PropTypes from "prop-types";
 import MDBox from "components_carrot/MDBox";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController, setLayout } from "context";
+import { useMaterialUIController, setLayout } from "context_carrot";
 
 function PageLayout({ background, children }) {
   const [, dispatch] = useMaterialUIController();

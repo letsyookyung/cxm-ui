@@ -23,7 +23,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.css";
 
 // Material Dashboard 2 PRO React components
-import MDInput from "components/MDInput";
+import MDInput from "components_carrot/MDInput";
 
 function MDDatePicker({ input, ...rest }) {
   return (

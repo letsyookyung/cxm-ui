@@ -25,7 +25,7 @@ import MDBox from "components_carrot/MDBox";
 import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React contexts
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function DefaultStatisticsCard({ title, count, percentage, dropdown }) {
   const [controller] = useMaterialUIController();

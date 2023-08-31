@@ -20,16 +20,16 @@ import Icon from "@mui/material/Icon";
 import Tooltip from "@mui/material/Tooltip";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDButton from "components_carrot/MDButton";
 
 // Images
-import masterCardLogo from "assets/images/logos/mastercard.png";
-import visaLogo from "assets/images/logos/visa.png";
+import masterCardLogo from "assets_carrot/images/logos/mastercard.png";
+import visaLogo from "assets_carrot/images/logos/visa.png";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function PaymentMethod() {
   const [controller] = useMaterialUIController();

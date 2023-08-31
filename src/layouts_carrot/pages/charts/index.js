@@ -17,8 +17,8 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -36,16 +36,16 @@ import RadarChart from "examples/Charts/RadarChart";
 import PolarChart from "examples/Charts/PolarChart";
 
 // Data
-import defaultLineChartData from "layouts/pages/charts/data/defaultLineChartData";
-import gradientLineChartData from "layouts/pages/charts/data/gradientLineChartData";
-import verticalBarChartData from "layouts/pages/charts/data/verticalBarChartData";
-import horizontalBarChartData from "layouts/pages/charts/data/horizontalBarChartData";
-import mixedChartData from "layouts/pages/charts/data/mixedChartData";
-import bubbleChartData from "layouts/pages/charts/data/bubbleChartData";
-import defaultDoughnutChartData from "layouts/pages/charts/data/defaultDoughnutChartData";
-import pieChartData from "layouts/pages/charts/data/pieChartData";
-import radarChartData from "layouts/pages/charts/data/radarChartData";
-import polarChartData from "layouts/pages/charts/data/polarChartData";
+import defaultLineChartData from "layouts_carrot/pages/charts/data/defaultLineChartData";
+import gradientLineChartData from "layouts_carrot/pages/charts/data/gradientLineChartData";
+import verticalBarChartData from "layouts_carrot/pages/charts/data/verticalBarChartData";
+import horizontalBarChartData from "layouts_carrot/pages/charts/data/horizontalBarChartData";
+import mixedChartData from "layouts_carrot/pages/charts/data/mixedChartData";
+import bubbleChartData from "layouts_carrot/pages/charts/data/bubbleChartData";
+import defaultDoughnutChartData from "layouts_carrot/pages/charts/data/defaultDoughnutChartData";
+import pieChartData from "layouts_carrot/pages/charts/data/pieChartData";
+import radarChartData from "layouts_carrot/pages/charts/data/radarChartData";
+import polarChartData from "layouts_carrot/pages/charts/data/polarChartData";
 
 function Charts() {
   return (

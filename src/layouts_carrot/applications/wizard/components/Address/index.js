@@ -17,11 +17,11 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Wizard application components
-import FormField from "layouts/applications/wizard/components/FormField";
+import FormField from "layouts_carrot/applications/wizard/components/FormField";
 
 function Address() {
   return (

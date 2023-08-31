@@ -47,7 +47,7 @@ import {
   setFixedNavbar,
   setSidenavColor,
   setDarkMode,
-} from "context";
+} from "context_carrot";
 
 function Configurator() {
   const [controller, dispatch] = useMaterialUIController();

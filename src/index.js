@@ -18,13 +18,13 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 // Material Dashboard 2 PRO React Context Provider
-import { MaterialUIControllerProvider } from "context";
+import { MaterialUIControllerProvider } from "context_carrot";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import RootErrorBoundary from "error/RootErrorBoundary";
-import RootSkeleton from "main/RootSkeleton"
-import Auth from "Auth";
+import RootSkeleton from "skeleton/RootSkeleton"
+import Auth from "main/Auth";
 
 const container = document.getElementById("app");
 const root = createRoot(container);

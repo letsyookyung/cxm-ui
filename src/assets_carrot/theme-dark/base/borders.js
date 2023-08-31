@@ -20,11 +20,11 @@ Coded by www.creative-tim.com
  */
 
 // Material Dashboard 2 PRO React Base Styles
-import colors from "assets/theme-dark/base/colors";
+import colors from "assets_carrot/theme-dark/base/colors";
 
 // Material Dashboard 2 PRO React Helper Functions
-import pxToRem from "assets/theme-dark/functions/pxToRem";
-import rgba from "assets/theme-dark/functions/rgba";
+import pxToRem from "assets_carrot/theme-dark/functions/pxToRem";
+import rgba from "assets_carrot/theme-dark/functions/rgba";
 
 const { white } = colors;
 

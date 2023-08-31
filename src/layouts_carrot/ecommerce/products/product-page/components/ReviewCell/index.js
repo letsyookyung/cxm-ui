@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
-import MDTypography from "components/MDTypography";
+import MDTypography from "components_carrot/MDTypography";
 
 function ReviewCell({ rating }) {
   const ratings = {

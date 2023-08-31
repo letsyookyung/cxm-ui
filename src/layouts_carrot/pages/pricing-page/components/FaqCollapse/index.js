@@ -21,11 +21,11 @@ import Icon from "@mui/material/Icon";
 import Collapse from "@mui/material/Collapse";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React components
-import borders from "assets/theme/base/borders";
+import borders from "assets_carrot/theme/base/borders";
 
 function FaqCollapse({ title, open, children, ...rest }) {
   const { borderWidth, borderColor } = borders;

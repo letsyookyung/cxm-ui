@@ -25,10 +25,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
+import MDBox from "components_carrot/MDBox";
 
 // Material Dashboard 2 PRO React base styles
-import breakpoints from "assets/theme/base/breakpoints";
+import breakpoints from "assets_carrot/theme/base/breakpoints";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";

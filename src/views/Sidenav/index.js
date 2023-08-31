@@ -46,10 +46,11 @@ import {
   setMiniSidenav,
   setTransparentSidenav,
   setWhiteSidenav,
-} from "context";
+} from "context_carrot";
 
 import UserStore from "store/UserStore";
 import { useCallback } from "react";
+import { observer } from "mobx-react-lite";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
@@ -308,4 +309,4 @@ Sidenav.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default Sidenav;
+export default observer(Sidenav);

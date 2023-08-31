@@ -23,9 +23,9 @@ import StepLabel from "@mui/material/StepLabel";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDButton from "components/MDButton";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDButton from "components_carrot/MDButton";
+import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -33,10 +33,10 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 // NewProduct page components
-import ProductInfo from "layouts/ecommerce/products/new-product/components/ProductInfo";
-import Media from "layouts/ecommerce/products/new-product/components/Media";
-import Socials from "layouts/ecommerce/products/new-product/components/Socials";
-import Pricing from "layouts/ecommerce/products/new-product/components/Pricing";
+import ProductInfo from "layouts_carrot/ecommerce/products/new-product/components/ProductInfo";
+import Media from "layouts_carrot/ecommerce/products/new-product/components/Media";
+import Socials from "layouts_carrot/ecommerce/products/new-product/components/Socials";
+import Pricing from "layouts_carrot/ecommerce/products/new-product/components/Pricing";
 
 function getSteps() {
   return ["1. Product Info", "2. Media", "3. Social", "4. Pricing"];

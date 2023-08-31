@@ -36,7 +36,7 @@ import {
 } from "views/Sidenav/styles/sidenavCollapse";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function SidenavCollapse({ icon, name, children, active, noCollapse, open, ...rest }) {
   const [controller] = useMaterialUIController();

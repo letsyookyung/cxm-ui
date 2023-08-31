@@ -17,9 +17,9 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDButton from "components_carrot/MDButton";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -27,10 +27,10 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 // EditProduct page components
-import ProductImage from "layouts/ecommerce/products/edit-product/components/ProductImage";
-import ProductInfo from "layouts/ecommerce/products/edit-product/components/ProductInfo";
-import Socials from "layouts/ecommerce/products/edit-product/components/Socials";
-import Pricing from "layouts/ecommerce/products/edit-product/components/Pricing";
+import ProductImage from "layouts_carrot/ecommerce/products/edit-product/components/ProductImage";
+import ProductInfo from "layouts_carrot/ecommerce/products/edit-product/components/ProductInfo";
+import Socials from "layouts_carrot/ecommerce/products/edit-product/components/Socials";
+import Pricing from "layouts_carrot/ecommerce/products/edit-product/components/Pricing";
 
 function EditProduct() {
   return (

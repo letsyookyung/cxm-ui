@@ -23,9 +23,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDButton from "components_carrot/MDButton";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -34,7 +34,7 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import dataTableData from "layouts/ecommerce/orders/order-list/data/dataTableData";
+import dataTableData from "layouts_carrot/ecommerce/orders/order-list/data/dataTableData";
 
 function OrderList() {
   const [menu, setMenu] = useState(null);

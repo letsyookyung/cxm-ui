@@ -17,8 +17,8 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 PRO React components
-import MDInput from "components/MDInput";
-import MDBox from "components/MDBox";
+import MDInput from "components_carrot/MDInput";
+import MDBox from "components_carrot/MDBox";
 
 function FormField({ label, ...rest }) {
   return (

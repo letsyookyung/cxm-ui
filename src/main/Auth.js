@@ -22,15 +22,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 // Material Dashboard 2 PRO React themes
 import theme from "assets_carrot/theme";
 
+import { observer } from "mobx-react-lite";
+
 import AuthErrorBoundary from "error/AuthErrorBoundary";
 import AppErrorBoundary from "error/AppErrorBoundary";
-import AuthProvider from "utils/AuthProvider";
-import AuthSkeleton from "main/AuthSkeleton"
-import AppSkeleton from "main/AppSkeleton"
+import AuthSkeleton from "skeleton/AuthSkeleton"
+import AppSkeleton from "skeleton/AppSkeleton"
 import WithTimer from "utils/WithTimer";
-import App from "App";
+import AuthProvider from "main/AuthProvider";
+import App from "main/App";
 import AuthStore from "store/AuthStore";
-import { observer } from "mobx-react-lite";
+
 
 const Auth = () => {
   const [loaded, setLoaded] = useState(false);

@@ -36,14 +36,14 @@ import { Line } from "react-chartjs-2";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Chart configurations
 import configs from "./configs";
 
 // Material Dashboard 2 PRO React base styles
-import colors from "assets/theme/base/colors";
+import colors from "assets_carrot/theme/base/colors";
 
 ChartJS.register(
   CategoryScale,

@@ -18,10 +18,10 @@ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
-import MDBadge from "components/MDBadge";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDButton from "components_carrot/MDButton";
+import MDBadge from "components_carrot/MDBadge";
 
 function Authentication() {
   return (

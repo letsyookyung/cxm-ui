@@ -14,14 +14,14 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 PRO React base styles
-import colors from "assets/theme/base/colors";
-import borders from "assets/theme/base/borders";
-import boxShadows from "assets/theme/base/boxShadows";
+import colors from "assets_carrot/theme/base/colors";
+import borders from "assets_carrot/theme/base/borders";
+import boxShadows from "assets_carrot/theme/base/boxShadows";
 
 // Material Dashboard 2 PRO React helper functions
-// import rgba from "assets/theme/functions/rgba";
-import pxToRem from "assets/theme/functions/pxToRem";
-import linearGradient from "assets/theme/functions/linearGradient";
+// import rgba from "assets_carrot/theme/functions/rgba";
+import pxToRem from "assets_carrot/theme/functions/pxToRem";
+import linearGradient from "assets_carrot/theme/functions/linearGradient";
 
 const { white, gradients, grey, transparent } = colors;
 const { borderWidth } = borders;

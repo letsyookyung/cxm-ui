@@ -33,13 +33,12 @@ import Configurator from "views/Configurator";
 import routes from "routes";
 
 // Material Dashboard 2 PRO React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context_carrot";
 
 // Images
 import carrotBrand from "assets_carrot/images/logo_square.png";
 
 import UserStore from "store/UserStore";
-import AuthStore from "store/AuthStore";
 
 const App = () => {
   const [controller, dispatch] = useMaterialUIController();
