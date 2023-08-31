@@ -50,7 +50,10 @@ const CustomerInfo = () => {
   const columns = [];
 
   const [path, setPath] = useState("/retrieve");
-  const [param, setParam] = useState("");
+  const [param, setParam] = useState({
+    ...pageOption,
+    pageNo: 0,
+  });
   const { data } = useQuery({
     queryKey: path+param,
     queryFn: () => Agent.requests.get(`${apiURL}${path}`, param),

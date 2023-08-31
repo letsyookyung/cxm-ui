@@ -8,16 +8,16 @@ const AUTH_BAKCEND_ROOT = `${window.runConfig.REACT_APP_AUTH_URL}/backend`;
 axios.defaults.paramsSerializer = (params) => qs.stringify(params);
 
   const headers = () => {
-    const at = localStorage.getItem("cxmAccessToken");
+    const at = window.localStorage.getItem("cxmAccessToken");
     const headers = {};
-  
+    
     if (at) {
+      headers["Content-Type"] = "application/json";
+      headers.accept = "*/*";
       headers.csrf = "token";
       headers.Authorization = `Bearer ${at}`;
-  
       const jwtObj = jwtDecode(at);
-  
-      if (jwtObj.pri_username != null) headers["X-TRACE-ID"] = jwtObj.aud;
+      if (jwtObj.pri_username) headers["X-TRACE-ID"] = jwtObj.aud;
       else headers["X-TRACE-ID"] = null;
     }
     
@@ -26,10 +26,27 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
 
   // 기본 API 서버로 요청
   const requests = {
-    post: (url, params) => axios.post(`${API_ROOT}${url}`, params, {headers}).then((r) => r.data),
-    get: (url, params) => axios.get(`${API_ROOT}${url}`, params, {headers}).then((r) => r.data),
-    put: (url, params) => axios.put(`${API_ROOT}${url}`, params, {headers}).then((r) => r.data),
-    delete: (url, params) => axios.delete(`${API_ROOT}${url}`, params, {headers}).then((r) => r.data),
+    post: (url, data) => {
+      const header = headers();
+      const config = { headers: header };
+      return axios.post(`${API_ROOT}${url}`, data, config).then((r) => r.data);
+    },
+    get: (url, params) => {
+      const header = headers();
+      const config = { params, headers: header };
+      console.log(config);
+      return axios.get(`${API_ROOT}${url}`, config).then((r) => r.data);
+    },
+    put: (url, data) => {
+      const header = headers();
+      const config = { headers: header };
+      return axios.put(`${API_ROOT}${url}`, data, config).then((r) => r.data);
+    },
+    delete: (url, data) => {
+      const header = headers();
+      const config = { headers: header, data: data };
+      return axios.delete(`${API_ROOT}${url}`, config).then((r) => r.data);
+    }
   };
   
   const authHeaders = () => {
@@ -48,17 +65,31 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
       else headers["X-TRACE-ID"] = null;
     }
 
-    console.log(headers);
-  
     return headers;
   };
 
   // 인증서버로 요청
   const authRequests = {
-    post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
-    get: (url, params) => axios.get(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
-    put: (url, params) => axios.put(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
-    delete: (url, params) => axios.delete(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
+    post: (url, data) => {
+      const header = authHeaders();
+      const config = { headers: header };
+      return axios.post(`${API_ROOT}${url}`, data, config).then((r) => r.data);
+    },
+    get: (url, params) => {
+      const header = authHeaders();
+      const config = { params, headers: header };
+      return axios.get(`${API_ROOT}${url}`, config).then((r) => r.data);
+    },
+    put: (url, data) => {
+      const header = authHeaders();
+      const config = { headers: header };
+      return axios.put(`${API_ROOT}${url}`, data, config).then((r) => r.data);
+    },
+    delete: (url, data) => {
+      const header = authHeaders();
+      const config = { headers: header, data: data };
+      return axios.delete(`${API_ROOT}${url}`, config).then((r) => r.data);
+    }
   };
 
 export default {
