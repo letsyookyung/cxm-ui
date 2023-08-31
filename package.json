@@ -50,8 +50,6 @@
     "styled-components": "^6.0.4",
     "stylis": "4.1.4",
     "stylis-plugin-rtl": "2.1.1",
-    "superagent": "^8.0.9",
-    "superagent-promise": "^1.1.0",
     "sweetalert2": "^11.7.27",
     "uuid": "9.0.0",
     "ws": "^8.13.0",

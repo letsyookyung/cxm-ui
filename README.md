@@ -37,11 +37,6 @@
   ```
   yarn add jwt-decode
   ```
-- rest client
-  ```
-  yarn add superagent
-  yarn add superagent-promise
-  ```
 - popup query string 용도
   ```
   yarn add query-string
@@ -106,9 +101,11 @@ cxm-ui-admin
     ├─ asset_carrot
     ├─ components_carrot
     ├─ conext_carrot
-    ├─ errors
+    ├─ error
     ├─ layouts_carrot
-    ├─ stores
+    ├─ main
+    ├─ skeleton
+    ├─ store
     ├─ utils
     └─ views
 ```
@@ -116,9 +113,11 @@ cxm-ui-admin
 ## Source Hierarchy
 ```bash
 index
- └─ App
-     └─ Sidenav
-         └─ routes_carrot
+ └─ Auth
+    └─ AuthProvider
+        └─ App
+            └─ Sidenav
+                └─ routes
 ```
 ## Error Message
 ```
