@@ -4,11 +4,11 @@ import Swal from "sweetalert2";
 import AuthStore from "store/AuthStore";
 
 const { REACT_APP_SIGNOUT_TIME } = window.runConfig;
-// TODO
-// const signoutTime = REACT_APP_SIGNOUT_TIME ?? 1000 * 60 * 60 * 8;
-// const warningTime = signoutTime - 1000 * 60;
-const signoutTime = 1000 * 10;
-const warningTime = signoutTime - 1000 * 5;
+const signoutTime = REACT_APP_SIGNOUT_TIME ?? 1000 * 60 * 60 * 8;
+const warningTime = signoutTime - 1000 * 60;
+// TEST
+// const signoutTime = 1000 * 10;
+// const warningTime = signoutTime - 1000 * 5;
 
 const events = ["load", "click", "keydown", "scroll"];
 
