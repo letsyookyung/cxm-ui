@@ -19,7 +19,7 @@ const RootErrorBoundary = ({ children }) => {
     <ErrorBoundary
         onReset={reset}
         onError={(error) => {
-          onsole.log("@@ RootErrorBoundary");
+          console.log("@@ RootErrorBoundary");
           console.log(error);
         }}
         FallbackComponent={rootFallback}

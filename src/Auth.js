@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -33,9 +33,13 @@ import AuthStore from "store/AuthStore";
 import { observer } from "mobx-react-lite";
 
 const Auth = () => {
+  const [loaded, setLoaded] = useState(false);
+
   const syncAt = () => {
     const at = window.localStorage.getItem("cxmAccessToken");
-    AuthStore.setAccessToken(at); 
+    if (at) AuthStore.setAccessToken(at);
+
+    setLoaded(true);
   };
 
   useEffect(() => {
@@ -48,17 +52,19 @@ const Auth = () => {
       <CssBaseline />
       <AuthErrorBoundary>
         <Suspense fallback={<AuthSkeleton />}>
-          <AuthProvider >
-          {AuthStore.accessToken &&
-              <WithTimer>
-                <AppErrorBoundary>
-                  <Suspense fallback={<AppSkeleton />}>
-                    <App />
-                  </Suspense>
-                </AppErrorBoundary>
-              </WithTimer>
+          {loaded &&
+            <AuthProvider >
+              {AuthStore.accessToken &&
+                <WithTimer>
+                  <AppErrorBoundary>
+                    <Suspense fallback={<AppSkeleton />}>
+                      <App />
+                    </Suspense>
+                  </AppErrorBoundary>
+                </WithTimer>
+              }
+            </AuthProvider>
           }
-          </AuthProvider>
         </Suspense>
       </AuthErrorBoundary>
     </ThemeProvider>

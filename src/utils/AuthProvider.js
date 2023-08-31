@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 
 import { useMutation } from "react-query";
@@ -102,4 +103,4 @@ const AuthProvider = ({ children }) => {
   return children;
 };
 
-export default AuthProvider;
+export default observer(AuthProvider);
