@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // @mui material components
@@ -18,12 +18,11 @@ import { isAxiosError } from "axios";
 const AuthErrorBoundary = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
   const navigate = useNavigate();
-  // const [axiosError, setAxiosError] = useState({});
+  const [errorTitle, setErrorTitle] = useState("");
+  const [errorDetail, setErrorDetail] = useState("");
 
   // 에러 화면
-  const authFallback = useCallback(({ error, resetErrorBoundary }) => {
-    // setAxiosError(error);
-
+  const authFallback = ({ error, resetErrorBoundary }) => {
     return(
       <MDBox my={25}>
         <Grid container spacing={3} justifyContent="center">
@@ -31,7 +30,12 @@ const AuthErrorBoundary = ({ children }) => {
             <Card>
               <MDBox pt={2} px={2} textAlign="center">
                 <MDTypography component="p" variant="h4" fontWeight="regular" color="text">
-                  <b>{error?.response?.data?.code ?? error?.response?.status}: {error?.display ?? error?.response?.data?.message}</b>
+                  <b>{error?.response?.data?.code ?? error?.response?.status}: {errorTitle}</b>
+                </MDTypography>
+              </MDBox>
+              <MDBox pt={2} px={2} textAlign="center">
+                <MDTypography component="p" variant="h6" fontWeight="regular" color="text">
+                  {errorDetail}
                 </MDTypography>
               </MDBox>
               <MDBox my={5} />
@@ -51,30 +55,67 @@ const AuthErrorBoundary = ({ children }) => {
         </Grid>
       </MDBox>
     );
-  }, []);
+  };
 
   return (
       <ErrorBoundary
         onReset={reset}
-        // onError={({ error }) => {
         onError={(error) => {
-          console.log(`AuthErrorBoundary isAxiosError=${isAxiosError(error)}`);
-          console.log(error);
-
+          console.log("@@ AuthErrorBoundary");
           if(!(isAxiosError(error) && error?.response?.status)) {
             // 이 ErrorBoundary에서 처리하면 안되는 오류의 경우 상위 ErrorBoundary로 위임
-            console.log(error);
             throw error;
           } else {
-            console.log("AuthErrorBoundary");
-            switch (key) {
-              case value:
-                
-                break;
-            
-              default:
-                break;
+            let title = "인증 실패, 확인 후 다시 이용해주세요.";
+            const errorStatus = error?.response?.status ?? -999;
+            const errorCode = error?.response?.data?.code ?? -999;
+            const errorMessage = error?.response?.data?.message ?? error?.message;
+
+            // SSO 오류
+            if (error?.request?.responseURL?.indexOf("sso") !== -1) {
+              switch (errorStatus) {
+                // TODO 에러 문구 세분화
+                case 401:
+                  title = "SSO 인증 실패, 확인 후 다시 이용해주세요.";
+                  break;
+                case 403:
+                  title = "SSO 인증 실패, 확인 후 다시 이용해주세요.";
+                  break;
+                case 404:
+                  title = "SSO 인증 실패, 확인 후 다시 이용해주세요.";
+                  break;
+                case 500:
+                  title = "SSO 서버 오류, 잠시 후 다시 이용해주세요.";
+                  break;
+                default:
+                  title = "SSO 연결 오류, 잠시 후 다시 이용해주세요.";
+                  break;
+              }
+            } else {
+              // JWT 오류
+              switch (errorStatus) {
+                case 400:
+                  if (errorCode === -101)
+                    title = "권한이 없거나 만료되었습니다 확인 후 다시 이용해주세요.";
+                  else
+                    title = "잘못된 요청입니다 확인 후 다시 이용해주세요.";
+                  break;
+                case 401:
+                  title = "허용되지 않은 요청입니다 확인 후 다시 이용해주세요.";
+                  break;
+                case 403:
+                  title = "허용되지 않은 IP 입니다 확인 후 다시 이용해주세요.";
+                  break;
+                case 500:
+                  title = "인증 서버 오류입니다 잠시 후 다시 이용해주세요.";
+                  break;
+                default:
+                  title = "인증 서버와의 연결이 원활하지 않습니다 잠시 후 다시 이용해주세요.";
+                  break;
+              }
             }
+            setErrorTitle(title);
+            setErrorDetail(errorMessage)
           }
         }}
         FallbackComponent={authFallback}

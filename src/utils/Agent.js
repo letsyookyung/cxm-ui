@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import qs from "qs";
 import jwtDecode from "jwt-decode";
 
@@ -8,7 +8,7 @@ const AUTH_BAKCEND_ROOT = `${window.runConfig.REACT_APP_AUTH_URL}/backend`;
 axios.defaults.paramsSerializer = (params) => qs.stringify(params);
   
   const headers = () => {
-    const at = localStorage.getItem("cxmAccessToken");
+    const at = window.localStorage.getItem("cxmAccessToken");
     const headers = {};
   
     if (at) {
@@ -24,6 +24,7 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
     return headers;
   };
 
+  // 기본 API 서버로 요청
   const requests = {
     post: (url, params) => axios.post(`${API_ROOT}${url}`, params, {headers}).then((r) => r.data),
     get: (url, params) => axios.get(`${API_ROOT}${url}`, params, {headers}).then((r) => r.data),
@@ -32,7 +33,7 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
   };
   
   const authHeaders = () => {
-    const at = localStorage.getItem("cxmAccessToken");
+    const at = window.localStorage.getItem("cxmAccessToken");
     const headers = {};
   
     if (at) {
@@ -51,27 +52,10 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
   
     return headers;
   };
-  
-//   export const post = async <T>(url: string, body: any): Promise<T> => {
-//     try {
-//         const response: AxiosResponse<T> = await axios.post(url, body);
-//         return response.data;
-//     } catch (e) {
-//         const error = e as AxiosError<T>;
-//         return Promise.reject(error.response.data);
-//     }
-// };
-  
+
+  // 인증서버로 요청
   const authRequests = {
-    // post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
-    post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders})
-    // .then((r) => r.data)
-    // .catch((e) => {
-    //   console.log(`Agent`);
-    //   console.log(e);
-    //   return Promise.reject(e.response.data);
-    // })
-    ,
+    post: (url, params) => axios.post(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
     get: (url, params) => axios.get(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
     put: (url, params) => axios.put(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),
     delete: (url, params) => axios.delete(`${AUTH_BAKCEND_ROOT}${url}`, params, {authHeaders}).then((r) => r.data),

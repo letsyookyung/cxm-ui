@@ -30,13 +30,17 @@ import AppSkeleton from "main/AppSkeleton"
 import WithTimer from "utils/WithTimer";
 import App from "App";
 import AuthStore from "store/AuthStore";
-// import UserStore from "store/UserStore";
+import { observer } from "mobx-react-lite";
 
 const Auth = () => {
+  const syncAt = () => {
+    const at = window.localStorage.getItem("cxmAccessToken");
+    AuthStore.setAccessToken(at); 
+  };
 
   useEffect(() => {
-    const at = AuthStore.accessToken !== undefined
-    console.log(`at=${at}`);
+    console.log("@@ Auth");
+    syncAt();
   }, []);
 
   return (
@@ -45,9 +49,7 @@ const Auth = () => {
       <AuthErrorBoundary>
         <Suspense fallback={<AuthSkeleton />}>
           <AuthProvider >
-          {AuthStore.accessToken === undefined
-            ? <div>로그인해주세요</div>
-            : 
+          {AuthStore.accessToken &&
               <WithTimer>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
@@ -63,4 +65,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default observer(Auth);

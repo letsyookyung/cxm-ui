@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useQueryErrorResetBoundary } from "react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -6,9 +5,7 @@ const RootErrorBoundary = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
 
   // 에러 화면
-  const rootFallback = useCallback(({ error, resetErrorBoundary }) => {
-    console.log("RootErrorBoundary");
-
+  const rootFallback = ({ error, resetErrorBoundary }) => {
     return(
         <div>
             <h1> 데이터를 불러오는데 실패하였습니다. </h1>
@@ -16,12 +13,13 @@ const RootErrorBoundary = ({ children }) => {
             <footer> {error?.response?.data?.message} </footer>
         </div>
     );
-  }, []);
+  };
 
   return (
     <ErrorBoundary
         onReset={reset}
         onError={(error) => {
+          onsole.log("@@ RootErrorBoundary");
           console.log(error);
         }}
         FallbackComponent={rootFallback}

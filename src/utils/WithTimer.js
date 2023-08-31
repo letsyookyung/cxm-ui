@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 import AuthStore from "store/AuthStore";
-import UserStore from "store/UserStore";
 
 const { REACT_APP_SIGNOUT_TIME } = window.runConfig;
+// TODO
 // const signoutTime = REACT_APP_SIGNOUT_TIME ?? 1000 * 60 * 60 * 8;
 // const warningTime = signoutTime - 1000 * 60;
 const signoutTime = 1000 * 10;
@@ -41,12 +41,12 @@ const WithTimer = ({ children }) => {
   }, [showModal]);
 
   useEffect(() => {
-    console.log(`WithTimer add eventListener`);
+    console.log(`@@ WithTimer add eventListener`);
     events.forEach((event) => window.addEventListener(event, resetTimeout));
 
     // componentWillUnmount
     return () => {
-      console.log(`WithTimer remove eventListener`);
+      console.log(`@@ WithTimer remove eventListener`);
       events.forEach((event) => window.removeEventListener(event, resetTimeout));
     };
   }, [showModal]);
@@ -74,12 +74,10 @@ const WithTimer = ({ children }) => {
   };
 
   const resetStore = () => {
-    UserStore.forgetUser();
     AuthStore.logout();
   };
 
   const logout = () => {
-    UserStore.forgetUser();
     AuthStore.logout();
   };
 

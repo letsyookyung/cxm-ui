@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 
 import { useMutation } from "react-query";
 
@@ -21,12 +21,6 @@ const AuthProvider = ({ children }) => {
     useErrorBoundary: true
   });
 
-  // SSO 로그아웃
-  // const logout = useMutation({
-  //   mutationFn: (payload) => Agent.authRequests.put("/auth/sso/logout", payload),
-  //   useErrorBoundary: true
-  // });
-
   const init = () => {
     if (REACT_APP_ENV.startsWith("LOCAL")) {
       localLogin();
@@ -36,50 +30,44 @@ const AuthProvider = ({ children }) => {
   };
 
   // 로그인(sso, jwt)
-  const login = useCallback(() => {
-    let ssoId = "";
-    let resultCode = "";
+  const login = () => {
+    if (AuthStore.accessToken) {
+      // AT 존재할 경우 유저정보 재 세팅
+      UserStore.pullUser(AuthStore.accessToken);
+      UserStore.initHistory();
+    } else {
+      // SSO 로그인 시도
+      ssoLogin();
+    }
+  };
 
-    if (!AuthStore.accessToken) {
+  // 로컬 환경 테스트 용도(sso 제외, jwt 만)
+  const localLogin = () => {
+    if (AuthStore.accessToken) {
+      // AT 존재할 경우 유저정보 재 세팅
+      UserStore.pullUser(AuthStore.accessToken);
+      UserStore.initHistory();
+    } else {
+      // JWT 로그인 시도
+      jwtLogin("1", "9999997");
+    }
+  };
+
+  const ssoLogin = () => {
       // SSO 로그인 시도
       const payload = {
         redirectUrl: REACT_APP_AUTH_REDIRECT_URL,
       };
       useSsoLogin.mutate(payload, {
-        onSuccess: (data, variables, context) => {
+        onSuccess: (data) => {
           // 인증 처리
-          resultCode = data.resultCode ? data.resultCode : "";
-          ssoId = data.ssoId ? data.ssoId : "";
-          jwtLogin(resultCode, jwtLogin);
+          const resultCode = data.resultCode ? data.resultCode : "";
+          const ssoId = data.ssoId ? data.ssoId : "";
+          // SSO 로그인 결과로 JWT 로그인 시도
+          jwtLogin(resultCode, ssoId);
         },
-        // onError: (error, variables, context) => {
-        //   switch (error.response.status) {
-        //     // TODO 에러 문구 세분화
-        //     case 401:
-        //       error.display = "SSO 인증 실패, 확인 후 다시 이용해주세요.";
-        //       break;
-        //     case 403:
-        //       error.display = "SSO 인증 실패, 확인 후 다시 이용해주세요.";
-        //       break;
-        //     case 404:
-        //       error.display = "SSO 인증 실패, 확인 후 다시 이용해주세요.";
-        //       break;
-        //     case 500:
-        //       error.display = "SSO 서버 오류, 잠시 후 다시 이용해주세요.";
-        //       break;
-        //     default:
-        //       error.display = "SSO 연결 오류, 잠시 후 다시 이용해주세요.";
-        //       break;
-        //   }
-        //   throw error;
-        // },
       });
-    } else {
-      // AT 만 존재할 경우 유저정보 재 세팅
-      UserStore.pullUser(AuthStore.accessToken);
-      UserStore.initHistory();
-    }
-  }, []);
+  };
 
   const jwtLogin = (resultCode, ssoId) => {
     // SSO 로그인 결과가 성공인 경우 === 1
@@ -90,38 +78,14 @@ const AuthProvider = ({ children }) => {
         realm: REACT_APP_AUTH_REALM,
       };
       useJwtLogin.mutate(payload, {
-        onSuccess: (data, variables, context) => {
-          console.log(`@@ login success=${data}`);
+        onSuccess: (data) => {
+          console.log("@@ login success");
+          console.log(data);
           // 인증 처리
           AuthStore.setAccessToken(data.access_token);
           AuthStore.setRefreshToken(data.refresh_token);
           UserStore.pullUser(AuthStore.accessToken);
           UserStore.initHistory();
-        },
-        onError: (error, variables, context) => {
-          console.log(`@@ login failure`);
-          console.log(`${error}`);
-          switch (error.response.status) {
-            case 400:
-              if (error.response.data.code === -101)
-                error.display = "권한이 없거나 만료되었습니다 확인 후 다시 이용해주세요.";
-              else
-                error.display = "잘못된 요청입니다 확인 후 다시 이용해주세요.";
-              break;
-            case 401:
-              error.display = "허용되지 않은 요청입니다 확인 후 다시 이용해주세요.";
-              break;
-            case 403:
-              error.display = "허용되지 않은 IP 입니다 확인 후 다시 이용해주세요.";
-              break;
-            case 500:
-              error.display = "서버 오류입니다 잠시 후 다시 이용해주세요.";
-              break;
-            default:
-              error.display = "서버와의 연결이 원활하지 않습니다 잠시 후 다시 이용해주세요.";
-              break;
-          }
-          throw error;
         },
       });
     } else {
@@ -130,62 +94,9 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // 로컬 환경 테스트 용도(sso 제외, jwt 만)
-  // const localLogin = useCallback(() => {
-  const localLogin = () => {
-    if (!AuthStore.accessToken) {
-      // JWT 로그인 시도
-      const payload = {
-        id: "9999995",
-        realm: REACT_APP_AUTH_REALM,
-      };
-      useJwtLogin.mutate(payload, {
-        onSuccess: (data, variables, context) => {
-          // 인증 처리
-          console.log(`authProvider login true`);
-          AuthStore.setAccessToken(data.access_token);
-          AuthStore.setRefreshToken(data.refresh_token);
-          UserStore.pullUser(AuthStore.accessToken);
-          UserStore.initHistory();
-        },
-        // onError: (error, variables, context) => {
-        //   console.log(`authProvider login failure`);
-        //   console.log(error);
-        //   // throw error;
-        //   switch (error.response.status) {
-        //     case 400:
-        //       error.display =  error.response.data.code === -101
-        //         ? "권한이 없거나 만료되었습니다 확인 후 다시 이용해주세요."
-        //         : "잘못된 요청입니다 확인 후 다시 이용해주세요."
-        //       break;
-        //     case 401:
-        //       error.display = "허용되지 않은 요청입니다 확인 후 다시 이용해주세요.";
-        //       break;
-        //     case 403:
-        //       error.display = "허용되지 않은 IP 입니다 확인 후 다시 이용해주세요.";
-        //       break;
-        //     case 500:
-        //       error.display = "서버 오류입니다 잠시 후 다시 이용해주세요.";
-        //       break;
-        //     default:
-        //       error.display = "서버와의 연결이 원활하지 않습니다 잠시 후 다시 이용해주세요.";
-        //       break;
-        //   }
-        //   throw error;
-        // },
-      });
-    } else {
-      // AT 만 존재할 경우 유저정보 재 세팅
-      UserStore.pullUser(AuthStore.accessToken);
-      UserStore.initHistory();
-    }
-  // }, [UserStore]);
-  };
-
   useEffect(() => {
-    console.log("@@ authProvider init");
+    console.log("@@ AuthProvider");
     init();
-    console.log("@@ authProvider complete");
   }, []);
 
   return children;

@@ -1,19 +1,18 @@
 import { flow, makeAutoObservable } from "mobx";
 import Agent from "utils/Agent";
+import UserStore from "./UserStore";
 
 const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
 class AuthClass {
   accessToken = undefined;
   refreshToken = undefined;
-  role = undefined;
 
   constructor() {
     makeAutoObservable(this, {
-      logout: flow
+      logout: flow,
+      tokenRefreshRequest: flow,
     });
-    // this.accessToken = window.localStorage.getItem("cxmAccessToken");
-    // this.refreshToken = window.localStorage.getItem("cxmRefreshToken");
   }
 
   setAccessToken = (accessToken) => {
@@ -26,17 +25,14 @@ class AuthClass {
     window.localStorage.setItem("cxmRefreshToken", refreshToken);
   }
 
-  setRole = (role) => {
-    this.role = role;
-  }
-
   *logout() {
     try {
-      const response = yield Agent.authRequests.put("/auth/sso/logout");
+      yield Agent.authRequests.put("/auth/sso/logout");
     } catch(error) {
-      console.log("sso logout failure.");
       // session.invalidate() failure
+      console.log("sso logout failure.");
     }
+    UserStore.forgetUser();
     window.localStorage.removeItem("cxmAccessToken");
     window.localStorage.removeItem("cxmRefreshToken");
     this.setAccessToken(undefined);
@@ -44,17 +40,26 @@ class AuthClass {
     window.location.href = `${REACT_APP_HISTORY_PREFIX}/`;
   }
 
-  // get getAccessToken() {
-  //     return this.accessToken;
-  // }
+  // RT 로 AT 신규 발급 시도
+  *tokenRefreshRequest() {
+    window.localStorage.removeItem("cxmAccessToken");
+    const rt = window.localStorage.getItem("cxmRefreshToken");
+    if (rt) {
+      const payload = {
+        refreshToken: rt,
+      };
 
-  // get getRefreshToken() {
-  //     return this.refreshToken;
-  // }
-
-  // get getRole() {
-  //   return this.role;
-  // }
+      try {
+        const response = yield Agent.authRequests.post("/auth/refresh", payload);
+        this.setAccessToken(response.access_token);
+        this.setRefreshToken(response.refresh_token);
+      } catch (e) {
+        console.log("@@ Refresh token failure.")
+        console.log(e);
+        this.logout();
+      }
+    }
+  }
 }
 
 const AuthStore = new AuthClass();
