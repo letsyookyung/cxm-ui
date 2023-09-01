@@ -58,10 +58,8 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
       headers.accept = "*/*";
       headers.csrf = "token";
       headers.Authorization = `Bearer ${at}`;
-  
       const jwtObj = jwtDecode(at);
-  
-      if (jwtObj.pri_username != null) headers["X-TRACE-ID"] = jwtObj.aud;
+      if (jwtObj.pri_username) headers["X-TRACE-ID"] = jwtObj.aud;
       else headers["X-TRACE-ID"] = null;
     }
 
@@ -73,22 +71,23 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
     post: (url, data) => {
       const header = authHeaders();
       const config = { headers: header };
-      return axios.post(`${API_ROOT}${url}`, data, config).then((r) => r.data);
+      console.log(config);
+      return axios.post(`${AUTH_BAKCEND_ROOT}${url}`, data, config).then((r) => r.data);
     },
     get: (url, params) => {
       const header = authHeaders();
       const config = { params, headers: header };
-      return axios.get(`${API_ROOT}${url}`, config).then((r) => r.data);
+      return axios.get(`${AUTH_BAKCEND_ROOT}${url}`, config).then((r) => r.data);
     },
     put: (url, data) => {
       const header = authHeaders();
       const config = { headers: header };
-      return axios.put(`${API_ROOT}${url}`, data, config).then((r) => r.data);
+      return axios.put(`${AUTH_BAKCEND_ROOT}${url}`, data, config).then((r) => r.data);
     },
     delete: (url, data) => {
       const header = authHeaders();
       const config = { headers: header, data: data };
-      return axios.delete(`${API_ROOT}${url}`, config).then((r) => r.data);
+      return axios.delete(`${AUTH_BAKCEND_ROOT}${url}`, config).then((r) => r.data);
     }
   };
 

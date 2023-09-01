@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 import React, { useEffect, useContext, useCallback, useState } from "react";
 
 // @mui material components
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 PRO React components
@@ -27,10 +28,15 @@ import MDButton from "components_carrot/MDButton";
 import DashboardLayout from "views/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "views/Navbars/DashboardNavbar";
 import Footer from "views/Footer";
-import DataTable from "views/Tables/DataTable";
+// import DataTable from "views/Tables/DataTable";
+import CarrotTable from "views/Tables/CarrotTable";
+
+// NewProduct page components
+import FormField from "layouts_carrot/ecommerce/products/edit-product/components/FormField";
 
 // Store
 import Agent from "utils/Agent";
+import AuthStore from "store/AuthStore";
 
 import { pageOptionInit, pageTotalInit } from "variables/page"
 
@@ -98,24 +104,34 @@ const CustomerInfo = () => {
   // 초기 메서드
   useEffect(() => {
     console.log("@@ CustomerInfo: useEffect");
-    setList(data);
+    setList(data.content);
+    // AuthStore.tokenRefreshRequest();
+    console.log(data);
   }, []);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Card>
-          <MDBox p={3} lineHeight={1}>
+        <MDBox py={3} lineHeight={1}>
+          <Card>
+            <MDBox mt={1}>
+              <Grid container spacing={1} m={1}>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <FormField type="text" label="Name" defaultValue="" InputLabelProps={{ shrink: true }} placeholder="Kim" />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <FormField type="text" label="고객번호" defaultValue="" InputLabelProps={{ shrink: true }} placeholder="1234" />
+                </Grid>
+              </Grid>
+            </MDBox>
+          </Card>
+          <MDBox p={3}>
             <MDTypography variant="h5" fontWeight="medium">
-              Datatable Search
+              {/* Datatable Search */}
             </MDTypography>
           </MDBox>
-        </Card>
-        <Card>
-          <DataTable table={dataTableData} canSearch />
-        </Card>
-      </MDBox>
+          <CarrotTable table={dataTableData} entriesPerPage canSearch />
+        </MDBox>
       <Footer />
     </DashboardLayout>
   );
