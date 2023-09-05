@@ -46,6 +46,8 @@ const CarrotTable = ({
   pagination,
   isSorted,
   noEndBorder,
+  pageOption,
+  setPageOption,
 }) => {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
@@ -80,22 +82,129 @@ const CarrotTable = ({
   } = tableInstance;
 
   // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 10), [defaultValue]);
+  useEffect(() => setPageSize(defaultValue || 20), [defaultValue]);
+
+  useEffect(() => {
+    console.log(tableInstance);
+    // setPageOption((prev) => ({
+    //   ...prev,
+    //   pageNo: 0,
+    //   sortField: nextSort[0].field,
+    //   sortDirection: nextSort[0].sort.toUpperCase(),
+    // }));
+  }, [tableInstance]);
+
+  // useDebouncedEffect(
+  //   () => {
+  //     if (pageOption.pageNo !== 0) getList();
+  //     else if (pageOption.pageNo === 0 && innerPageNoCheck) {
+  //       getList();
+  //       setInnerPageNoCheck(false);
+  //     }
+  //   },
+  //   100,
+  //   [pageOption.pageNo]
+  // );
+
+  // useEffect(() => {
+  //   if (pageTotal && pageTotal.totalElements) getList();
+  // }, [pageOption.pageSize, pageOption.sortField, pageOption.sortDirection]);
+
+  // useEffect(() => {
+  //   if (initCheck && mode === "privacy") setMode("default");
+  // }, [rows]);
+
+  //test
+  // useEffect(() => {
+  //   console.log(defaultValue);
+  //   console.log(page);
+  //   console.log(pageOptions);
+  //   console.log(customizedPageOptions);
+  // }, []);
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
 
   // Render the paginations
-  const renderPagination = pageOptions.map((option) => (
-    <MDPagination
-      item
-      key={option}
-      onClick={() => gotoPage(Number(option))}
-      active={pageIndex === option}
-    >
-      {option + 1}
-    </MDPagination>
-  ));
+  const renderPagination = pageOptions.map((option) => {
+    if (pageIndex < 3) { // 1 ~ 3 페이지 선택의 경우
+      if (option < 5) {
+        return (
+          <MDPagination
+            sx={{ border: 0 }}
+            item
+            key={option}
+            onClick={() => gotoPage(Number(option))}
+            active={pageIndex === option}
+          >
+            {option + 1}
+          </MDPagination>
+        );
+      } else if (option == pageOptions.length - 1) { // ... 마지막 페이지
+        return (
+          <>
+            <MDTypography variant="overline" fontWeight="regular">
+              ...
+            </MDTypography>
+            <MDPagination
+              sx={{ border: 0 }}
+              item
+              key={option}
+              onClick={() => gotoPage(Number(option))}
+              active={pageIndex === option}
+            >
+              {option + 1}
+            </MDPagination>
+          </>
+        );
+      }
+    } else if (pageOptions.length - 3 <= pageIndex) { // 마지막-2 ~ 마지막 페이지 선택의 경우
+      if (pageOptions.length - 5 <= option) {
+        return (
+          <MDPagination
+            sx={{ border: 0 }}
+            item
+            key={option}
+            onClick={() => gotoPage(Number(option))}
+            active={pageIndex === option}
+          >
+              {option + 1}
+          </MDPagination>
+        );
+      }
+    } else { // 중간 페이지 선택의 경우
+      if (pageIndex - 3 < option && option < pageIndex + 3) {
+        return (
+          <MDPagination
+            sx={{ border: 0 }}
+            item
+            key={option}
+            onClick={() => gotoPage(Number(option))}
+            active={pageIndex === option}
+          >
+            {option + 1}
+          </MDPagination>
+        );
+      } else if (option == pageOptions.length - 1) { // ... 마지막 페이지
+        return (
+          <>
+            <MDTypography variant="overline" fontWeight="regular">
+              ...
+            </MDTypography>
+            <MDPagination
+              sx={{ border: 0 }}
+              item
+              key={option}
+              onClick={() => gotoPage(Number(option))}
+              active={pageIndex === option}
+            >
+              {option + 1}
+            </MDPagination>
+          </>
+        );
+      }
+    }
+  });
 
   // Handler for the input to set the pagination index
   const handleInputPagination = ({ target: { value } }) =>
@@ -192,72 +301,67 @@ const CarrotTable = ({
         alignItems={{ xs: "flex-start", sm: "center" }}
         p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
       >
-        {showTotalEntries && (
+        {/* {showTotalEntries && (
           <MDBox mb={{ xs: 3, sm: 0 }}>
             <MDTypography variant="button" color="secondary" fontWeight="regular">
               {entriesStart}-{entriesEnd} / {rows.length}
             </MDTypography>
           </MDBox>
-        )}
+        )} */}
 
         {entriesPerPage && (
           <MDBox display="flex" alignItems="center">
             <MDTypography variant="caption" color="secondary">
-              rows per page
+              페이지 크기: &nbsp;
             </MDTypography>
             <Autocomplete
               disableClearable
               value={pageSize.toString()}
               options={entries}
               onChange={(event, newValue) => {
-                setEntriesPerPage(parseInt(newValue, 10));
+                setEntriesPerPage(parseInt(newValue, 20));
               }}
               size="small"
               sx={{ width: "5rem" }}
               renderInput={(params) => <MDInput {...params} />}
             />
-
           </MDBox>
         )}
-        {canSearch && (
-          <MDBox width="12rem" ml="auto">
-            <MDInput
-              placeholder="Search..."
-              value={search}
-              size="small"
-              fullWidth
-              onChange={({ currentTarget }) => {
-                setSearch(search);
-                onSearchChange(currentTarget.value);
-              }}
-            />
-          </MDBox>
-        )}
-
         {pageOptions.length > 1 && (
           <MDPagination
             variant={pagination.variant ? pagination.variant : "gradient"}
             color={pagination.color ? pagination.color : "info"}
           >
+            <MDBox display="flex" alignItems="center" mr={2}>
+              <MDTypography variant="caption" color="secondary">
+                페이지 번호: &nbsp;
+              </MDTypography>
+              <MDInput
+                inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
+                value={customizedPageOptions[pageIndex]}
+                onChange={(handleInputPagination, handleInputPaginationValue)}
+                size="small"
+              />
+            </MDBox>
             {canPreviousPage && (
-              <MDPagination item onClick={() => previousPage()}>
+              <MDPagination sx={{ border: 0 }} item onClick={() => gotoPage(0)}>
+                <Icon sx={{ fontWeight: "bold" }}>first_page</Icon>
+              </MDPagination>
+            )}
+            {canPreviousPage && (
+              <MDPagination sx={{ border: 0 }} item onClick={() => previousPage()}>
                 <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
               </MDPagination>
             )}
-            {renderPagination.length > 6 ? (
-              <MDBox width="5rem" mx={1}>
-                <MDInput
-                  inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
-                  value={customizedPageOptions[pageIndex]}
-                  onChange={(handleInputPagination, handleInputPaginationValue)}
-                />
-              </MDBox>
-            ) : (
-              renderPagination
+            {renderPagination}
+            {canNextPage && (
+              <MDPagination sx={{ border: 0 }} item onClick={() => nextPage()}>
+                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+              </MDPagination>
             )}
             {canNextPage && (
-              <MDPagination item onClick={() => nextPage()}>
-                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+              <MDPagination sx={{ border: 0 }} item onClick={() => gotoPage(pageOptions.length - 1)}>
+                <Icon sx={{ fontWeight: "bold" }}>last_page</Icon>
               </MDPagination>
             )}
           </MDPagination>

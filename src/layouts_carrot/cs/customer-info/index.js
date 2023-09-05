@@ -49,11 +49,11 @@ const apiURL = "/ui/cs/customer";
 const CustomerInfo = () => {
   const [pageOption, setPageOption] = useState(pageOptionInit);
   const [pageTotal, setPageTotal] = useState(pageTotalInit);
+  const [rows, setRows] = useState([]);
   const [list, setList] = useState([]);
 
   const searchForm = [];
   const searchDataInit = {};
-  const columns = [];
 
   const [path, setPath] = useState("/retrieve");
   const [param, setParam] = useState({
@@ -65,6 +65,22 @@ const CustomerInfo = () => {
     queryFn: () => Agent.requests.get(`${apiURL}${path}`, param),
     useErrorBoundary: true 
   });
+
+  const columns = [
+    { Header: "recid", accessor: "recid", width: "10%" },
+    { Header: "columnA", accessor: "columnA", width: "20%" },
+    { Header: "columnB", accessor: "columnB", width: "20%" },
+    { Header: "dbStInfo", accessor: "dbStInfo" },
+    { Header: "inpDthms", accessor: "inpDthms" },
+    { Header: "inpUsrId", accessor: "inpUsrId" },
+    { Header: "mdfDthms", accessor: "mdfDthms" },
+    { Header: "mdfUsrId", accessor: "mdfUsrId" },
+  ];
+
+  const table = {
+    columns,
+    rows
+  };
 
   // const getList = () => {
   //   Agent.requests.get(path, param);
@@ -104,10 +120,16 @@ const CustomerInfo = () => {
   // 초기 메서드
   useEffect(() => {
     console.log("@@ CustomerInfo: useEffect");
+    setRows(data.content);
     setList(data.content);
-    // AuthStore.tokenRefreshRequest();
-    console.log(data);
-  }, []);
+    setPageTotal(() => ({
+      ...pageTotal,
+      totalPages: data.totalPages,
+      totalElements: data.totalElements,
+      numberOfElements: data.numberOfElements,
+      empty: data.empty,
+    }));
+  }, [pageOption]);
 
   return (
     <DashboardLayout>
@@ -130,7 +152,15 @@ const CustomerInfo = () => {
               {/* Datatable Search */}
             </MDTypography>
           </MDBox>
-          <CarrotTable table={dataTableData} entriesPerPage canSearch />
+          {/* <CarrotTable table={dataTableData} entriesPerPage /> */}
+          <CarrotTable
+            entriesPerPage
+            table={table}
+            pageOption={pageOption}
+            setPageOption={setPageOption}
+            pageTotal={pageTotal}
+            // getList={getList}
+          />
         </MDBox>
       <Footer />
     </DashboardLayout>
