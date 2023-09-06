@@ -2,7 +2,7 @@
 export const pageOptionInit = Object.freeze({
     pageNo: 0,
     pageSize: 20,
-    sortField: "inpDthms",
+    sortField: "mdfDthms",
     sortDirection: "DESC",
   });
   

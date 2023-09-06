@@ -67,14 +67,35 @@ const CustomerInfo = () => {
   });
 
   const columns = [
-    { Header: "recid", accessor: "recid", width: "10%" },
-    { Header: "columnA", accessor: "columnA", width: "20%" },
-    { Header: "columnB", accessor: "columnB", width: "20%" },
-    { Header: "dbStInfo", accessor: "dbStInfo" },
-    { Header: "inpDthms", accessor: "inpDthms" },
-    { Header: "inpUsrId", accessor: "inpUsrId" },
+    { Header: "ndscId", accessor: "ndscId" },
+    { Header: "ctmno", accessor: "ctmno" },
+    { Header: "ctmDscNo", accessor: "ctmDscNo" },
+    { Header: "hnglCtmnm", accessor: "hnglCtmnm" },
+    { Header: "plyno", accessor: "plyno" },
+    { Header: "mbId", accessor: "mbId" },
+    { Header: "nrdpsCtmDscno", accessor: "nrdpsCtmDscno" },
+    { Header: "nrdpsRelnm", accessor: "nrdpsRelnm" },
+    { Header: "licno", accessor: "licno" },
+    { Header: "nrdpsLicno", accessor: "nrdpsLicno" },
+    { Header: "adId", accessor: "adId" },
+    { Header: "nrdpsDivcNo", accessor: "nrdpsDivcNo" },
+    { Header: "ldlId", accessor: "ldlId" },
+    { Header: "gaid", accessor: "gaid" },
+    { Header: "idfa", accessor: "idfa" },
+    { Header: "ipAdr", accessor: "ipAdr" },
+    { Header: "macAdr", accessor: "macAdr" },
+    { Header: "mailId", accessor: "mailId" },
+    { Header: "rlBrtyrMndy", accessor: "rlBrtyrMndy" },
+    { Header: "pspno", accessor: "pspno" },
+    { Header: "hmpagAdr", accessor: "hmpagAdr" },
+    { Header: "tlno", accessor: "tlno" },
+    { Header: "hpno", accessor: "hpno" },
+    { Header: "bkActno", accessor: "bkActno" },
+    { Header: "tmapId", accessor: "tmapId" },
+    { Header: "kakaoId", accessor: "kakaoId" },
+    { Header: "naverId", accessor: "naverId" },
+    { Header: "loadDthms", accessor: "loadDthms" },
     { Header: "mdfDthms", accessor: "mdfDthms" },
-    { Header: "mdfUsrId", accessor: "mdfUsrId" },
   ];
 
   const table = {
@@ -82,48 +103,14 @@ const CustomerInfo = () => {
     rows
   };
 
-  // const getList = () => {
-  //   Agent.requests.get(path, param);
-  // };
-
-  // const useGetList = (path, param) => {
-  //   const { data } = useQuery({
-  //     queryKey: path + param,
-  //     mutationFn: () => Agent.requests.get(path, param),
-  //     useErrorBoundary: true
-  //   });
-
-  //   return data;
-  // };
-
-  // const getList = () => {
-  //   const param = {
-  //     ...pageOption,
-  //   }
-  //   const { data } = useQuery({
-  //     queryKey: path + param,
-  //     mutationFn: () => Agent.requests.get("/retrieve", param),
-  //     useErrorBoundary: true
-  //   });
-  //   setList(data.content);
-  //   setPageTotal(() => (
-  //     {
-  //       ...prev,
-  //       totalPages: response.totalPages,
-  //       totalElements: response.totalElements,
-  //       numberOfElements: response.numberOfElements,
-  //       empty: response.empty,
-  //     }
-  //   ));
-  // };
-
   // 초기 메서드
   useEffect(() => {
     console.log("@@ CustomerInfo: useEffect");
+    // setRows(dataTableData.rows);
     setRows(data.content);
     setList(data.content);
-    setPageTotal(() => ({
-      ...pageTotal,
+    setPageTotal((prev) => ({
+      ...prev,
       totalPages: data.totalPages,
       totalElements: data.totalElements,
       numberOfElements: data.numberOfElements,
@@ -152,13 +139,12 @@ const CustomerInfo = () => {
               {/* Datatable Search */}
             </MDTypography>
           </MDBox>
-          {/* <CarrotTable table={dataTableData} entriesPerPage /> */}
           <CarrotTable
             entriesPerPage
             table={table}
-            pageOption={pageOption}
-            setPageOption={setPageOption}
-            pageTotal={pageTotal}
+            cxmPageOption={pageOption}
+            setCxmPageOption={setPageOption}
+            cxmPageTotal={pageTotal}
             // getList={getList}
           />
         </MDBox>
