@@ -30,6 +30,7 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 import MDInput from "components_carrot/MDInput";
 import MDBadge from "components_carrot/MDBadge";
 
@@ -54,6 +55,10 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context_carrot";
+
+import { observer } from "mobx-react-lite";
+import UserStore from "store/UserStore";
+import AuthStore from "store/AuthStore";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -142,15 +147,20 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <MDBox pr={1}>
+            {/* <MDBox pr={1}>
               <MDInput label="Search here" />
-            </MDBox>
+            </MDBox> */}
             <MDBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
-                </IconButton>
-              </Link>
+              {AuthStore.accessToken && (
+                <Link to="/">
+                  <IconButton sx={navbarIconButton} size="small" disableRipple onClick={AuthStore.logout} >
+                    <Icon sx={iconsStyle}>account_circle</Icon>
+                    <MDTypography variant="button" fontWeight="medium">
+                      {UserStore.currentUserName}
+                    </MDTypography>
+                  </IconButton>
+                </Link>
+              )}
               <IconButton
                 size="small"
                 disableRipple
@@ -162,7 +172,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              <IconButton
+
+              {/* <IconButton
                 size="small"
                 disableRipple
                 color="inherit"
@@ -170,8 +181,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 onClick={handleConfiguratorOpen}
               >
                 <Icon sx={iconsStyle}>settings</Icon>
-              </IconButton>
-              <IconButton
+              </IconButton> */}
+              {/* <IconButton
                 size="small"
                 disableRipple
                 color="inherit"
@@ -184,7 +195,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 <MDBadge badgeContent={9} color="error" size="xs" circular>
                   <Icon sx={iconsStyle}>notifications</Icon>
                 </MDBadge>
-              </IconButton>
+              </IconButton> */}
               {renderMenu()}
             </MDBox>
           </MDBox>
@@ -208,4 +219,4 @@ DashboardNavbar.propTypes = {
   isMini: PropTypes.bool,
 };
 
-export default DashboardNavbar;
+export default observer(DashboardNavbar);
