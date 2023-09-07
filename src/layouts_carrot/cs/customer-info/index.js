@@ -40,9 +40,13 @@ import AuthStore from "store/AuthStore";
 
 import { pageOptionInit, pageTotalInit } from "variables/page"
 
-// Data
-import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
+// // Data
+// import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
 import { useQuery } from "react-query";
+import { Suspense } from "react";
+
+import AppErrorBoundary from "error/AppErrorBoundary";
+import AppSkeleton from "skeleton/AppSkeleton";
 
 const apiURL = "/ui/cs/customer";
 
@@ -50,22 +54,20 @@ const CustomerInfo = () => {
   const [pageOption, setPageOption] = useState(pageOptionInit);
   const [pageTotal, setPageTotal] = useState(pageTotalInit);
   const [rows, setRows] = useState([]);
-  const [list, setList] = useState([]);
-
-  const searchForm = [];
-  const searchDataInit = {};
 
   const [path, setPath] = useState("/retrieve");
   const [param, setParam] = useState({
     ...pageOption,
     pageNo: 0,
   });
-  const { data } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: path+param,
     queryFn: () => Agent.requests.get(`${apiURL}${path}`, param),
-    useErrorBoundary: true 
+    useErrorBoundary: true,
   });
 
+  const searchForm = [];
+  const searchDataInit = {};
   const columns = [
     { Header: "ndscId", accessor: "ndscId" },
     { Header: "ctmno", accessor: "ctmno" },
@@ -97,18 +99,20 @@ const CustomerInfo = () => {
     { Header: "loadDthms", accessor: "loadDthms" },
     { Header: "mdfDthms", accessor: "mdfDthms" },
   ];
-
   const table = {
-    columns,
+    columns: columns,
     rows
   };
 
-  // 초기 메서드
   useEffect(() => {
     console.log("@@ CustomerInfo: useEffect");
-    // setRows(dataTableData.rows);
+    console.log(pageOption);
+    console.log(pageTotal);
+    console.log(data);
+
+    setParam({...pageOption});
+    refetch();
     setRows(data.content);
-    setList(data.content);
     setPageTotal((prev) => ({
       ...prev,
       totalPages: data.totalPages,
@@ -117,6 +121,10 @@ const CustomerInfo = () => {
       empty: data.empty,
     }));
   }, [pageOption]);
+
+  useEffect(() => {
+    setRows(data.content);
+  }, [data]);
 
   return (
     <DashboardLayout>
@@ -139,14 +147,18 @@ const CustomerInfo = () => {
               {/* Datatable Search */}
             </MDTypography>
           </MDBox>
-          <CarrotTable
-            entriesPerPage
-            table={table}
-            cxmPageOption={pageOption}
-            setCxmPageOption={setPageOption}
-            cxmPageTotal={pageTotal}
-            // getList={getList}
-          />
+          <AppErrorBoundary>
+            <Suspense fallback={<AppSkeleton />}>
+              <CarrotTable
+                entriesPerPage
+                table={table}
+                cxmPageOption={pageOption}
+                setCxmPageOption={setPageOption}
+                cxmPageTotal={pageTotal}
+                setCxmPageTotal={setPageTotal}
+              />
+            </Suspense>
+          </AppErrorBoundary>
         </MDBox>
       <Footer />
     </DashboardLayout>

@@ -34,7 +34,6 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
     get: (url, params) => {
       const header = headers();
       const config = { params, headers: header };
-      console.log(config);
       return axios.get(`${API_ROOT}${url}`, config).then((r) => r.data);
     },
     put: (url, data) => {
@@ -71,7 +70,6 @@ axios.defaults.paramsSerializer = (params) => qs.stringify(params);
     post: (url, data) => {
       const header = authHeaders();
       const config = { headers: header };
-      console.log(config);
       return axios.post(`${AUTH_BAKCEND_ROOT}${url}`, data, config).then((r) => r.data);
     },
     get: (url, params) => {

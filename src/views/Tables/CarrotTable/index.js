@@ -26,21 +26,8 @@ import DataTableBodyCell from "views/Tables/DataTable/DataTableBodyCell";
 
 import Util from "utils/Util";
 
-// const CarrotTable = ({
-//     columns,
-//     rows,
-//     pageOption,
-//     setPageOption,
-//     pageTotal,
-//     getList,
-//     ...others
-// }) => {
-//   const [hideshow, setHideshow] = useState(Util.ejectBoolValue(columns, "field", "hide"));
-// }
-
 const CarrotTable = ({
   entriesPerPage,
-  // canSearch,
   showTotalEntries,
   table,
   pagination,
@@ -49,6 +36,7 @@ const CarrotTable = ({
   cxmPageOption,
   setCxmPageOption,
   cxmPageTotal,
+  setCxmPageTotal,
 }) => {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
@@ -85,64 +73,22 @@ const CarrotTable = ({
   // Set the default value for the entries per page when component mounts
   useEffect(() => setPageSize(defaultValue || 20), [defaultValue]);
 
-  useEffect(() => {
-    console.log(tableInstance);
-    // setPageOption((prev) => ({
-    //   ...prev,
-    //   pageNo: 0,
-    //   sortField: nextSort[0].field,
-    //   sortDirection: nextSort[0].sort.toUpperCase(),
-    // }));
-  }, [tableInstance]);
-
-  // useDebouncedEffect(
-  //   () => {
-  //     if (pageOption.pageNo !== 0) getList();
-  //     else if (pageOption.pageNo === 0 && innerPageNoCheck) {
-  //       getList();
-  //       setInnerPageNoCheck(false);
-  //     }
-  //   },
-  //   100,
-  //   [pageOption.pageNo]
-  // );
-
-  // useEffect(() => {
-  //   if (pageTotal && pageTotal.totalElements) getList();
-  // }, [pageOption.pageSize, pageOption.sortField, pageOption.sortDirection]);
-
-  // useEffect(() => {
-  //   if (initCheck && mode === "privacy") setMode("default");
-  // }, [rows]);
-
-  //test
-  // useEffect(() => {
-  //   console.log(defaultValue);
-  //   console.log(page);
-  //   console.log(pageOptions);
-  //   console.log(customizedPageOptions);
-  // }, []);
+  const displayButtonCount = 5; // 화면 표시 페이지 버튼 수
+  const displayMidButtonCount = Math.ceil(displayButtonCount / 2); // 페이지 버튼 중간(올림)
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
 
-  // const pageArr = [cxmPageTotal.totalPages];
   const [pageArr, setPageArr] = useState([...Array(cxmPageTotal.totalPages).keys()]);
 
   useEffect(() => {
-    console.log("@@");
-    console.log(cxmPageOption);
-    console.log(cxmPageTotal);
-    console.log(pageArr);
     setPageArr([...Array(cxmPageTotal.totalPages).keys()]);
-    console.log("@@");
-  }, [cxmPageOption, cxmPageTotal]);
+  }, [cxmPageTotal]);
 
   // Render the paginations
-  // const renderPagination = pageOptions.map((option) => {
   const renderPagination = pageArr.map((option) => {
-    if (cxmPageOption.pageNo < 3) { // 1 ~ 3 페이지 선택의 경우
-      if (option < 5) {
+    if (cxmPageOption.pageNo < displayMidButtonCount) { // 1 ~ 3 페이지 선택의 경우
+      if (option < displayButtonCount) {
         return (
           <MDPagination
             sx={{ border: 0 }}
@@ -184,8 +130,8 @@ const CarrotTable = ({
           </>
         );
       }
-    } else if (pageArr.length - 3 <= cxmPageOption.pageNo) { // 마지막-2 ~ 마지막 페이지 선택의 경우
-      if (pageArr.length - 5 <= option) {
+    } else if (pageArr.length - displayMidButtonCount <= cxmPageOption.pageNo) { // 마지막-2 ~ 마지막 페이지 선택의 경우
+      if (pageArr.length - displayButtonCount <= option) {
         return (
           <MDPagination
             sx={{ border: 0 }}
@@ -205,7 +151,7 @@ const CarrotTable = ({
         );
       }
     } else { // 중간 페이지 선택의 경우
-      if (cxmPageOption.pageNo - 3 < option && option < cxmPageOption.pageNo + 3) {
+      if (cxmPageOption.pageNo - displayMidButtonCount < option && option < cxmPageOption.pageNo + displayMidButtonCount) {
         return (
           <MDPagination
             sx={{ border: 0 }}
@@ -251,8 +197,6 @@ const CarrotTable = ({
   });
 
   // Handler for the input to set the pagination index
-  // const handleInputPagination = ({ target: { value } }) =>
-  //   value > pageArr.length || value < 0 ? gotoPage(0) : gotoPage(Number(value));
   const handleInputPagination = ({ target: { value } }) => {
     value > pageArr.length || value < 0 ? 
     setCxmPageOption((prev) => ({
@@ -267,11 +211,9 @@ const CarrotTable = ({
   };
 
   // Customized page options starting from 1
-  // const customizedPageOptions = pageOptions.map((option) => option + 1);
   const customizedPageOptions = pageArr.map((option) => option + 1);
 
   // Setting value for the pagination input
-  // const handleInputPaginationValue = ({ target: value }) => gotoPage(Number(value.value - 1));
   const handleInputPaginationValue = ({ target: value }) => {
     setCxmPageOption((prev) => ({
       ...prev,
@@ -303,23 +245,12 @@ const CarrotTable = ({
   };
 
   // Setting the entries starting point
-  const entriesStart = cxmPageOption.pageNo === 0 ? cxmPageOption.pageNo + 1 : cxmPageOption.pageNo * pageSize + 1;
-
-  // Setting the entries ending point
-  // let entriesEnd;
-
-  // if (cxmPageOption.pageNo === 0) {
-  //   entriesEnd = pageSize;
-  // } else if (cxmPageOption.pageNo === pageArr.length - 1) {
-  //   entriesEnd = rows.length;
-  // } else {
-  //   entriesEnd = pageSize * (cxmPageOption.pageNo + 1);
-  // }
+  // const entriesStart = cxmPageOption.pageNo === 0 ? cxmPageOption.pageNo + 1 : cxmPageOption.pageNo * pageSize + 1;
 
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       <Table {...getTableProps()}>
-        <MDBox component="thead">
+        <MDBox component="thead" bgColor="light" variant="gradient">
           {headerGroups.map((headerGroup, key) => (
             <TableRow key={key} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, idx) => (
@@ -364,14 +295,6 @@ const CarrotTable = ({
         alignItems={{ xs: "flex-start", sm: "center" }}
         p={!showTotalEntries && pageArr.length === 1 ? 0 : 3}
       >
-        {/* {showTotalEntries && (
-          <MDBox mb={{ xs: 3, sm: 0 }}>
-            <MDTypography variant="button" color="secondary" fontWeight="regular">
-              {entriesStart}-{entriesEnd} / {rows.length}
-            </MDTypography>
-          </MDBox>
-        )} */}
-
         {entriesPerPage && (
           <MDBox display="flex" alignItems="center">
             <MDTypography variant="caption" color="secondary">
@@ -390,74 +313,70 @@ const CarrotTable = ({
             />
           </MDBox>
         )}
-        {pageArr.length > 1 && (
+        {pageArr.length > 0 && (
           <MDPagination
             variant={pagination.variant ? pagination.variant : "gradient"}
             color={pagination.color ? pagination.color : "info"}
           >
-            <MDBox display="flex" alignItems="center" mr={2}>
-              <MDTypography variant="caption" color="secondary">
-                페이지 번호: &nbsp;
-              </MDTypography>
-              <MDInput
-                inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
-                value={customizedPageOptions[cxmPageOption.pageNo]}
-                onChange={(handleInputPagination, handleInputPaginationValue)}
-                size="small"
-              />
-            </MDBox>
-            {cxmPageOption.pageNo > 0 && (
-              <MDPagination sx={{ border: 0 }} item
+            {pageArr.length > displayButtonCount && (
+              <MDBox display="flex" alignItems="center" mr={3}>
+                <MDTypography variant="caption" color="secondary">
+                  페이지 번호: &nbsp;
+                </MDTypography>
+                <MDInput
+                  variant="standard" 
+                  inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
+                  value={customizedPageOptions[cxmPageOption.pageNo]}
+                  onChange={(handleInputPagination, handleInputPaginationValue)}
+                  size="small"
+                />
+              </MDBox>
+            )}
+              <MDPagination item
                 onClick={() => {
                   setCxmPageOption((prev) => ({
                     ...prev,
                     pageNo: 0
                   }));
                 }}
+                disabled={cxmPageOption.pageNo == 0}
               >
                 <Icon sx={{ fontWeight: "bold" }}>first_page</Icon>
               </MDPagination>
-            )}
-            {cxmPageOption.pageNo > 0 && (
-              <MDPagination sx={{ border: 0 }} item
+              <MDPagination item
                 onClick={() => {
                   setCxmPageOption((prev) => ({
                     ...prev,
                     pageNo: prev.pageNo - 1
                   }));
                 }}
+                disabled={cxmPageOption.pageNo == 0}
               >
                 <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
               </MDPagination>
-            )}
             {renderPagination}
-            {cxmPageOption.pageNo < pageArr.length - 1 && (
-              <MDPagination sx={{ border: 0 }} item
+              <MDPagination item
                 onClick={() => {
                   setCxmPageOption((prev) => ({
                     ...prev,
                     pageNo: prev.pageNo + 1
                   }));
                 }}
-                // active={false}
-                // disabled={true}
-                // color="light"
+                disabled={cxmPageOption.pageNo == pageArr.length - 1}
               >
                 <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
               </MDPagination>
-            )}
-            {cxmPageOption.pageNo < pageArr.length - 1 && (
-              <MDPagination sx={{ border: 0 }} item
+              <MDPagination item
                 onClick={() => {
                   setCxmPageOption((prev) => ({
                     ...prev,
                     pageNo: pageArr.length - 1
                   }));
                 }}
+                disabled={cxmPageOption.pageNo == pageArr.length - 1}
               >
                 <Icon sx={{ fontWeight: "bold" }}>last_page</Icon>
               </MDPagination>
-            )}
           </MDPagination>
         )}
       </MDBox>
@@ -468,7 +387,6 @@ const CarrotTable = ({
 // Setting default values for the props of CarrotTable
 CarrotTable.defaultProps = {
   entriesPerPage: { defaultValue: 20, entries: [20, 30, 50, 100] },
-  // canSearch: false,
   showTotalEntries: true,
   pagination: { variant: "gradient", color: "info" },
   isSorted: true,
@@ -484,7 +402,6 @@ CarrotTable.propTypes = {
     }),
     PropTypes.bool,
   ]),
-  // canSearch: PropTypes.bool,
   showTotalEntries: PropTypes.bool,
   table: PropTypes.objectOf(PropTypes.array).isRequired,
   pagination: PropTypes.shape({
