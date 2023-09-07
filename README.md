@@ -90,6 +90,10 @@
   ```
   yarn add sweetalert2
   ```
+- date util
+  ```
+  yarn add moment
+  ```
 
 ## Directory Hierarchy
 ```bash

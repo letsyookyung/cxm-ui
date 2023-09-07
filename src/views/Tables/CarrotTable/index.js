@@ -36,12 +36,17 @@ const CarrotTable = ({
   cxmPageOption,
   setCxmPageOption,
   cxmPageTotal,
-  setCxmPageTotal,
+  isLoading,
+  error,
 }) => {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
     : ["20", "30", "50", "100"];
+  const displayButtonCount = 5; // 화면 표시 페이지 버튼 수
+  const displayMidButtonCount = Math.ceil(displayButtonCount / 2); // 페이지 버튼 중간(올림)
+  const [pageArr, setPageArr] = useState([...Array(cxmPageTotal.totalPages).keys()]);
+
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
 
@@ -70,126 +75,78 @@ const CarrotTable = ({
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
 
-  // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 20), [defaultValue]);
-
-  const displayButtonCount = 5; // 화면 표시 페이지 버튼 수
-  const displayMidButtonCount = Math.ceil(displayButtonCount / 2); // 페이지 버튼 중간(올림)
-
   // Set the entries per page value based on the select value
-  const setEntriesPerPage = (value) => setPageSize(value);
+  const setEntriesPerPage = (value) => {
+    setPageSize(value);
+    setCxmPageOption((prev) => ({
+      ...prev,
+      pageSize: value,
+      pageNo: 0
+    }));
+  };
 
-  const [pageArr, setPageArr] = useState([...Array(cxmPageTotal.totalPages).keys()]);
+  // Set the default value for the entries per page when component mounts
+  useEffect(() => {
+    setPageSize(defaultValue || 20);
+    setCxmPageOption((prev) => ({
+      ...prev,
+      pageSize: defaultValue,
+      pageNo: 0
+    }));
+  }, [defaultValue]);
 
   useEffect(() => {
     setPageArr([...Array(cxmPageTotal.totalPages).keys()]);
   }, [cxmPageTotal]);
 
+  const pageButton = (index) => {
+    return (
+      <MDPagination
+        item
+        key={index}
+        onClick={() => {
+          console.log(`cxmPageOption.pageNo: ${cxmPageOption.pageNo}, index: ${index}`);
+          setCxmPageOption((prev) => ({
+            ...prev,
+            pageNo: index
+          }));
+        }}
+        active={cxmPageOption.pageNo == index}
+      >
+        {index + 1}
+      </MDPagination>
+    );
+  };
+
   // Render the paginations
   const renderPagination = pageArr.map((option) => {
     if (cxmPageOption.pageNo < displayMidButtonCount) { // 1 ~ 3 페이지 선택의 경우
       if (option < displayButtonCount) {
-        return (
-          <MDPagination
-            sx={{ border: 0 }}
-            item
-            key={option}
-            onClick={() => {
-              console.log(`option: ${option}`);
-              setCxmPageOption((prev) => ({
-                ...prev,
-                pageNo: option
-              }));
-            }}
-            active={cxmPageOption.pageNo === option}
-          >
-            {option + 1}
-          </MDPagination>
-        );
+        return pageButton(option);
       } else if (option == pageArr.length - 1) { // ... 마지막 페이지
         return (
           <>
             <MDTypography variant="overline" fontWeight="regular">
               ...
             </MDTypography>
-            <MDPagination
-              sx={{ border: 0 }}
-              item
-              key={option}
-              onClick={() => {
-                console.log(`option: ${option}`);
-                setCxmPageOption((prev) => ({
-                  ...prev,
-                  pageNo: option
-                }));
-              }}
-              active={cxmPageOption.pageNo === option}
-            >
-              {option + 1}
-            </MDPagination>
+            {pageButton(option)}
           </>
         );
       }
     } else if (pageArr.length - displayMidButtonCount <= cxmPageOption.pageNo) { // 마지막-2 ~ 마지막 페이지 선택의 경우
       if (pageArr.length - displayButtonCount <= option) {
-        return (
-          <MDPagination
-            sx={{ border: 0 }}
-            item
-            key={option}
-            onClick={() => {
-              console.log(`option: ${option}`);
-              setCxmPageOption((prev) => ({
-                ...prev,
-                pageNo: option
-              }));
-            }}
-            active={cxmPageOption.pageNo === option}
-          >
-              {option + 1}
-          </MDPagination>
-        );
+        return pageButton(option);
       }
     } else { // 중간 페이지 선택의 경우
       if (cxmPageOption.pageNo - displayMidButtonCount < option && option < cxmPageOption.pageNo + displayMidButtonCount) {
-        return (
-          <MDPagination
-            sx={{ border: 0 }}
-            item
-            key={option}
-            onClick={() => {
-              console.log(`option: ${option}`);
-              setCxmPageOption((prev) => ({
-                ...prev,
-                pageNo: option
-              }));
-            }}
-            active={cxmPageOption.pageNo === option}
-          >
-            {option + 1}
-          </MDPagination>
-        );
+        return pageButton(option);
       } else if (option == pageArr.length - 1) { // ... 마지막 페이지
         return (
           <>
             <MDTypography variant="overline" fontWeight="regular">
               ...
             </MDTypography>
-            <MDPagination
-              sx={{ border: 0 }}
-              item
-              key={option}
-              onClick={() => {
-                console.log(`option: ${option}`);
-                setCxmPageOption((prev) => ({
-                  ...prev,
-                  pageNo: option
-                }));
-              }}
-              active={cxmPageOption.pageNo === option}
-            >
-              {option + 1}
-            </MDPagination>
+            {pageButton(option)}
           </>
         );
       }
@@ -243,9 +200,6 @@ const CarrotTable = ({
 
     return sortedValue;
   };
-
-  // Setting the entries starting point
-  // const entriesStart = cxmPageOption.pageNo === 0 ? cxmPageOption.pageNo + 1 : cxmPageOption.pageNo * pageSize + 1;
 
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
@@ -302,10 +256,10 @@ const CarrotTable = ({
             </MDTypography>
             <Autocomplete
               disableClearable
-              value={pageSize.toString()}
+              value={cxmPageOption.pageSize.toString()}
               options={entries}
               onChange={(event, newValue) => {
-                setEntriesPerPage(parseInt(newValue, 20));
+                setEntriesPerPage(parseInt(newValue, 10));
               }}
               size="small"
               sx={{ width: "5rem" }}

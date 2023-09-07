@@ -65,7 +65,8 @@
         "jsx-a11y/label-has-associated-control": "off",
         "arrow-body-style": ["warn", "as-needed"],
         "no-promise-executor-return": "off",
-        "object-shorthand": "off"
+        "object-shorthand": "off",
+        "default-param-last": "off"
     },
     "settings": { "import/resolver": { "node": { "paths": ["src"] } } }
 }
