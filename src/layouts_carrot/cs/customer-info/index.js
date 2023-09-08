@@ -205,7 +205,7 @@ const CustomerInfo = () => {
                     }}
                     size="small"
                     // sx={{ width: "5rem" }}
-                    renderInput={(params) => <MDInput {...params} />}
+                    renderInput={(params) => <MDInput {...params} variant="standard" label="test" />}
                   />
                 </Grid>
               </Grid>
