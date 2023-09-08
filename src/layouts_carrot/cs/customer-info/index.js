@@ -49,6 +49,7 @@ import { useQuery } from "react-query";
 import { Suspense } from "react";
 import moment from "moment";
 
+import SearchBox from "views/Tables/SearchBox";
 import AppErrorBoundary from "error/AppErrorBoundary";
 import AppSkeleton from "skeleton/AppSkeleton";
 
@@ -67,6 +68,7 @@ const CustomerInfo = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: param,
     queryFn: () => Agent.requests.get(`${apiURL}${path}`, param),
+    enabled: false,
   });
 
   const searchDataInit = {
@@ -107,6 +109,12 @@ const CustomerInfo = () => {
       key: "age",
       type: "number",
     },
+    {
+      label: "지역",
+      key: "region",
+      type: "select",
+      options: [],
+    },
   ];
 
   const columns = [
@@ -146,23 +154,23 @@ const CustomerInfo = () => {
     rows
   };
 
-  useEffect(() => {
-    console.log("@@ CustomerInfo: useEffect");
-    setParam({...pageOption});
-    refetch();
-  }, [pageOption]);
+  // useEffect(() => {
+  //   console.log("@@ CustomerInfo: useEffect");
+  //   setParam({...pageOption});
+  //   refetch();
+  // }, [pageOption]);
 
-  useEffect(() => {
-    console.log(data.content);
-    setRows(data.content);
-    setPageTotal((prev) => ({
-      ...prev,
-      totalPages: data.totalPages,
-      totalElements: data.totalElements,
-      numberOfElements: data.numberOfElements,
-      empty: data.empty,
-    }));
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data.content);
+  //   setRows(data.content);
+  //   setPageTotal((prev) => ({
+  //     ...prev,
+  //     totalPages: data.totalPages,
+  //     totalElements: data.totalElements,
+  //     numberOfElements: data.numberOfElements,
+  //     empty: data.empty,
+  //   }));
+  // }, [data]);
 
   // zip: {
   //   name: "zip",
@@ -175,14 +183,14 @@ const CustomerInfo = () => {
     <DashboardLayout>
       <DashboardNavbar />
         <MDBox py={3} lineHeight={1}>
-          {/* <SearchBox /> */}
-          <Card>
+          <SearchBox searchDataInit={searchDataInit} searchForm={searchForm} />
+          {/* <Card>
             <MDBox mt={1}>
               <Grid container spacing={1} m={1}>
-                <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
                   <MDDatePicker options={{ enableTime: true, time_24hr: true }} input={{ label: "From", shrink: "true" }} value= "2022-01-01 00:00" />
                 </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
                   <MDDatePicker options={{ enableTime: true, time_24hr: true }} input={{ label: "To", shrink: "true",  }} value= "2023-02-01 00:00" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
@@ -196,7 +204,6 @@ const CustomerInfo = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
                   <Autocomplete
-                    label="test"
                     disableClearable
                     value="20"
                     options={["10", "20", "30", "40", "50"]}
@@ -204,13 +211,12 @@ const CustomerInfo = () => {
                       console.log("onchange");
                     }}
                     size="small"
-                    // sx={{ width: "5rem" }}
-                    renderInput={(params) => <MDInput {...params} variant="standard" label="test" />}
+                    renderInput={(params) => <MDInput {...params} variant="standard" label="test2" />}
                   />
                 </Grid>
               </Grid>
             </MDBox>
-          </Card>
+          </Card> */}
           <MDBox p={3}>
             <MDTypography variant="h5" fontWeight="medium">
               {/* Datatable Search */}
