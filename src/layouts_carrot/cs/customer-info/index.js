@@ -18,11 +18,14 @@ import React, { useEffect, useContext, useCallback, useState } from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import Autocomplete from "@mui/material/Autocomplete";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
+import MDDatePicker from "components_carrot/MDDatePicker";
 import MDTypography from "components_carrot/MDTypography";
 import MDButton from "components_carrot/MDButton";
+import MDInput from "components_carrot/MDInput";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "views/LayoutContainers/DashboardLayout";
@@ -64,7 +67,6 @@ const CustomerInfo = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: param,
     queryFn: () => Agent.requests.get(`${apiURL}${path}`, param),
-    useErrorBoundary: true,
   });
 
   const searchDataInit = {
@@ -83,28 +85,30 @@ const CustomerInfo = () => {
     ctmno: "",
     plyno: "",
   };
+
   const searchForm = [
     {
-      label: "startDate",
-      text: "발생일시",
-      type: "dateTimeRange",
-      startKey: "startDate",
-      endKey: "endDate",
-      required: true,
-      checkValid: true,
-      format: "date",
+      label: "From",
+      key: "startDate",
+      type: "dateTime",
     },
     {
-      label: "ctmno",
-      text: "고객번호",
-      type: "input",
+      label: "To",
+      key: "endDate",
+      type: "dateTime",
     },
     {
-      label: "plyno",
-      text: "증권번호",
-      type: "input",
+      label: "고객번호",
+      key: "ctmno",
+      type: "text",
+    },
+    {
+      label: "나이",
+      key: "age",
+      type: "number",
     },
   ];
+
   const columns = [
     { Header: "ndscId", accessor: "ndscId" },
     { Header: "ctmno", accessor: "ctmno" },
@@ -136,6 +140,7 @@ const CustomerInfo = () => {
     { Header: "loadDthms", accessor: "loadDthms" },
     { Header: "mdfDthms", accessor: "mdfDthms" },
   ];
+
   const table = {
     columns: columns,
     rows
@@ -159,18 +164,49 @@ const CustomerInfo = () => {
     }));
   }, [data]);
 
+  // zip: {
+  //   name: "zip",
+  //   label: "Zip",
+  //   type: "number",
+  //   errorMsg: "Zip is required.",
+  //   invalidMsg: "Zipcode is not valie (e.g. 70000).",
+  // },
   return (
     <DashboardLayout>
       <DashboardNavbar />
         <MDBox py={3} lineHeight={1}>
+          {/* <SearchBox /> */}
           <Card>
             <MDBox mt={1}>
               <Grid container spacing={1} m={1}>
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                  <FormField type="text" label="Name" defaultValue="" InputLabelProps={{ shrink: true }} placeholder="Kim" />
+                <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+                  <MDDatePicker options={{ enableTime: true, time_24hr: true }} input={{ label: "From", shrink: "true" }} value= "2022-01-01 00:00" />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+                  <MDDatePicker options={{ enableTime: true, time_24hr: true }} input={{ label: "To", shrink: "true",  }} value= "2023-02-01 00:00" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                  <FormField type="text" label="고객번호" defaultValue="" InputLabelProps={{ shrink: true }} placeholder="1234" />
+                  <FormField type="text" label="Name" InputLabelProps={{ shrink: true }} placeholder="Kim" />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <FormField type="text" label="고객번호" InputLabelProps={{ shrink: true }} placeholder="1234" />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <FormField type="number" label="나이" InputLabelProps={{ shrink: true }} placeholder="33" />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <Autocomplete
+                    label="test"
+                    disableClearable
+                    value="20"
+                    options={["10", "20", "30", "40", "50"]}
+                    onChange={(event, newValue) => {
+                      console.log("onchange");
+                    }}
+                    size="small"
+                    // sx={{ width: "5rem" }}
+                    renderInput={(params) => <MDInput {...params} />}
+                  />
                 </Grid>
               </Grid>
             </MDBox>
