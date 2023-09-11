@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, forwardRef, useRef, useImperativeHandle } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -24,8 +24,6 @@ import MDPagination from "components_carrot/MDPagination";
 import DataTableHeadCell from "views/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "views/Tables/DataTable/DataTableBodyCell";
 
-import Util from "utils/Util";
-
 const CarrotTable = ({
   entriesPerPage,
   showTotalEntries,
@@ -36,9 +34,23 @@ const CarrotTable = ({
   cxmPageOption,
   setCxmPageOption,
   cxmPageTotal,
-  isLoading,
-  error,
-}) => {
+  cxmSetPageTotal,
+}, ref) => {
+  useImperativeHandle(ref, () => ({
+    test
+  }));
+
+  const [param, setParam] = useState({
+    ...cxmPageOption,
+    pageNo: 0,
+  });
+
+  // const { data, refetch } = useQuery({
+  //   queryKey: param,
+  //   queryFn: () => Agent.requests.get(searchURL, param),
+  // });
+
+  const test = () => {console.log("test")};
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
@@ -269,8 +281,8 @@ const CarrotTable = ({
         )}
         {pageArr.length > 0 && (
           <MDPagination
-            variant={pagination.variant ? pagination.variant : "gradient"}
-            color={pagination.color ? pagination.color : "info"}
+            variant={pagination?.variant ? pagination.variant : "gradient"}
+            color={pagination?.color ? pagination.color : "info"}
           >
             {pageArr.length > displayButtonCount && (
               <MDBox display="flex" alignItems="center" mr={3}>
@@ -375,4 +387,4 @@ CarrotTable.propTypes = {
   noEndBorder: PropTypes.bool,
 };
 
-export default CarrotTable;
+export default forwardRef(CarrotTable);

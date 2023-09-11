@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import moment from "moment";
 
 // @mui material components
@@ -10,30 +10,37 @@ import Autocomplete from "@mui/material/Autocomplete";
 import MDBox from "components_carrot/MDBox";
 import MDDatePicker from "components_carrot/MDDatePicker";
 import MDInput from "components_carrot/MDInput";
+import MDButton from "components_carrot/MDButton";
 
 // NewProduct page components
 import FormField from "layouts_carrot/ecommerce/products/edit-product/components/FormField";
 
 // import { useSearchData } from "hooks_carrot";
 import useSearchData from "hooks_carrot/useSearchData";
+import { useQuery } from "react-query";
+import Agent from "utils/Agent";
 
 const SearchBox = ({
   searchDataInit,
   searchForm,
-  pageOption,
-  setPageOption,
   searchURL,
+  setRows,
+  pageOption,
+  setPageTotal,
 }) => {
+  const [param, setParam] = useState({
+    ...pageOption,
+    pageNo: 0,
+  });
 
-  const [searchData, onChangeInput, onChangeDate, setSearchData, resetSearchData] = useSearchData(
+  const { data, refetch } = useQuery({
+    queryKey: param,
+    queryFn: () => Agent.requests.get(searchURL, param),
+  });
+
+  const [searchData, onChangeInput, onChangeDate, onChangeSelect, setSearchData, reset] = useSearchData(
     searchDataInit
   );
-
-  const onKeyDownEnter = (e) => {
-    if (e.keyCode !== 13) return;
-
-    onLookUpData();
-  };
 
   const createSearchForm = () => {
     return searchForm.map((form) => {
@@ -41,56 +48,68 @@ const SearchBox = ({
 
       if (form.type === "dateTime") {
         return (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={form.key}>
             <MDDatePicker
-              minDate={moment(new Date()).subtract(5, "years")}
-              maxDate={moment(new Date()).add(1, "years")}
-              options={{ enableTime: true, time_24hr: true }} 
+              key={form.key}
               input={{ label: form.label, shrink: "true" }}
-              value={searchData[form.key] || null}
-              onChange={onChangeDate(form.key)}
-              disabled={form.isDisabled}
+              options={{
+                enableTime: true,
+                time_24hr: true,
+                allowInput: true,
+                minDate: moment(new Date()).subtract(5, "years").format("YYYY-MM-DD HH:mm").toString(),
+                maxDate: moment(new Date()).add(1, "years").format("YYYY-MM-DD HH:mm").toString(),
+                defaultDate: searchData[form.key] || null,
+                onChange: (selectedDates, dateStr, instance) => {
+                  onChangeDate(form.key, dateStr);
+                },
+              }} 
             />
           </Grid>
         );
       } else if (form.type === "text") {
         return (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={form.key}>
             <FormField
+              key={form.key}
               type="text"
               label={form.label}
               InputLabelProps={{ shrink: true }}
               placeholder={form.placeholder}
-              value={searchData[form.key] || null}
-              onChange={onChangeInput}
-              onKeyDown={onKeyDownEnter}
+              value={searchData[form.key] || ""}
+              onChange={(e) => {
+                onChangeInput(e, form.key);
+              }}
               disabled={form.isDisabled}
             />
           </Grid>
         );
       } else if (form.type === "number") {
         return (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={form.key}>
             <FormField
+              key={form.key}
               type="number"
               label={form.label}
               InputLabelProps={{ shrink: true }}
               placeholder={form.placeholder}
-              value={searchData[form.key] || null}
-              onChange={onChangeInput}
-              onKeyDown={onKeyDownEnter}
+              value={searchData[form.key] || ""}
+              onChange={(e) => {
+                onChangeInput(e, form.key);
+              }}
               disabled={form.isDisabled}
             />
           </Grid>
         );
       } else if (form.type === "select") {
         return (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={form.key}>
             <Autocomplete
               disableClearable
-              value={searchData[form.key] || null}
               options={form.options}
-              onChange={(event, newValue) => onChangeInput}
+              onChange={(event, newValue) => {
+                const item = form.options.find((item) => item.label === newValue.label);
+                onChangeSelect(form.key, item?.id);
+              }}
               size="small"
               renderInput={(params) => <MDInput {...params} variant="standard" label={form.label} InputLabelProps={{ shrink: true }} />}
               disabled={form.isDisabled}
@@ -103,11 +122,39 @@ const SearchBox = ({
     });
   };
 
+  useEffect(() => {
+    console.log("@@ searchbox1: useeffect");
+    setParam({...pageOption});
+    refetch();
+  }, [pageOption]);
+
+  useEffect(() => {
+    console.log("@@ searchbox2: useeffect");
+    setRows(data.content);
+    setPageTotal((prev) => ({
+      ...prev,
+      totalPages: data.totalPages,
+      totalElements: data.totalElements,
+      numberOfElements: data.numberOfElements,
+      empty: data.empty,
+    }));
+  }, [data]);
+
   return(
     <Card>
       <MDBox mt={1}>
         <Grid container spacing={1} m={1}>
         {createSearchForm()}
+        </Grid>
+        <Grid container spacing={1} p={1} sx={{ flexDirection: "row-reverse" }} >
+          <MDButton
+            variant="outlined"
+            color="info"
+            size="small"
+            onClick={refetch}
+          >
+            조회
+          </MDButton>
         </Grid>
       </MDBox>
     </Card>
@@ -115,4 +162,4 @@ const SearchBox = ({
 
 };
 
-export default forwardRef(SearchBox);
+export default SearchBox;
