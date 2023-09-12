@@ -13,46 +13,25 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { useEffect, useContext, useCallback, useState, useRef } from "react";
-
-// @mui material components
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import Autocomplete from "@mui/material/Autocomplete";
+import React, { useEffect, useState, Suspense } from "react";
+import moment from "moment";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
-import MDDatePicker from "components_carrot/MDDatePicker";
 import MDTypography from "components_carrot/MDTypography";
-import MDButton from "components_carrot/MDButton";
-import MDInput from "components_carrot/MDInput";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "views/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "views/Navbars/DashboardNavbar";
 import Footer from "views/Footer";
-// import DataTable from "views/Tables/DataTable";
-import CarrotTable from "views/Tables/CarrotTable";
 
-// NewProduct page components
-import FormField from "layouts_carrot/ecommerce/products/edit-product/components/FormField";
-
-// Store
-import Agent from "utils/Agent";
-import AuthStore from "store/AuthStore";
-
-import { pageOptionInit, pageTotalInit } from "variables/constantPage"
-
-// // Data
-// import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
-import { useQuery } from "react-query";
-import { Suspense } from "react";
-import moment from "moment";
-
-import SearchBox from "views/Tables/SearchBox";
 import AppErrorBoundary from "error/AppErrorBoundary";
 import AppSkeleton from "skeleton/AppSkeleton";
 
+import CarrotTable from "views/Tables/CarrotTable";
+import SearchBox from "views/Tables/SearchBox";
+
+import { pageOptionInit, pageTotalInit } from "variables/constantPage"
 import { region } from "variables/constantList";
 
 const apiURL = "/ui/cs/customer";
@@ -61,13 +40,6 @@ const CustomerInfo = () => {
   const [pageOption, setPageOption] = useState(pageOptionInit);
   const [pageTotal, setPageTotal] = useState(pageTotalInit);
   const [rows, setRows] = useState([]);
-  const tableRef = useRef();
-
-  const searchClick = e => {
-    e.preventDefault();
-
-    tableRef.current.test();
-  }
 
   const searchDataInit = {
     startDate: moment().subtract(1, "months").set({
@@ -172,7 +144,6 @@ const CustomerInfo = () => {
                 </MDTypography>
               </MDBox>
               <CarrotTable
-                ref={tableRef}
                 entriesPerPage
                 searchURL={`${apiURL}/retrieve`}
                 table={table}
@@ -181,14 +152,6 @@ const CustomerInfo = () => {
                 cxmPageTotal={pageTotal}
                 cxmSetPageTotal={setPageTotal}
               />
-              <MDButton
-                variant="outlined"
-                color="info"
-                size="small"
-                onClick={searchClick}
-              >
-                조회
-              </MDButton>
             </Suspense>
           </AppErrorBoundary>
         </MDBox>

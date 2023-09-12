@@ -35,22 +35,7 @@ const CarrotTable = ({
   setCxmPageOption,
   cxmPageTotal,
   cxmSetPageTotal,
-}, ref) => {
-  useImperativeHandle(ref, () => ({
-    test
-  }));
-
-  const [param, setParam] = useState({
-    ...cxmPageOption,
-    pageNo: 0,
-  });
-
-  // const { data, refetch } = useQuery({
-  //   queryKey: param,
-  //   queryFn: () => Agent.requests.get(searchURL, param),
-  // });
-
-  const test = () => {console.log("test")};
+}) => {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
@@ -387,4 +372,4 @@ CarrotTable.propTypes = {
   noEndBorder: PropTypes.bool,
 };
 
-export default forwardRef(CarrotTable);
+export default CarrotTable;

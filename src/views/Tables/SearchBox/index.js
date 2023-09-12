@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 
 // @mui material components
@@ -28,19 +28,21 @@ const SearchBox = ({
   pageOption,
   setPageTotal,
 }) => {
-  const [param, setParam] = useState({
-    ...pageOption,
-    pageNo: 0,
-  });
-
-  const { data, refetch } = useQuery({
-    queryKey: param,
-    queryFn: () => Agent.requests.get(searchURL, param),
-  });
-
   const [searchData, onChangeInput, onChangeDate, onChangeSelect, setSearchData, reset] = useSearchData(
     searchDataInit
   );
+
+  const [param, setParam] = useState({
+    ...pageOption,
+    ...searchData,
+    pageNo: 0,
+  });
+
+  const { data, isSuccess, refetch } = useQuery({
+    queryKey: param,
+    queryFn: () => Agent.requests.get(searchURL, param),
+    enabled: false,
+  });
 
   const createSearchForm = () => {
     return searchForm.map((form) => {
@@ -122,22 +124,35 @@ const SearchBox = ({
     });
   };
 
-  useEffect(() => {
-    console.log("@@ searchbox1: useeffect");
-    setParam({...pageOption});
+  const searchBtn = () => {
     refetch();
+  };
+
+  useEffect(() => {
+    setParam((prev) => ({
+      ...prev,
+      ...searchData
+    }));
+  }, [searchData]);
+
+  useEffect(() => {
+    setParam((prev) => ({
+      ...prev,
+      ...pageOption
+    }));
   }, [pageOption]);
 
   useEffect(() => {
-    console.log("@@ searchbox2: useeffect");
-    setRows(data.content);
-    setPageTotal((prev) => ({
-      ...prev,
-      totalPages: data.totalPages,
-      totalElements: data.totalElements,
-      numberOfElements: data.numberOfElements,
-      empty: data.empty,
-    }));
+    if (isSuccess) {
+      setRows(data.content);
+      setPageTotal((prev) => ({
+        ...prev,
+        totalPages: data.totalPages,
+        totalElements: data.totalElements,
+        numberOfElements: data.numberOfElements,
+        empty: data.empty,
+      }));
+    }
   }, [data]);
 
   return(
@@ -151,7 +166,7 @@ const SearchBox = ({
             variant="outlined"
             color="info"
             size="small"
-            onClick={refetch}
+            onClick={searchBtn}
           >
             조회
           </MDButton>

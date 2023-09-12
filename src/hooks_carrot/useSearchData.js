@@ -16,9 +16,9 @@ const useSearchData = (initalForm) => {
     setSearchData((form) => ({ ...form, [key]: value }));
   }, []);
 
-  useEffect(() => {
-    console.log(searchData);
-  }, [searchData]);
+  // useEffect(() => {
+  //   console.log(searchData);
+  // }, [searchData]);
 
   const reset = useCallback(() => setSearchData(initalForm), [initalForm]);
 
