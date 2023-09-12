@@ -94,6 +94,10 @@
   ```
   yarn add moment
   ```
+- chart
+  ```
+  yarn add @nivo/core @nivo/bar
+  ```
 
 ## Directory Hierarchy
 ```bash
