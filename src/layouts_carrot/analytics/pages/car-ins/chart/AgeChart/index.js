@@ -4,17 +4,37 @@ import React, { useEffect, useState, Suspense } from "react";
 import PieChart from "views/Charts/PieChart";
 
 import pieChartData from "layouts_carrot/pages/charts/data/pieChartData";
+import { useQuery } from "react-query";
+import { aggbList } from "variables/constantList";
 
-const apiURL = "/ui/cs/customer";
+const apiURL = "/ui/analytics/age";
 
-const AgeChart = () => {
+const AgeChart = (
+  searchData,
+) => {
+
+  const [param, setParam] = useState({
+    ...searchData
+  });
+
+  const { data, isSuccess, refetch } = useQuery({
+    queryKey: param,
+    queryFn: () => Agent.requests.get(`${apiURL}/retrieve`, param),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      // TODO set chart data
+    }
+  }, [data]);
 
   return (
     <PieChart
       icon={{ color: "success", component: "donut_small" }}
-      title="Pie chart"
+      title="연령대"
       height="20rem"
-      description="Analytics Insights"
+      description=""
       chart={pieChartData}
     />
   );

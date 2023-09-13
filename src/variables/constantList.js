@@ -4,6 +4,7 @@ export const region = Object.freeze([
   { label: "부산", id: "02" },
 ]);
 
+// 시도 리스트
 export const sdList = Object.freeze([
   { label: "강원", id: "강원" },
   { label: "경기", id: "경기" },
@@ -24,6 +25,7 @@ export const sdList = Object.freeze([
   { label: "충북", id: "충북" },
 ]);
 
+// 나이구분 리스트
 export const aggbList = Object.freeze([
   { label: "10", id: "10" },
   { label: "20", id: "20" },
@@ -33,6 +35,7 @@ export const aggbList = Object.freeze([
   { label: "60", id: "60" },
 ]);
 
+// 제휴사명 리스트
 export const afccdNmList = Object.freeze([
   { label: "디마", id: "디마" },
   { label: "네이버", id: "네이버" },

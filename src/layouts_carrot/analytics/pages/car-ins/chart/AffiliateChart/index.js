@@ -4,17 +4,37 @@ import React, { useEffect, useState, Suspense } from "react";
 import HorizontalBarChart from "views/Charts/BarCharts/HorizontalBarChart";
 
 import horizontalBarChartData from "layouts_carrot/pages/charts/data/horizontalBarChartData";
+import { useQuery } from "react-query";
+import { afccdNmList } from "variables/constantList";
 
-const apiURL = "/ui/cs/customer";
+const apiURL = "/ui/analytics/affiliate";
 
-const AffiliateChart = () => {
+const AffiliateChart = (
+  searchData,
+) => {
+
+  const [param, setParam] = useState({
+    ...searchData
+  });
+
+  const { data, isSuccess, refetch } = useQuery({
+    queryKey: param,
+    queryFn: () => Agent.requests.get(`${apiURL}/retrieve`, param),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      // TODO set chart data
+    }
+  }, [data]);
 
   return (
     <HorizontalBarChart
       icon={{ color: "dark", component: "splitscreen" }}
-      title="Bar chart horizontal"
+      title="제휴사"
       height="45rem"
-      description="Sales related to age average"
+      description=""
       chart={horizontalBarChartData}
     />
   );
