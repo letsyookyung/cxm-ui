@@ -3,7 +3,6 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import HorizontalBarChart from "views/Charts/BarCharts/HorizontalBarChart";
 
-// import horizontalBarChartData from "layouts_carrot/pages/charts/data/horizontalBarChartData";
 import { useQuery } from "react-query";
 import { afccdNmList } from "variables/constantList";
 
@@ -34,6 +33,7 @@ const AffiliateChart = ({
     ],
   });
 
+  const [isFirst, setIsFirst] = useState(true);
   const [height, setHeight] = useState("40rem");
 
   useEffect(() => {
@@ -60,11 +60,15 @@ const AffiliateChart = ({
           },
         ]
       }));
-      setAfccdNmArray(afccdNmList.map((item) => {
-        return {label: item, id: item};
-      }));
-      const calcHeight = afccdNmList.length * 2 > 40 ? afccdNmList.length * 2 : 40;
-      setHeight(`${calcHeight}rem`);
+      if (isFirst) {
+        setAfccdNmArray(afccdNmList.map((item) => {
+          return {label: item, id: item};
+        }));
+        setIsFirst(false);
+
+        const calcHeight = afccdNmList.length * 2 > 40 ? afccdNmList.length * 2 : 40;
+        setHeight(`${calcHeight}rem`);
+      }
     }
   }, [data]);
 

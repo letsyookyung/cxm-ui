@@ -3,9 +3,7 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import PieChart from "views/Charts/PieChart";
 
-// import pieChartData from "layouts_carrot/pages/charts/data/pieChartData";
 import { useQuery } from "react-query";
-import { aggbList } from "variables/constantList";
 
 import Agent from "utils/Agent";
 
@@ -32,6 +30,8 @@ const AgeChart = ({
     },
   });
 
+  const [isFirst, setIsFirst] = useState(true);
+
   useEffect(() => {
     setParam(params)
   }, [params]);
@@ -53,7 +53,12 @@ const AgeChart = ({
           data: aggbCntList,
         },
       }));
-      // setAggbArray(aggbList);
+      if (isFirst) {
+        setAggbArray(aggbList.map((item) => {
+          return {label: item, id: item};
+        }));
+        setIsFirst(false);
+      }
     }
   }, [data]);
 

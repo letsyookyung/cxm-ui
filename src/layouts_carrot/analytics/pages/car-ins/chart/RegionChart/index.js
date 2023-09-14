@@ -3,9 +3,7 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import VerticalBarChart from "views/Charts/BarCharts/VerticalBarChart";
 
-// import verticalBarChartData from "layouts_carrot/pages/charts/data/verticalBarChartData";
 import { useQuery } from "react-query";
-import { sdList } from "variables/constantList";
 
 import Agent from "utils/Agent";
 
@@ -34,6 +32,8 @@ const RegionChart = ({
     ],
   });
 
+  const [isFirst, setIsFirst] = useState(true);
+
   useEffect(() => {
     setParam(params)
   }, [params]);
@@ -58,7 +58,12 @@ const RegionChart = ({
           },
         ]
       }));
-      // setSdArray(sdList);
+      if (isFirst) {
+        setSdArray(sdList.map((item) => {
+          return {label: item, id: item};
+        }));
+        setIsFirst(false);
+      }
     }
   }, [data]);
 

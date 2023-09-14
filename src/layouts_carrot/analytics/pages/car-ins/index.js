@@ -12,7 +12,6 @@ import Footer from "views/Footer";
 
 import AppErrorBoundary from "error/AppErrorBoundary";
 import AppSkeleton from "skeleton/AppSkeleton";
-import { sdList, aggbList, afccdNmList } from "variables/constantList";
 
 import SearchBox from "./SearchBox";
 import RegionChart from "./chart/RegionChart";
@@ -29,43 +28,35 @@ const CarIns = () => {
     afccdNm: null,
   };
 
-  const [sdArray, setSdArray] = useState(sdList);
-  const [aggbArray, setAggbArray] = useState(aggbList);
-  const [afccdNmArray, setAfccdNmArray] = useState(afccdNmList);
+  const [sdArray, setSdArray] = useState([]);
+  const [aggbArray, setAggbArray] = useState([]);
+  const [afccdNmArray, setAfccdNmArray] = useState([]);
 
   const searchForm = [
     {
       label: "시/도",
       key: "sd",
       type: "select",
-      options: [{ label: "전체", id: null }, ...sdList],
+      options: [{ label: "전체", id: null }, ...sdArray],
       defaultValue: "전체",
     },
     {
       label: "나이대",
       key: "aggb",
       type: "select",
-      options: [{ label: "전체", id: null }, ...aggbList],
+      options: [{ label: "전체", id: null }, ...aggbArray],
       defaultValue: "전체",
     },
     {
       label: "제휴사코드명",
-      key: "afccd_nm",
+      key: "afccdNm",
       type: "select",
-      options: [{ label: "전체", id: null }, ...afccdNmList],
+      options: [{ label: "전체", id: null }, ...afccdNmArray],
       defaultValue: "전체",
     },
   ];
 
   const [params, setParams] = useState({});
-
-  // useEffect(() => {
-  //   console.log(params)
-  // }, [params]);
-
-  // useEffect(() => {
-  //   console.log(afccdNmArray)
-  // }, [afccdNmArray]);
 
   return (
     <DashboardLayout>
