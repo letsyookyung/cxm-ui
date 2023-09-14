@@ -96,7 +96,7 @@
   ```
 - chart
   ```
-  yarn add @nivo/core @nivo/bar
+  yarn add @nivo/core @nivo/bar @nivo/pie
   ```
 
 ## Directory Hierarchy
