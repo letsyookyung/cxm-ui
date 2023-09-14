@@ -3,29 +3,62 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import VerticalBarChart from "views/Charts/BarCharts/VerticalBarChart";
 
-import verticalBarChartData from "layouts_carrot/pages/charts/data/verticalBarChartData";
+// import verticalBarChartData from "layouts_carrot/pages/charts/data/verticalBarChartData";
 import { useQuery } from "react-query";
 import { sdList } from "variables/constantList";
 
-const apiURL = "/ui/analytics/region";
+import Agent from "utils/Agent";
 
-const RegionChart = (
-  searchData,
-) => {
+const apiURL = "/ui/analytics/chart";
 
-  const [param, setParam] = useState({
-      ...searchData
+const RegionChart = ({
+  params,
+  setSdArray,
+}) => {
+  const path = `${apiURL}/region`
+  const [param, setParam] = useState({});
+  const { data, isSuccess, refetch } = useQuery({
+    queryKey: path + param,
+    queryFn: () => Agent.requests.get(path, param),
+    // enabled: false,
   });
 
-  const { data, isSuccess, refetch } = useQuery({
-    queryKey: param,
-    queryFn: () => Agent.requests.get(`${apiURL}/retrieve`, param),
-    enabled: false,
+  const [verticalBarChartData, setVerticalBarChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "시 / 도",
+        color: "dark",
+        data: [],
+      },
+    ],
   });
 
   useEffect(() => {
+    setParam(params)
+  }, [params]);
+
+  useEffect(() => {
+    refetch();
+  }, [param]);
+
+  useEffect(() => {
     if (isSuccess) {
-      // TODO set chart data
+      // console.log(data);
+      const sdList = data.map((item) => item.sd);
+      const sdCntList = data.map((item) => item.count);
+      setVerticalBarChartData((prev) => ({
+        ...prev,
+        labels: sdList,
+        datasets: [
+          {
+            label: "시 / 도",
+            color: "dark",
+            data: sdCntList,
+          },
+        ]
+      }));
+      // setSdArray(sdList);
     }
   }, [data]);
 

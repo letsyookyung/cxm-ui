@@ -15,7 +15,6 @@ import MDButton from "components_carrot/MDButton";
 // NewProduct page components
 import FormField from "layouts_carrot/ecommerce/products/edit-product/components/FormField";
 
-// import { useSearchData } from "hooks_carrot";
 import useSearchData from "hooks_carrot/useSearchData";
 import { useQuery } from "react-query";
 import Agent from "utils/Agent";
@@ -23,22 +22,11 @@ import Agent from "utils/Agent";
 const SearchBox = ({
   searchDataInit,
   searchForm,
+  setParams,
 }) => {
   const [searchData, onChangeInput, onChangeDate, onChangeSelect, setSearchData, reset] = useSearchData(
     searchDataInit
   );
-
-  // const [param, setParam] = useState({
-  //   ...pageOption,
-  //   ...searchData,
-  //   pageNo: 0,
-  // });
-
-  // const { data, isSuccess, refetch } = useQuery({
-  //   queryKey: param,
-  //   queryFn: () => Agent.requests.get(searchURL, param),
-  //   enabled: false,
-  // });
 
   const createSearchForm = () => {
     return searchForm.map((form) => {
@@ -104,6 +92,12 @@ const SearchBox = ({
             <Autocomplete
               disableClearable
               options={form.options}
+              defaultValue={form.defaultValue}
+              isOptionEqualToValue={(option, value) => {
+                // console.log(option);
+                // console.log(value);
+                return value.id ? option.label === value.label : option.label === value;
+              }}
               onChange={(event, newValue) => {
                 const item = form.options.find((item) => item.label === newValue.label);
                 onChangeSelect(form.key, item?.id);
@@ -121,35 +115,15 @@ const SearchBox = ({
   };
 
   const searchBtn = () => {
-    // refetch();
+    setParams((prev) => ({
+      ...prev,
+      ...searchData
+    }));
   };
 
-  // useEffect(() => {
-  //   setParam((prev) => ({
-  //     ...prev,
-  //     ...searchData
-  //   }));
-  // }, [searchData]);
-
-  // useEffect(() => {
-  //   setParam((prev) => ({
-  //     ...prev,
-  //     ...pageOption
-  //   }));
-  // }, [pageOption]);
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setRows(data.content);
-  //     setPageTotal((prev) => ({
-  //       ...prev,
-  //       totalPages: data.totalPages,
-  //       totalElements: data.totalElements,
-  //       numberOfElements: data.numberOfElements,
-  //       empty: data.empty,
-  //     }));
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    searchBtn();
+  }, [searchData]);
 
   return(
     <Card>
@@ -158,14 +132,14 @@ const SearchBox = ({
         {createSearchForm()}
         </Grid>
         <Grid container spacing={1} p={1} sx={{ flexDirection: "row-reverse" }} >
-          <MDButton
+          {/* <MDButton
             variant="outlined"
             color="info"
             size="small"
             onClick={searchBtn}
           >
             조회
-          </MDButton>
+          </MDButton> */}
         </Grid>
       </MDBox>
     </Card>

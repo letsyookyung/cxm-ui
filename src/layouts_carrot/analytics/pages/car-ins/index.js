@@ -10,17 +10,9 @@ import DashboardLayout from "views/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "views/Navbars/DashboardNavbar";
 import Footer from "views/Footer";
 
-import VerticalBarChart from "views/Charts/BarCharts/VerticalBarChart";
-import HorizontalBarChart from "views/Charts/BarCharts/HorizontalBarChart";
-import PieChart from "views/Charts/PieChart";
-
 import AppErrorBoundary from "error/AppErrorBoundary";
 import AppSkeleton from "skeleton/AppSkeleton";
 import { sdList, aggbList, afccdNmList } from "variables/constantList";
-
-import verticalBarChartData from "layouts_carrot/pages/charts/data/verticalBarChartData";
-import horizontalBarChartData from "layouts_carrot/pages/charts/data/horizontalBarChartData";
-import pieChartData from "layouts_carrot/pages/charts/data/pieChartData";
 
 import SearchBox from "./SearchBox";
 import RegionChart from "./chart/RegionChart";
@@ -32,31 +24,48 @@ const apiURL = "/ui/cs/customer";
 const CarIns = () => {
   
   const searchDataInit = {
-    ctmno: "",
-    age: "",
-    region: null,
+    sd: null,
+    aggb: null,
+    afccdNm: null,
   };
+
+  const [sdArray, setSdArray] = useState(sdList);
+  const [aggbArray, setAggbArray] = useState(aggbList);
+  const [afccdNmArray, setAfccdNmArray] = useState(afccdNmList);
 
   const searchForm = [
     {
       label: "시/도",
       key: "sd",
       type: "select",
-      options: [{ label: "선택 안함", id: null }, ...sdList],
+      options: [{ label: "전체", id: null }, ...sdList],
+      defaultValue: "전체",
     },
     {
       label: "나이대",
       key: "aggb",
       type: "select",
-      options: [{ label: "선택 안함", id: null }, ...aggbList],
+      options: [{ label: "전체", id: null }, ...aggbList],
+      defaultValue: "전체",
     },
     {
       label: "제휴사코드명",
       key: "afccd_nm",
       type: "select",
-      options: [{ label: "선택 안함", id: null }, ...afccdNmList],
+      options: [{ label: "전체", id: null }, ...afccdNmList],
+      defaultValue: "전체",
     },
   ];
+
+  const [params, setParams] = useState({});
+
+  // useEffect(() => {
+  //   console.log(params)
+  // }, [params]);
+
+  // useEffect(() => {
+  //   console.log(afccdNmArray)
+  // }, [afccdNmArray]);
 
   return (
     <DashboardLayout>
@@ -65,7 +74,7 @@ const CarIns = () => {
           <SearchBox
             searchDataInit={searchDataInit}
             searchForm={searchForm}
-            // searchURL={`${apiURL}/retrieve`}
+            setParams={setParams}
           />
           <MDBox p={3}>
             {/* <MDTypography variant="h5" fontWeight="medium">
@@ -79,28 +88,20 @@ const CarIns = () => {
                 <Grid item xs={12} md={12}>
                   <AppErrorBoundary>
                     <Suspense fallback={<AppSkeleton />}>
-                      <RegionChart/>
-                      {/* <VerticalBarChart
-                        icon={{ color: "dark", component: "leaderboard" }}
-                        title="Bar chart"
-                        height="20rem"
-                        description="Sales related to age average"
-                        chart={verticalBarChartData}
-                      /> */}
+                      <RegionChart
+                        params={params}
+                        setSdArray={setSdArray}
+                      />
                     </Suspense>
                   </AppErrorBoundary>
                 </Grid>
                 <Grid item xs={12} md={12}>
                   <AppErrorBoundary>
                     <Suspense fallback={<AppSkeleton />}>
-                      <AgeChart/>
-                      {/* <PieChart
-                        icon={{ color: "success", component: "donut_small" }}
-                        title="Pie chart"
-                        height="20rem"
-                        description="Analytics Insights"
-                        chart={pieChartData}
-                      /> */}
+                      <AgeChart
+                        params={params}
+                        setAggbArray={setAggbArray}
+                      />
                     </Suspense>
                   </AppErrorBoundary>
                 </Grid>
@@ -108,14 +109,10 @@ const CarIns = () => {
               <Grid item xs={12} md={6} >
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
-                    <AffiliateChart/>
-                    {/* <HorizontalBarChart
-                      icon={{ color: "dark", component: "splitscreen" }}
-                      title="Bar chart horizontal"
-                      height="45rem"
-                      description="Sales related to age average"
-                      chart={horizontalBarChartData}
-                    /> */}
+                    <AffiliateChart
+                      params={params}
+                      setAfccdNmArray={setAfccdNmArray}
+                    />
                   </Suspense>
                 </AppErrorBoundary>
               </Grid>

@@ -3,29 +3,68 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import HorizontalBarChart from "views/Charts/BarCharts/HorizontalBarChart";
 
-import horizontalBarChartData from "layouts_carrot/pages/charts/data/horizontalBarChartData";
+// import horizontalBarChartData from "layouts_carrot/pages/charts/data/horizontalBarChartData";
 import { useQuery } from "react-query";
 import { afccdNmList } from "variables/constantList";
 
-const apiURL = "/ui/analytics/affiliate";
+import Agent from "utils/Agent";
 
-const AffiliateChart = (
-  searchData,
-) => {
+const apiURL = "/ui/analytics/chart";
 
-  const [param, setParam] = useState({
-    ...searchData
-  });
-
+const AffiliateChart = ({
+  params,
+  setAfccdNmArray,
+}) => {
+  const path = `${apiURL}/affiliate`
+  const [param, setParam] = useState({});
   const { data, isSuccess, refetch } = useQuery({
-    queryKey: param,
-    queryFn: () => Agent.requests.get(`${apiURL}/retrieve`, param),
-    enabled: false,
+    queryKey: path + param,
+    queryFn: () => Agent.requests.get(path, param),
+    // enabled: false,
   });
+
+  const [horizontalBarChartData, setHorizontalBarChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "제휴사",
+        color: "dark",
+        data: [],
+      },
+    ],
+  });
+
+  const [height, setHeight] = useState("40rem");
+
+  useEffect(() => {
+    setParam(params)
+  }, [params]);
+
+  useEffect(() => {
+    refetch();
+  }, [param]);
 
   useEffect(() => {
     if (isSuccess) {
-      // TODO set chart data
+      // console.log(data);
+      const afccdNmList = data.map((item) => item.afccdNm);
+      const afccdNmCntList = data.map((item) => item.count);
+      setHorizontalBarChartData((prev) => ({
+        ...prev,
+        labels: afccdNmList,
+        datasets: [
+          {
+            label: "제휴사",
+            color: "dark",
+            data: afccdNmCntList,
+          },
+        ]
+      }));
+      setAfccdNmArray(afccdNmList.map((item) => {
+        return {label: item, id: item};
+      }));
+      const calcHeight = afccdNmList.length * 2 > 40 ? afccdNmList.length * 2 : 40;
+      setHeight(`${calcHeight}rem`);
     }
   }, [data]);
 
@@ -33,7 +72,7 @@ const AffiliateChart = (
     <HorizontalBarChart
       icon={{ color: "dark", component: "splitscreen" }}
       title="제휴사"
-      height="45rem"
+      height={height}
       description=""
       chart={horizontalBarChartData}
     />
