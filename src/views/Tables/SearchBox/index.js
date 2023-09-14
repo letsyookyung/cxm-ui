@@ -108,6 +108,10 @@ const SearchBox = ({
             <Autocomplete
               disableClearable
               options={form.options}
+              defaultValue={form.defaultValue}
+              isOptionEqualToValue={(option, value) => {
+                return value.id ? option.label === value.label : option.label === value;
+              }}
               onChange={(event, newValue) => {
                 const item = form.options.find((item) => item.label === newValue.label);
                 onChangeSelect(form.key, item?.id);

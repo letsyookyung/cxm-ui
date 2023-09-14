@@ -94,10 +94,6 @@ const SearchBox = ({
               options={form.options}
               defaultValue={form.defaultValue}
               isOptionEqualToValue={(option, value) => {
-                // console.log("-------");
-                // console.log(option);
-                // console.log(value);
-                // console.log("-------");
                 return value.id ? option.label === value.label : option.label === value;
               }}
               onChange={(event, newValue) => {
