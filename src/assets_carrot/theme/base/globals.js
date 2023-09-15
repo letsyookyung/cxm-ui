@@ -15,6 +15,7 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 PRO React Base Styles
 import colors from "assets_carrot/theme/base/colors";
+import "font/fonts.css";
 
 const { info, dark } = colors;
 
