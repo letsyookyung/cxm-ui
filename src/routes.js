@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 PRO React layouts
-import Analytics from "layouts_carrot/dashboards/analytics";
+import Analytics from "layouts_carrot/dashboards";
 import DataTables from "layouts_carrot/cs/customer-info";
 import CarIns from "layouts_carrot/analytics/pages/car-ins";
 
@@ -27,7 +27,7 @@ const routes = [
     name: "대시보드",
     key: "dashboards",
     icon: <Icon fontSize="medium">dashboard</Icon>,
-    route: "/dashboards/analytics",
+    route: "/dashboards",
     component: <Analytics />,
     noCollapse: true,
     role: "ROLE_DASHBOARD",
@@ -50,14 +50,14 @@ const routes = [
   // },
   {
     type: "collapse",
-    name: "analytics",
+    name: "분석",
     key: "analytics",
     icon: <AnalyticsIcon fontSize="medium" />,
     role: "ROLE_ANALYTICS",
     collapse: [
       {
-        name: "자동차보험 분석",
-        key: "car-ins-analytics",
+        name: "자동차보험",
+        key: "car-ins",
         route: "/analytics/car-ins",
         component: <CarIns />,
         role: "ROLE_ANALYTICS",

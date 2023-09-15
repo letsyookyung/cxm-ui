@@ -133,7 +133,7 @@ const App = () => {
       />
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
+        <Route path="*" element={<Navigate to="/dashboards" />} />
       </Routes>
     </>
   )}

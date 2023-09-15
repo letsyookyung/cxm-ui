@@ -28,15 +28,15 @@ class AuthClass {
   }
 
   *logout() {
+    UserStore.forgetUser();
+    this.setAccessToken(undefined);
+    this.setRefreshToken(undefined);
     try {
       yield Agent.authRequests.put("/auth/sso/logout");
     } catch(error) {
       // session.invalidate() failure
       console.log("sso logout failure.");
     }
-    UserStore.forgetUser();
-    this.setAccessToken(undefined);
-    this.setRefreshToken(undefined);
     window.location.href = `${REACT_APP_HISTORY_PREFIX}/`;
   }
 

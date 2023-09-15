@@ -26,6 +26,8 @@ import RootErrorBoundary from "error/RootErrorBoundary";
 import RootSkeleton from "skeleton/RootSkeleton"
 import Auth from "main/Auth";
 
+const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
+
 const container = document.getElementById("app");
 const root = createRoot(container);
 const queryClient = new QueryClient({
@@ -51,7 +53,7 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <RootErrorBoundary>
       <Suspense fallback={<RootSkeleton />}>
-        <BrowserRouter>
+        <BrowserRouter basename={REACT_APP_HISTORY_PREFIX}>
           <MaterialUIControllerProvider>
             <Auth />
           </MaterialUIControllerProvider>
