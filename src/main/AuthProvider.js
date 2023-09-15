@@ -64,35 +64,39 @@ const AuthProvider = ({ children }) => {
           // 인증 처리
           const resultCode = data.resultCode ? data.resultCode : "";
           const ssoId = data.ssoId ? data.ssoId : "";
-          // SSO 로그인 결과로 JWT 로그인 시도
-          jwtLogin(resultCode, ssoId);
+          const redirectUrl = data.redirectUrl ? data.redirectUrl : "";
+          // SSO 로그인 결과가 성공인 경우 === 1
+          if (resultCode === "1") {
+            // SSO 로그인 결과로 JWT 로그인 시도
+            jwtLogin(resultCode, ssoId);
+          } else {
+            console.log(`SSO 로그인 실패, ssoId: ${ssoId}, resultCode: ${resultCode}, redirectUrl: ${redirectUrl}`);
+            if (redirectUrl) {
+              window.location.href = redirectUrl;
+              // SSO 로그인 페이지로 리다이렉트 된 상태
+            }
+          }
         },
       });
   };
 
   const jwtLogin = (resultCode, ssoId) => {
-    // SSO 로그인 결과가 성공인 경우 === 1
-    if (resultCode === "1") {
       // JWT 로그인 시도
-      const payload = {
-        id: ssoId,
-        realm: REACT_APP_AUTH_REALM,
-      };
-      useJwtLogin.mutate(payload, {
-        onSuccess: (data) => {
-          console.log("@@ login success");
-          console.log(data);
-          // 인증 처리
-          AuthStore.setAccessToken(data.access_token);
-          AuthStore.setRefreshToken(data.refresh_token);
-          UserStore.pullUser(AuthStore.accessToken);
-          UserStore.initHistory();
-        },
-      });
-    } else {
-      console.log(`SSO 로그인 실패, ssoId: ${ssoId}, resultCode: ${resultCode}`);
-      // SSO 로그인 페이지로 리다이렉트 된 상태
-    }
+    const payload = {
+      id: ssoId,
+      realm: REACT_APP_AUTH_REALM,
+    };
+    useJwtLogin.mutate(payload, {
+      onSuccess: (data) => {
+        console.log("@@ login success");
+        console.log(data);
+        // 인증 처리
+        AuthStore.setAccessToken(data.access_token);
+        AuthStore.setRefreshToken(data.refresh_token);
+        UserStore.pullUser(AuthStore.accessToken);
+        UserStore.initHistory();
+      },
+    });
   };
 
   useEffect(() => {

@@ -12,6 +12,7 @@
     "@fullcalendar/interaction": "6.1.6",
     "@fullcalendar/react": "6.1.6",
     "@fullcalendar/timegrid": "6.1.6",
+    "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "5.11.16",
     "@mui/material": "5.12.3",
     "@nivo/bar": "^0.83.0",

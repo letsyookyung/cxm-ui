@@ -98,6 +98,10 @@
   ```
   yarn add @nivo/core @nivo/bar @nivo/pie
   ```
+- styles
+  ```
+  yarn add @material-ui/icons
+  ```
 
 ## Directory Hierarchy
 ```bash

@@ -6,6 +6,7 @@ const API_ROOT = window.runConfig.REACT_APP_API_URL;
 const AUTH_BAKCEND_ROOT = `${window.runConfig.REACT_APP_AUTH_URL}/backend`;
 
 axios.defaults.paramsSerializer = (params) => qs.stringify(params);
+axios.defaults.withCredentials = true;
 
   const headers = () => {
     const at = window.localStorage.getItem("cxmAccessToken");
