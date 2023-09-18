@@ -41,3 +41,13 @@ export const afccdNmList = Object.freeze([
   { label: "네이버", id: "네이버" },
   { label: "핀크럭스", id: "핀크럭스" },
 ]);
+
+// 색상 리스트
+export const colorHexList = Object.freeze([
+  "#e91e63", "#7b809a", "#1A73E8", "#4CAF50", "#fb8c00", "#f44335", "#f0f2f5", "#344767", 
+]);
+
+export const colorHslList = Object.freeze([
+  "hsl(340, 82%, 52%)", "hsl(230, 13%, 54%)", "hsl(214, 82%, 51%)", "hsl(122, 39%, 49%)",
+  "hsl(33, 100%, 49%)", "hsl(4, 90%, 58%)", "hsl(216, 20%, 95%)", "hsl(218, 33%, 30%)", 
+]);

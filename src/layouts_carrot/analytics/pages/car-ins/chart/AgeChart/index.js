@@ -1,12 +1,13 @@
 import React, { useEffect, useState, Suspense } from "react";
 
 // Material Dashboard 2 PRO React examples
-// import PieChart from "views/Charts/PieChart";
 import DoughnutChart from "views/NivoCharts/DoughnutChart";
 
 import { useQuery } from "react-query";
 
 import Agent from "utils/Agent";
+
+import { colorHslList } from "variables/constantList";
 
 const apiURL = "/ui/analytics/chart";
 
@@ -22,45 +23,13 @@ const AgeChart = ({
     // enabled: false,
   });
 
-  // const [pieChartData, setPieChartData] = useState({
-  //   labels: [],
-  //   datasets: {
-  //     label: "연령대",
-  //     backgroundColors: [],
-  //     data: [],
-  //   },
-  // });
   const [pieChartData, setPieChartData] = useState([
     {
-      "id": "elixir",
-      "label": "elixir",
-      "value": 593,
+      "id": "",
+      "label": "",
+      "value": 0,
       "color": "hsl(346, 70%, 50%)"
     },
-    {
-      "id": "go",
-      "label": "go",
-      "value": 403,
-      "color": "hsl(316, 70%, 50%)"
-    },
-    {
-      "id": "haskell",
-      "label": "haskell",
-      "value": 529,
-      "color": "hsl(200, 70%, 50%)"
-    },
-    {
-      "id": "sass",
-      "label": "sass",
-      "value": 578,
-      "color": "hsl(178, 70%, 50%)"
-    },
-    {
-      "id": "ruby",
-      "label": "ruby",
-      "value": 549,
-      "color": "hsl(275, 70%, 50%)"
-    }
   ]);
 
   const [isFirst, setIsFirst] = useState(true);
@@ -82,16 +51,16 @@ const AgeChart = ({
       const aggbCntTotal = aggbCntList.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
-      console.log(aggbCntList);
       setTitle(`연령대 (전체: ${aggbCntTotal})`);
-      setPieChartData((prev) => ({
-        labels: aggbList,
-        datasets: {
-          label: "명",
-          backgroundColors: ["info", "primary", "dark", "secondary", "primary", "secondary"],
-          data: aggbCntList,
-        },
-      }));
+      const chartData = data.map((item, index) => {
+        return {
+          "id": item.aggb == 60 ? `${item.aggb}+ 대` : `${item.aggb} 대`,
+          "label": item.aggb == 60 ? `${item.aggb}+ 대` : `${item.aggb} 대`,
+          "value": item.count,
+          "color": colorHslList[index % colorHslList.length],
+        };
+      });
+      setPieChartData((prev) => (chartData));
       if (isFirst) {
         setAggbArray(aggbList.map((item) => {
           return {label: item, id: item};
@@ -101,18 +70,11 @@ const AgeChart = ({
     }
   }, [data]);
 
-  // <PieChart
-  //   icon={{ color: "success", component: "donut_small" }}
-  //   title={title}
-  //   height="20rem"
-  //   description=""
-  //   chart={pieChartData}
-  // />
   return (
     <DoughnutChart
       icon={{ color: "success", component: "donut_small" }}
       title={title}
-      height="20rem"
+      height="25rem"
       description=""
       chart={pieChartData}
     />

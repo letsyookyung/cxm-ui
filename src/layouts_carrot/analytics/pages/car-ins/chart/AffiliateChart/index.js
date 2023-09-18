@@ -34,6 +34,7 @@ const AffiliateChart = ({
   });
 
   const [isFirst, setIsFirst] = useState(true);
+  const [title, setTitle] = useState("제휴사");
   const [height, setHeight] = useState("40rem");
 
   useEffect(() => {
@@ -49,6 +50,10 @@ const AffiliateChart = ({
       // console.log(data);
       const afccdNmList = data.map((item) => item.afccdNm);
       const afccdNmCntList = data.map((item) => item.count);
+      const afccdNmCntTotal = afccdNmCntList.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      },0);
+      setTitle(`제휴사 (전체: ${afccdNmCntTotal})`);
       setHorizontalBarChartData((prev) => ({
         ...prev,
         labels: afccdNmList,
@@ -75,7 +80,7 @@ const AffiliateChart = ({
   return (
     <HorizontalBarChart
       icon={{ color: "dark", component: "splitscreen" }}
-      title="제휴사"
+      title={title}
       height={height}
       description=""
       chart={horizontalBarChartData}

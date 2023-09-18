@@ -33,6 +33,7 @@ const RegionChart = ({
   });
 
   const [isFirst, setIsFirst] = useState(true);
+  const [title, setTitle] = useState("시 / 도");
 
   useEffect(() => {
     setParam(params)
@@ -47,6 +48,10 @@ const RegionChart = ({
       // console.log(data);
       const sdList = data.map((item) => item.sd);
       const sdCntList = data.map((item) => item.count);
+      const sdCntTotal = sdCntList.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      },0);
+      setTitle(`시 / 도 (전체: ${sdCntTotal})`);
       setVerticalBarChartData((prev) => ({
         ...prev,
         labels: sdList,
@@ -70,8 +75,8 @@ const RegionChart = ({
   return (
     <VerticalBarChart
       icon={{ color: "dark", component: "leaderboard" }}
-      title="시 / 도"
-      height="20rem"
+      title={title}
+      height="25rem"
       description=""
       chart={verticalBarChartData}
     />

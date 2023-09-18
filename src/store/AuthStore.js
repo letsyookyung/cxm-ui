@@ -1,4 +1,4 @@
-import { flow, makeAutoObservable } from "mobx";
+import { flow, makeAutoObservable, flowResult } from "mobx";
 import Agent from "utils/Agent";
 import UserStore from "./UserStore";
 
@@ -27,6 +27,7 @@ class AuthClass {
     else window.localStorage.removeItem("cxmRefreshToken");
   }
 
+  // generator function
   *logout() {
     UserStore.forgetUser();
     this.setAccessToken(undefined);
