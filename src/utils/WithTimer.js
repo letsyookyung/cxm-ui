@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 import AuthStore from "store/AuthStore";
+import { flowResult } from "mobx";
 
 const { REACT_APP_SIGNOUT_TIME } = window.runConfig;
 const signoutTime = REACT_APP_SIGNOUT_TIME ?? 1000 * 60 * 60 * 8;
@@ -73,12 +74,12 @@ const WithTimer = ({ children }) => {
     setTimer();
   };
 
-  const resetStore = () => {
-    AuthStore.logout();
+  const resetStore = async () => {
+    await flowResult(AuthStore.logout());
   };
 
-  const logout = () => {
-    AuthStore.logout();
+  const logout = async () => {
+    await flowResult(AuthStore.logout());
   };
 
   const keepLogin = () => {

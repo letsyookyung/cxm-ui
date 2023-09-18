@@ -59,6 +59,7 @@ import {
 import { observer } from "mobx-react-lite";
 import UserStore from "store/UserStore";
 import AuthStore from "store/AuthStore";
+import { flowResult } from "mobx";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -98,6 +99,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
+  const logout = async () => {
+    await flowResult(AuthStore.logout());
+  };
+
   // Render the notifications menu
   const renderMenu = () => (
     <Menu
@@ -111,7 +116,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
       onClose={handleCloseMenu}
       sx={{ mt: 2 }}
     >
-      <NotificationItem icon={<Icon>logout</Icon>} title="Log Out" onClick={AuthStore.logout} />
+      <NotificationItem icon={<Icon>logout</Icon>} title="Log Out" onClick={logout} />
     </Menu>
   );
 

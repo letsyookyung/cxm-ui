@@ -16,12 +16,17 @@ import { ErrorBoundary } from "react-error-boundary";
 import { isAxiosError } from "axios";
 
 import AuthStore from "store/AuthStore";
+import { flowResult } from "mobx";
 
 const AppErrorBoundary = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
   // const navigate = useNavigate();
   const [errorTitle, setErrorTitle] = useState("");
   const [errorDetail, setErrorDetail] = useState("");
+
+  const tokenRefreshRequest = async () => {
+    await flowResult(AuthStore.tokenRefreshRequest());
+  };
 
   // 에러 화면
   const authFallback = ({ error, resetErrorBoundary }) => (
@@ -75,7 +80,7 @@ const AppErrorBoundary = ({ children }) => {
             switch (errorStatus) {
               case 401:
                 // 권한 오류의 경우 RT 로 AT 재발급
-                AuthStore.tokenRefreshRequest();
+                tokenRefreshRequest();
                 title = "인가되지 않은 접근입니다.";
                 break;
               case 400:
