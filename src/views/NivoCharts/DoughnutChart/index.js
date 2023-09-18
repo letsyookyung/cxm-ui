@@ -63,7 +63,7 @@ function DoughnutChart({ icon, title, description, height, chart }) {
                 data={chart}
                 colors={{ scheme: 'nivo' }}
                 // colors={colorHslList}
-                margin={{ top: 20, right: 80, bottom: 20, left: 0 }}
+                margin={{ top: 10, right: 80, bottom: 30, left: 0 }}
                 innerRadius={0.5}
                 padAngle={0.7}
                 cornerRadius={3}
