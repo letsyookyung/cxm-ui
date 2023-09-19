@@ -21,6 +21,8 @@ const AgeChart = ({
     queryKey: path + param,
     queryFn: () => Agent.requests.get(path, param),
     // enabled: false,
+    cacheTime: 60 * 60 * 1000, // 1시간 동안 캐시로 저장
+    staleTime: 60 * 60 * 1000, // 1시간 이내에는 캐시된 결과를 사용
   });
 
   const [pieChartData, setPieChartData] = useState([
