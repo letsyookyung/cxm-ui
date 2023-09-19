@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -25,7 +25,11 @@ import MDBox from "components_carrot/MDBox";
 import DashboardLayout from "views/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "views/Navbars/DashboardNavbar";
 import Footer from "views/Footer";
-import ComplexStatisticsCard from "views/Cards/StatisticsCards/ComplexStatisticsCard";
+import AppErrorBoundary from "error/AppErrorBoundary";
+import AppSkeleton from "skeleton/AppSkeleton";
+import CustomerCountCard from "./cards/CustomerCountCard";
+import CarInsCountCard from "./cards/CarInsCountCard";
+import CarInsCustomerCountCard from "./cards/CarInsCustomerCountCard";
 
 function Analytics() {
   return (
@@ -36,61 +40,35 @@ function Analytics() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={3}>
               <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  color="dark"
-                  icon="weekend"
-                  title="Bookings"
-                  count={281}
-                  percentage={{
-                    color: "success",
-                    amount: "+55%",
-                    label: "than lask week",
-                  }}
-                />
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <CustomerCountCard
+                      title="총 고객 수"
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  icon="leaderboard"
-                  title="Today's Users"
-                  count="2,300"
-                  percentage={{
-                    color: "success",
-                    amount: "+3%",
-                    label: "than last month",
-                  }}
-                />
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <CarInsCountCard
+                      title="자동차보험 계약 수"
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  color="success"
-                  icon="store"
-                  title="Revenue"
-                  count="34k"
-                  percentage={{
-                    color: "success",
-                    amount: "+1%",
-                    label: "than yesterday",
-                  }}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  color="primary"
-                  icon="person_add"
-                  title="Followers"
-                  count="+91"
-                  percentage={{
-                    color: "success",
-                    amount: "",
-                    label: "Just updated",
-                  }}
-                />
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <CarInsCustomerCountCard
+                      title="자동차보험 가입 고객 수"
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
               </MDBox>
             </Grid>
           </Grid>
