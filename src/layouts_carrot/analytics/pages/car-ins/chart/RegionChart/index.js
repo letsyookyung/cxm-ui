@@ -48,25 +48,25 @@ const RegionChart = ({
   useEffect(() => {
     if (isSuccess) {
       // console.log(data);
-      const sdList = data.map((item) => item.sd);
-      const sdCntList = data.map((item) => item.count);
-      const sdCntTotal = sdCntList.reduce((accumulator, currentValue) => {
+      const nameList = data.filter((item) => item?.name != null).map((item) => item.name);
+      const countList = data.filter((item) => item?.count != null).map((item) => item.count);
+      const countTotal = countList.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
-      setTitle(`시 / 도 (전체: ${sdCntTotal})`);
+      setTitle(`시 / 도 (전체: ${countTotal.toLocaleString()})`);
       setVerticalBarChartData((prev) => ({
         ...prev,
-        labels: sdList,
+        labels: nameList,
         datasets: [
           {
             label: "시 / 도",
             color: "dark",
-            data: sdCntList,
+            data: countList,
           },
         ]
       }));
       if (isFirst) {
-        setSdArray(sdList.map((item) => {
+        setSdArray(nameList.map((item) => {
           return {label: item, id: item};
         }));
         setIsFirst(false);
@@ -76,7 +76,7 @@ const RegionChart = ({
 
   return (
     <VerticalBarChart
-      icon={{ color: "dark", component: "leaderboard" }}
+      icon={{ color: "info", component: "map" }}
       title={title}
       height="25rem"
       description=""
@@ -84,5 +84,6 @@ const RegionChart = ({
     />
   );
 }
+
 
 export default RegionChart;

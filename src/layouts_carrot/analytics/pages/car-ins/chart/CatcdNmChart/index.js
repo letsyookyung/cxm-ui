@@ -1,20 +1,19 @@
 import React, { useEffect, useState, Suspense } from "react";
 
 // Material Dashboard 2 PRO React examples
-import HorizontalBarChart from "views/Charts/BarCharts/HorizontalBarChart";
+import VerticalBarChart from "views/Charts/BarCharts/VerticalBarChart";
 
 import { useQuery } from "react-query";
-import { afccdNmList } from "variables/constantList";
 
 import Agent from "utils/Agent";
 
 const apiURL = "/ui/analytics/chart";
 
-const AffiliateChart = ({
+const CatcdNmChart = ({
   params,
-  setAfccdNmArray,
+  setCatcdNmArray,
 }) => {
-  const path = `${apiURL}/affiliate`
+  const path = `${apiURL}/car-type`
   const [param, setParam] = useState({});
   const { data, isSuccess, refetch } = useQuery({
     queryKey: path + param,
@@ -24,11 +23,11 @@ const AffiliateChart = ({
     staleTime: 60 * 60 * 1000, // 1시간 이내에는 캐시된 결과를 사용
   });
 
-  const [horizontalBarChartData, setHorizontalBarChartData] = useState({
+  const [verticalBarChartData, setVerticalBarChartData] = useState({
     labels: [],
     datasets: [
       {
-        label: "제휴사",
+        label: "차종",
         color: "dark",
         data: [],
       },
@@ -36,8 +35,7 @@ const AffiliateChart = ({
   });
 
   const [isFirst, setIsFirst] = useState(true);
-  const [title, setTitle] = useState("제휴사");
-  const [height, setHeight] = useState("40rem");
+  const [title, setTitle] = useState("차종");
 
   useEffect(() => {
     setParam(params)
@@ -55,39 +53,36 @@ const AffiliateChart = ({
       const countTotal = countList.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
-      setTitle(`제휴사 (전체: ${countTotal.toLocaleString()})`);
-      setHorizontalBarChartData((prev) => ({
+      setTitle(`차종 (전체: ${countTotal.toLocaleString()})`);
+      setVerticalBarChartData((prev) => ({
         ...prev,
         labels: nameList,
         datasets: [
           {
-            label: "제휴사",
+            label: "차종",
             color: "dark",
             data: countList,
           },
         ]
       }));
       if (isFirst) {
-        setAfccdNmArray(nameList.map((item) => {
+        setCatcdNmArray(nameList.map((item) => {
           return {label: item, id: item};
         }));
         setIsFirst(false);
-
-        const calcHeight = nameList.length * 2 > 40 ? nameList.length * 2 : 40;
-        setHeight(`${calcHeight}rem`);
       }
     }
   }, [data]);
 
   return (
-    <HorizontalBarChart
-      icon={{ color: "secondary", component: "business" }}
+    <VerticalBarChart
+      icon={{ color: "success", component: "category" }}
       title={title}
-      height={height}
+      height="25rem"
       description=""
-      chart={horizontalBarChartData}
+      chart={verticalBarChartData}
     />
   );
 }
 
-export default AffiliateChart;
+export default CatcdNmChart;

@@ -14,10 +14,21 @@ import Footer from "views/Footer";
 import AppErrorBoundary from "error/AppErrorBoundary";
 import AppSkeleton from "skeleton/AppSkeleton";
 
+import CustomerCountCard from "layouts_carrot/dashboards/cards/CustomerCountCard";
+import CarInsCountCard from "layouts_carrot/dashboards/cards/CarInsCountCard";
+import CarInsCustomerCountCard from "layouts_carrot/dashboards/cards/CarInsCustomerCountCard";
 import SearchBox from "./SearchBox";
 import RegionChart from "./chart/RegionChart";
 import AgeChart from "./chart/AgeChart";
+import SexcdChart from "./chart/SexcdChart";
 import AffiliateChart from "./chart/AffiliateChart";
+import CatcdNmChart from "./chart/CatcdNmChart";
+import CramtChart from "./chart/CramtChart";
+import CrPrdCmpcdNmChart from "./chart/CrPrdCmpcdNmChart";
+import DcXcGrdcdChart from "./chart/DcXcGrdcdChart";
+import FomaYnChart from "./chart/FomaYnChart";
+import RwnYnChart from "./chart/RwnYnChart";
+
 
 const apiURL = "/ui/cs/customer";
 
@@ -26,12 +37,26 @@ const CarIns = () => {
   const searchDataInit = {
     sd: null,
     aggb: null,
+    sexcd: null,
     afccdNm: null,
+    rwnYn: null,
+    catcdNm: null,
+    crPrdCmpcdNm: null,
+    fomaYn: null,
+    dcXcGrdcd: null,
+    cramt: null,
   };
 
   const [sdArray, setSdArray] = useState([]);
   const [aggbArray, setAggbArray] = useState([]);
+  const [sexcdArray, setSexcdArray] = useState([]);
   const [afccdNmArray, setAfccdNmArray] = useState([]);
+  const [rwnYnArray, setRwnYnArray] = useState([]);
+  const [catcdNmArray, setCatcdNmArray] = useState([]);
+  const [crPrdCmpcdNmArray, setCrPrdCmpcdNmArray] = useState([]);
+  const [fomaYnArray, setFomaYnArray] = useState([]);
+  const [dcXcGrdcdArray, setDcXcGrdcdArray] = useState([]);
+  const [cramtArray, setCramtArray] = useState([]);
 
   const searchForm = [
     {
@@ -49,10 +74,59 @@ const CarIns = () => {
       defaultValue: "전체",
     },
     {
+      label: "성별",
+      key: "sexcd",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...sexcdArray],
+      defaultValue: "전체",
+    },
+    {
       label: "제휴사코드명",
       key: "afccdNm",
       type: "select",
       options: [{ label: "전체", id: null }, ...afccdNmArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "갱신여부",
+      key: "rwnYn",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...rwnYnArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "차종",
+      key: "catcdNm",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...catcdNmArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "제조사",
+      key: "crPrdCmpcdNm",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...crPrdCmpcdNmArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "국외산유무",
+      key: "fomaYn",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...fomaYnArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "할인할증코드",
+      key: "dcXcGrdcd",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...dcXcGrdcdArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "차량가액",
+      key: "cramt",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...cramtArray],
       defaultValue: "전체",
     },
   ];
@@ -76,7 +150,62 @@ const CarIns = () => {
         {/* chart */}
         <MDBox mb={6}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <MDBox mb={1.5}>
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <CustomerCountCard
+                      title="총 고객 수"
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <MDBox mb={1.5}>
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <CarInsCountCard
+                      title="자동차보험 계약 수"
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <MDBox mb={1.5}>
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <CarInsCustomerCountCard
+                      title="자동차보험 가입 고객 수"
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={4} container spacing={3}>
+              <Grid item xs={12} md={12}>
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <AgeChart
+                      params={params}
+                      setAggbArray={setAggbArray}
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <AppErrorBoundary>
+                  <Suspense fallback={<AppSkeleton />}>
+                    <SexcdChart
+                      params={params}
+                      setSexcdArray={setSexcdArray}
+                    />
+                  </Suspense>
+                </AppErrorBoundary>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={4} container spacing={3}>
               <Grid item xs={12} md={12}>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
@@ -90,15 +219,15 @@ const CarIns = () => {
               <Grid item xs={12} md={12}>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
-                    <AgeChart
+                    <FomaYnChart
                       params={params}
-                      setAggbArray={setAggbArray}
+                      setFomaYnArray={setFomaYnArray}
                     />
                   </Suspense>
                 </AppErrorBoundary>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={6} >
+            <Grid item xs={12} md={4} >
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <AffiliateChart
@@ -108,12 +237,57 @@ const CarIns = () => {
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-          </Grid>
-          {/* <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-
+            <Grid item xs={12} md={4}>
+              <AppErrorBoundary>
+                <Suspense fallback={<AppSkeleton />}>
+                  <CatcdNmChart
+                    params={params}
+                    setCatcdNmArray={setCatcdNmArray}
+                  />
+                </Suspense>
+              </AppErrorBoundary>
             </Grid>
-          </Grid> */}
+            <Grid item xs={12} md={4}>
+              <AppErrorBoundary>
+                <Suspense fallback={<AppSkeleton />}>
+                  <CramtChart
+                    params={params}
+                    setCramtArray={setCramtArray}
+                  />
+                </Suspense>
+              </AppErrorBoundary>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <AppErrorBoundary>
+                <Suspense fallback={<AppSkeleton />}>
+                  <CrPrdCmpcdNmChart
+                    params={params}
+                    setCrPrdCmpcdNmArray={setCrPrdCmpcdNmArray}
+                  />
+                </Suspense>
+              </AppErrorBoundary>
+            </Grid>
+            <Grid item xs={12} md={4}>
+            <AppErrorBoundary>
+                <Suspense fallback={<AppSkeleton />}>
+                  <RwnYnChart
+                    params={params}
+                    setRwnYnArray={setRwnYnArray}
+                  />
+                </Suspense>
+              </AppErrorBoundary>
+            </Grid>
+            <Grid item xs={12} md={4}>
+            <AppErrorBoundary>
+                <Suspense fallback={<AppSkeleton />}>
+                  <DcXcGrdcdChart
+                    params={params}
+                    setDcXcGrdcdArray={setDcXcGrdcdArray}
+                  />
+                </Suspense>
+              </AppErrorBoundary>
+            </Grid>
+          </Grid>
         </MDBox>
       </MDBox>
       <Footer />

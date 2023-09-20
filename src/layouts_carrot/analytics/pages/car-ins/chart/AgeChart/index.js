@@ -48,23 +48,23 @@ const AgeChart = ({
   useEffect(() => {
     if (isSuccess) {
       // console.log(data);
-      const aggbList = data.map((item) => item.aggb);
-      const aggbCntList = data.map((item) => item.count);
-      const aggbCntTotal = aggbCntList.reduce((accumulator, currentValue) => {
+      const nameList = data.filter((item) => item?.name != null).map((item) => item.name);
+      const countList = data.filter((item) => item?.count != null).map((item) => item.count);
+      const countTotal = countList.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
-      setTitle(`연령대 (전체: ${aggbCntTotal})`);
+      setTitle(`연령대 (전체: ${countTotal.toLocaleString()})`);
       const chartData = data.map((item, index) => {
         return {
-          "id": item.aggb == 60 ? `${item.aggb}+ 대` : `${item.aggb} 대`,
-          "label": item.aggb == 60 ? `${item.aggb}+ 대` : `${item.aggb} 대`,
-          "value": item.count,
+          "id": item?.name == 60 ? `${item?.name}+ 대` : `${item?.name} 대`,
+          "label": item?.name == 60 ? `${item?.name}+ 대` : `${item?.name} 대`,
+          "value": item?.count,
           "color": colorHslList[index % colorHslList.length],
         };
       });
       setPieChartData((prev) => (chartData));
       if (isFirst) {
-        setAggbArray(aggbList.map((item) => {
+        setAggbArray(nameList.map((item) => {
           return {label: item, id: item};
         }));
         setIsFirst(false);
@@ -74,7 +74,7 @@ const AgeChart = ({
 
   return (
     <DoughnutChart
-      icon={{ color: "success", component: "donut_small" }}
+      icon={{ color: "success", component: "filter_1" }}
       title={title}
       height="25rem"
       description=""

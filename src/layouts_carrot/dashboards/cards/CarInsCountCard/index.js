@@ -28,7 +28,7 @@ const CarInsCountCard = ({
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data);
+      // console.log(data);
       setCount(data);
     }
   }, [data]);
@@ -38,7 +38,7 @@ const CarInsCountCard = ({
       color="warning"
       icon="person_add"
       title={title}
-      count={count}
+      count={count.toLocaleString()}
       percentage={{
         color: "success",
         amount: "",
