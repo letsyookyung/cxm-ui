@@ -155,6 +155,7 @@ const CarIns = () => {
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
                     <CustomerCountCard
+                      params={params}
                       title="총 고객 수"
                     />
                   </Suspense>
@@ -166,6 +167,7 @@ const CarIns = () => {
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
                     <CarInsCountCard
+                      params={params}
                       title="자동차보험 계약 수"
                     />
                   </Suspense>
@@ -177,6 +179,7 @@ const CarIns = () => {
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
                     <CarInsCustomerCountCard
+                      params={params}
                       title="자동차보험 가입 고객 수"
                     />
                   </Suspense>

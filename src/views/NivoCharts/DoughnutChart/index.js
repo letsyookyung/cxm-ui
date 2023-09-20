@@ -63,7 +63,7 @@ function DoughnutChart({ icon, title, description, height, chart }) {
                 data={chart}
                 colors={{ scheme: 'nivo' }}
                 // colors={colorHslList}
-                margin={{ top: 10, right: 80, bottom: 30, left: 0 }}
+                margin={{ top: 20, right: 60, bottom: 30, left: 0 }}
                 innerRadius={0.5}
                 padAngle={0.7}
                 cornerRadius={3}
@@ -79,6 +79,8 @@ function DoughnutChart({ icon, title, description, height, chart }) {
                   ]
                 }}
                 arcLinkLabelsSkipAngle={10}
+                arcLinkLabelsDiagonalLength={7}
+                arcLinkLabelsStraightLength={5}
                 arcLinkLabelsTextColor="#333333"
                 arcLinkLabelsThickness={2}
                 arcLinkLabelsColor={{ from: 'color' }}
@@ -97,10 +99,10 @@ function DoughnutChart({ icon, title, description, height, chart }) {
                     anchor: 'right',
                     direction: 'column',
                     justify: false,
-                    translateX: 100,
-                    translateY: 100,
+                    translateX: 80,
+                    translateY: 120,
                     itemsSpacing: 0,
-                    itemWidth: 100,
+                    itemWidth: 80,
                     itemHeight: 18,
                     itemTextColor: '#999',
                     itemDirection: 'left-to-right',

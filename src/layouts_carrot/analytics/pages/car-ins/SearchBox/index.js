@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import moment from "moment";
 
 // @mui material components
@@ -16,8 +16,6 @@ import MDButton from "components_carrot/MDButton";
 import FormField from "layouts_carrot/ecommerce/products/edit-product/components/FormField";
 
 import useSearchData from "hooks_carrot/useSearchData";
-import { useQuery } from "react-query";
-import Agent from "utils/Agent";
 
 const SearchBox = ({
   searchDataInit,
@@ -125,9 +123,9 @@ const SearchBox = ({
 
   return(
     <Card>
-      <MDBox mt={1}>
+      <MDBox mt={1} pr={4}>
         <Grid container spacing={1} m={1}>
-        {createSearchForm()}
+          {createSearchForm()}
         </Grid>
         <Grid container spacing={1} p={1} sx={{ flexDirection: "row-reverse" }} >
           {/* <MDButton

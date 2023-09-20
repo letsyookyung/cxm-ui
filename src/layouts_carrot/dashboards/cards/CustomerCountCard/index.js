@@ -8,6 +8,7 @@ import Agent from "utils/Agent";
 const apiURL = "/ui/dashboard";
 
 const CustomerCountCard = ({
+  params,
   title,
 }) => {
   const path = `${apiURL}/customer/count`
@@ -21,6 +22,10 @@ const CustomerCountCard = ({
   });
 
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    setParam(params)
+  }, [params]);
 
   useEffect(() => {
     refetch();
