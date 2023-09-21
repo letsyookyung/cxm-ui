@@ -53,6 +53,8 @@ import PageStore from "store/PageStore";
 import { useCallback } from "react";
 import { observer } from "mobx-react-lite";
 
+const { REACT_APP_ENV } = window.runConfig;
+
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
   const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
@@ -64,6 +66,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const items = pathname.split("/").slice(1);
   const itemParentName = items[1];
   const itemName = items[items.length - 1];
+  const [envText, setEnvText] = useState("");
 
   let textColor = "white";
 
@@ -100,6 +103,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
+
+  useEffect(() => {
+    if (REACT_APP_ENV.startsWith("LOCAL")) {
+      setEnvText(" (LOCAL)");
+    } else if (REACT_APP_ENV.includes("DEV")) {
+      setEnvText(" (DEV)");
+    }
+  });
 
 
   // Render all the nested collapse items from the routes.js
@@ -298,7 +309,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
             <MDTypography pl={1} component="h6" variant="button" fontWeight="medium" color={textColor}>
-              {brandName}
+              {brandName + envText}
             </MDTypography>
           </MDBox>
         </MDBox>
