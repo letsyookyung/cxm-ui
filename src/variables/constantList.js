@@ -47,7 +47,16 @@ export const colorHexList = Object.freeze([
   "#e91e63", "#7b809a", "#1A73E8", "#4CAF50", "#fb8c00", "#f44335", "#f0f2f5", "#344767", 
 ]);
 
+export const colorHexList2 = Object.freeze([
+  "#D6CBB6", "#A3A0A8", "#7D626C", "#638AB6", "#EA9981", "#597090", "#A97996", "#D1938C", 
+]);
+
 export const colorHslList = Object.freeze([
   "hsl(340, 82%, 52%)", "hsl(230, 13%, 54%)", "hsl(214, 82%, 51%)", "hsl(122, 39%, 49%)",
   "hsl(33, 100%, 49%)", "hsl(4, 90%, 58%)", "hsl(216, 20%, 95%)", "hsl(218, 33%, 30%)", 
+]);
+
+export const colorHslList2 = Object.freeze([
+  "hsl(39, 28%, 78%)", "hsl(262, 4%, 64%)", "hsl(338, 12%, 44%)", "hsl(212, 36%, 55%)",
+  "hsl(14, 71%, 71%)", "hsl(215, 24%, 46%)", "hsl(324, 22%, 57%)", "hsl(218, 33%, 30%)", 
 ]);

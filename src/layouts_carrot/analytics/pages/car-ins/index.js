@@ -28,6 +28,7 @@ import CrPrdCmpcdNmChart from "./chart/CrPrdCmpcdNmChart";
 import DcXcGrdcdChart from "./chart/DcXcGrdcdChart";
 import FomaYnChart from "./chart/FomaYnChart";
 import RnwYnChart from "./chart/RnwYnChart";
+import ContractAliveChart from "./chart/ContractAliveChart";
 
 const apiURL = "/ui/cs/customer";
 
@@ -39,6 +40,7 @@ const CarIns = () => {
     sexcd: null,
     afccdNm: null,
     rnwYn: null,
+    undCrYn: null,
     catcdNm: null,
     crPrdCmpcdNm: null,
     fomaYn: null,
@@ -51,6 +53,7 @@ const CarIns = () => {
   const [sexcdArray, setSexcdArray] = useState([]);
   const [afccdNmArray, setAfccdNmArray] = useState([]);
   const [rnwYnArray, setRnwYnArray] = useState([]);
+  const [undCrYnArray, setUndCrYnArray] = useState([]);
   const [catcdNmArray, setCatcdNmArray] = useState([]);
   const [crPrdCmpcdNmArray, setCrPrdCmpcdNmArray] = useState([]);
   const [fomaYnArray, setFomaYnArray] = useState([]);
@@ -91,6 +94,13 @@ const CarIns = () => {
       key: "rnwYn",
       type: "select",
       options: [{ label: "전체", id: null }, ...rnwYnArray],
+      defaultValue: "전체",
+    },
+    {
+      label: "계약유지여부",
+      key: "undCrYn",
+      type: "select",
+      options: [{ label: "전체", id: null }, ...undCrYnArray],
       defaultValue: "전체",
     },
     {
@@ -270,7 +280,7 @@ const CarIns = () => {
               </AppErrorBoundary>
             </Grid>
             <Grid item xs={12} md={4}>
-            <AppErrorBoundary>
+              <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <RnwYnChart
                     params={params}
@@ -280,11 +290,21 @@ const CarIns = () => {
               </AppErrorBoundary>
             </Grid>
             <Grid item xs={12} md={4}>
-            <AppErrorBoundary>
+              <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <DcXcGrdcdChart
                     params={params}
                     setDcXcGrdcdArray={setDcXcGrdcdArray}
+                  />
+                </Suspense>
+              </AppErrorBoundary>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <AppErrorBoundary>
+                <Suspense fallback={<AppSkeleton />}>
+                  <ContractAliveChart
+                    params={params}
+                    setUndCrYnArray={setUndCrYnArray}
                   />
                 </Suspense>
               </AppErrorBoundary>

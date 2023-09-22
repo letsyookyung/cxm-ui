@@ -17,7 +17,7 @@ import MDTypography from "components_carrot/MDTypography";
 // Nivo Chart
 import { ResponsivePie } from "@nivo/pie";
 
-// import { colorHslList } from "variables/constantList";
+import { colorHslList2 } from "variables/constantList";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -61,8 +61,8 @@ function DoughnutChart({ icon, title, description, height, chart }) {
               <ResponsivePie
                 layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends']}
                 data={chart}
-                colors={{ scheme: 'nivo' }}
-                // colors={colorHslList}
+                // colors={{ scheme: 'nivo' }}
+                colors={colorHslList2}
                 margin={{ top: 20, right: 60, bottom: 30, left: 0 }}
                 innerRadius={0.5}
                 padAngle={0.7}
