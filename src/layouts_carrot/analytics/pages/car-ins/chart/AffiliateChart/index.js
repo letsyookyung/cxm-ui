@@ -50,8 +50,8 @@ const AffiliateChart = ({
   useEffect(() => {
     if (isSuccess) {
       // console.log(data);
-      const nameList = data.filter((item) => item?.name != null).map((item) => item.name);
-      const countList = data.filter((item) => item?.count != null).map((item) => item.count);
+      const nameList = data.filter((item) => item?.name != null).map((item) => item.name).slice(0, 30);
+      const countList = data.filter((item) => item?.count != null).map((item) => item.count).slice(0, 30);
       const countTotal = countList.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);

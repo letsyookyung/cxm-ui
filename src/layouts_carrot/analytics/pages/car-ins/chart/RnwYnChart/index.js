@@ -9,9 +9,9 @@ import Agent from "utils/Agent";
 
 const apiURL = "/ui/analytics/chart";
 
-const RwnYnChart = ({
+const RnwYnChart = ({
   params,
-  setRwnYnArray,
+  setRnwYnArray,
 }) => {
   const path = `${apiURL}/renewal`
   const [param, setParam] = useState({});
@@ -66,7 +66,7 @@ const RwnYnChart = ({
         ]
       }));
       if (isFirst) {
-        setRwnYnArray(nameList.map((item) => {
+        setRnwYnArray(nameList.map((item) => {
           return {label: item, id: item};
         }));
         setIsFirst(false);
@@ -85,4 +85,4 @@ const RwnYnChart = ({
   );
 }
 
-export default RwnYnChart;
+export default RnwYnChart;

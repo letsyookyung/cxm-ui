@@ -27,8 +27,7 @@ import CramtChart from "./chart/CramtChart";
 import CrPrdCmpcdNmChart from "./chart/CrPrdCmpcdNmChart";
 import DcXcGrdcdChart from "./chart/DcXcGrdcdChart";
 import FomaYnChart from "./chart/FomaYnChart";
-import RwnYnChart from "./chart/RwnYnChart";
-
+import RnwYnChart from "./chart/RnwYnChart";
 
 const apiURL = "/ui/cs/customer";
 
@@ -39,7 +38,7 @@ const CarIns = () => {
     aggb: null,
     sexcd: null,
     afccdNm: null,
-    rwnYn: null,
+    rnwYn: null,
     catcdNm: null,
     crPrdCmpcdNm: null,
     fomaYn: null,
@@ -51,7 +50,7 @@ const CarIns = () => {
   const [aggbArray, setAggbArray] = useState([]);
   const [sexcdArray, setSexcdArray] = useState([]);
   const [afccdNmArray, setAfccdNmArray] = useState([]);
-  const [rwnYnArray, setRwnYnArray] = useState([]);
+  const [rnwYnArray, setRnwYnArray] = useState([]);
   const [catcdNmArray, setCatcdNmArray] = useState([]);
   const [crPrdCmpcdNmArray, setCrPrdCmpcdNmArray] = useState([]);
   const [fomaYnArray, setFomaYnArray] = useState([]);
@@ -89,9 +88,9 @@ const CarIns = () => {
     },
     {
       label: "갱신여부",
-      key: "rwnYn",
+      key: "rnwYn",
       type: "select",
-      options: [{ label: "전체", id: null }, ...rwnYnArray],
+      options: [{ label: "전체", id: null }, ...rnwYnArray],
       defaultValue: "전체",
     },
     {
@@ -273,9 +272,9 @@ const CarIns = () => {
             <Grid item xs={12} md={4}>
             <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
-                  <RwnYnChart
+                  <RnwYnChart
                     params={params}
-                    setRwnYnArray={setRwnYnArray}
+                    setRnwYnArray={setRnwYnArray}
                   />
                 </Suspense>
               </AppErrorBoundary>
