@@ -11,7 +11,7 @@ const apiURL = "/ui/analytics/chart";
 
 const CramtChart = ({
   params,
-  setCramtArray,
+  setCramtGbArray,
 }) => {
   const path = `${apiURL}/vehicle-value`
   const [param, setParam] = useState({});
@@ -66,7 +66,7 @@ const CramtChart = ({
         ]
       }));
       if (isFirst) {
-        setCramtArray(nameList.map((item) => {
+        setCramtGbArray(nameList.map((item) => {
           return {label: item, id: item};
         }));
         setIsFirst(false);

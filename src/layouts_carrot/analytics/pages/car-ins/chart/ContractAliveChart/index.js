@@ -73,10 +73,9 @@ const ContractAliveChart = ({
       }
     }
   }, [data]);
-
   return (
     <VerticalBarChart
-      icon={{ color: "warning", component: "event_repeat_icon" }}
+      icon={{ color: "warning", component: "assignment_turned_in_icon" }}
       title={title}
       height="25rem"
       description=""

@@ -45,7 +45,7 @@ const CarIns = () => {
     crPrdCmpcdNm: null,
     fomaYn: null,
     dcXcGrdcd: null,
-    cramt: null,
+    cramtGb: null,
   };
 
   const [sdArray, setSdArray] = useState([]);
@@ -58,7 +58,7 @@ const CarIns = () => {
   const [crPrdCmpcdNmArray, setCrPrdCmpcdNmArray] = useState([]);
   const [fomaYnArray, setFomaYnArray] = useState([]);
   const [dcXcGrdcdArray, setDcXcGrdcdArray] = useState([]);
-  const [cramtArray, setCramtArray] = useState([]);
+  const [cramtGbArray, setCramtGbArray] = useState([]);
 
   const searchForm = [
     {
@@ -133,9 +133,9 @@ const CarIns = () => {
     },
     {
       label: "차량가액",
-      key: "cramt",
+      key: "cramtGb",
       type: "select",
-      options: [{ label: "전체", id: null }, ...cramtArray],
+      options: [{ label: "전체", id: null }, ...cramtGbArray],
       defaultValue: "전체",
     },
   ];
@@ -159,8 +159,8 @@ const CarIns = () => {
         {/* chart */}
         <MDBox mb={6}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
-              <MDBox mb={1.5}>
+            <Grid item xs={12} md={4} mb={1.5}>
+              <MDBox>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
                     <CustomerCountCard
@@ -171,8 +171,8 @@ const CarIns = () => {
                 </AppErrorBoundary>
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <MDBox mb={1.5}>
+            <Grid item xs={12} md={4} mb={1.5}>
+              <MDBox>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
                     <CarInsCountCard
@@ -183,8 +183,8 @@ const CarIns = () => {
                 </AppErrorBoundary>
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <MDBox mb={1.5}>
+            <Grid item xs={12} md={4} mb={1.5}>
+              <MDBox>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
                     <CarInsCustomerCountCard
@@ -195,7 +195,7 @@ const CarIns = () => {
                 </AppErrorBoundary>
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={4} container spacing={3}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5} container spacing={3}>
               <Grid item xs={12} md={12}>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
@@ -217,7 +217,7 @@ const CarIns = () => {
                 </AppErrorBoundary>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={4} container spacing={3}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5} container spacing={3}>
               <Grid item xs={12} md={12}>
                 <AppErrorBoundary>
                   <Suspense fallback={<AppSkeleton />}>
@@ -239,7 +239,7 @@ const CarIns = () => {
                 </AppErrorBoundary>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={4} >
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <AffiliateChart
@@ -249,7 +249,7 @@ const CarIns = () => {
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <CatcdNmChart
@@ -259,17 +259,17 @@ const CarIns = () => {
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <CramtChart
                     params={params}
-                    setCramtArray={setCramtArray}
+                    setCramtGbArray={setCramtGbArray}
                   />
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <CrPrdCmpcdNmChart
@@ -279,7 +279,7 @@ const CarIns = () => {
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <RnwYnChart
@@ -289,7 +289,7 @@ const CarIns = () => {
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <DcXcGrdcdChart
@@ -299,7 +299,7 @@ const CarIns = () => {
                 </Suspense>
               </AppErrorBoundary>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} mb={1.5}>
               <AppErrorBoundary>
                 <Suspense fallback={<AppSkeleton />}>
                   <ContractAliveChart
