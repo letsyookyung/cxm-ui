@@ -13,7 +13,7 @@ const CustomerCountCard = ({
 }) => {
   const path = `${apiURL}/customer/count`
   const [param, setParam] = useState({});
-  const { data, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isFetching, isSuccess, refetch } = useQuery({
     queryKey: path + param,
     queryFn: () => Agent.requests.get(path, param),
     // enabled: false,
@@ -49,6 +49,7 @@ const CustomerCountCard = ({
         amount: "",
         label: "",
       }}
+      isLoading={isLoading || isFetching}
     />
   );
 }

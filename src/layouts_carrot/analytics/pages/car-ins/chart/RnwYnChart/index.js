@@ -15,7 +15,7 @@ const RnwYnChart = ({
 }) => {
   const path = `${apiURL}/renewal`
   const [param, setParam] = useState({});
-  const { data, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isFetching, isSuccess, refetch } = useQuery({
     queryKey: path + param,
     queryFn: () => Agent.requests.get(path, param),
     // enabled: false,
@@ -81,6 +81,7 @@ const RnwYnChart = ({
       height="25rem"
       description=""
       chart={verticalBarChartData}
+      isLoading={isLoading || isFetching}
     />
   );
 }

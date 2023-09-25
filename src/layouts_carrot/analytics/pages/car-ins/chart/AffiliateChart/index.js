@@ -16,7 +16,7 @@ const AffiliateChart = ({
 }) => {
   const path = `${apiURL}/affiliate`
   const [param, setParam] = useState({});
-  const { data, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isFetching, isSuccess, refetch } = useQuery({
     queryKey: path + param,
     queryFn: () => Agent.requests.get(path, param),
     // enabled: false,
@@ -86,6 +86,7 @@ const AffiliateChart = ({
       height={height}
       description=""
       chart={horizontalBarChartData}
+      isLoading={isLoading || isFetching}
     />
   );
 }

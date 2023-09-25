@@ -13,7 +13,7 @@ const CarInsCountCard = ({
 }) => {
   const path = `${apiURL}/car-ins/count`
   const [param, setParam] = useState({});
-  const { data, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isFetching, isSuccess, refetch } = useQuery({
     queryKey: path + param,
     queryFn: () => Agent.requests.get(path, param),
     // enabled: false,
@@ -49,6 +49,7 @@ const CarInsCountCard = ({
         amount: "",
         label: "",
       }}
+      isLoading={isLoading || isFetching}
     />
   );
 }

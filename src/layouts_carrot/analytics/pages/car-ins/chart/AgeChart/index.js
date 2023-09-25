@@ -17,7 +17,7 @@ const AgeChart = ({
 }) => {
   const path = `${apiURL}/age`
   const [param, setParam] = useState({});
-  const { data, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isFetching, isSuccess, refetch, status } = useQuery({
     queryKey: path + param,
     queryFn: () => Agent.requests.get(path, param),
     // enabled: false,
@@ -79,6 +79,7 @@ const AgeChart = ({
       height="25rem"
       description=""
       chart={pieChartData}
+      isLoading={isLoading || isFetching}
     />
   );
 }

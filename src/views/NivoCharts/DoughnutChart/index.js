@@ -16,12 +16,14 @@ import MDTypography from "components_carrot/MDTypography";
 
 // Nivo Chart
 import { ResponsivePie } from "@nivo/pie";
+// Spinner
+import ClipLoader from "react-spinners/ClipLoader";
 
 import { colorHslList2 } from "variables/constantList";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function DoughnutChart({ icon, title, description, height, chart }) {
+function DoughnutChart({ icon, title, description, height, chart, isLoading }) {
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
@@ -41,6 +43,7 @@ function DoughnutChart({ icon, title, description, height, chart }) {
               color="white"
               mt={-5}
               mr={2}
+              border={1}
             >
               <Icon fontSize="medium">{icon.component}</Icon>
             </MDBox>
@@ -52,6 +55,14 @@ function DoughnutChart({ icon, title, description, height, chart }) {
                 {description}
               </MDTypography>
             </MDBox>
+          </MDBox>
+          <MDBox ml="auto">
+            <ClipLoader
+              size={25}
+              color="#36d7b7"
+              loading={isLoading}
+              speedMultiplier={0.7}
+            />
           </MDBox>
         </MDBox>
       ) : null}
@@ -136,6 +147,7 @@ DoughnutChart.defaultProps = {
   title: "",
   description: "",
   height: "19.125rem",
+  isLoading: false,
 };
 
 // Typechecking props for the DoughnutChart
@@ -157,6 +169,7 @@ DoughnutChart.propTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   chart: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default DoughnutChart;
