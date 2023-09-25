@@ -102,6 +102,10 @@
   ```
   yarn add @material-ui/icons
   ```
+- spinner
+  ```
+  yarn add react-spinners
+  ```
 
 ## Directory Hierarchy
 ```bash
