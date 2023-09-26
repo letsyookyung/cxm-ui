@@ -98,7 +98,7 @@ function HorizontalBarChart({ icon, title, description, height, chart, isLoading
           </MDBox>
           <MDBox ml="auto">
             <ClipLoader
-              size={25}
+              size={20}
               color="#36d7b7"
               loading={isLoading}
               speedMultiplier={0.7}

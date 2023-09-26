@@ -51,7 +51,7 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon, isLoadin
         </MDBox>
         <MDBox textAlign="right" lineHeight={1.25}>
         <ClipLoader
-            size={25}
+            size={20}
             color="#36d7b7"
             loading={isLoading}
             speedMultiplier={0.7}
