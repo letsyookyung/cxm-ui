@@ -25,10 +25,6 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DoughnutChart({ icon, title, description, height, chart, isLoading }) {
 
-  useEffect(() => {
-    console.log(chart)
-  }, []);
-
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
       {title || description ? (
