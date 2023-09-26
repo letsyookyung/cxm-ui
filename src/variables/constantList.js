@@ -43,6 +43,7 @@ export const afccdNmList = Object.freeze([
 ]);
 
 // 색상 리스트
+// primary, secondary, info, success, warning, error, light, dark
 export const colorHexList = Object.freeze([
   "#e91e63", "#7b809a", "#1A73E8", "#4CAF50", "#fb8c00", "#f44335", "#f0f2f5", "#344767", 
 ]);
@@ -57,6 +58,6 @@ export const colorHslList = Object.freeze([
 ]);
 
 export const colorHslList2 = Object.freeze([
-  "hsl(39, 28%, 78%)", "hsl(262, 4%, 64%)", "hsl(338, 12%, 44%)", "hsl(212, 36%, 55%)",
+  "hsl(340, 82%, 52%)", "hsl(262, 4%, 64%)", "hsl(338, 12%, 44%)", "hsl(212, 36%, 55%)",
   "hsl(14, 71%, 71%)", "hsl(215, 24%, 46%)", "hsl(324, 22%, 57%)", "hsl(218, 33%, 30%)", 
 ]);

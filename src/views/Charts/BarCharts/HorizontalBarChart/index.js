@@ -56,8 +56,8 @@ function HorizontalBarChart({ icon, title, description, height, chart, isLoading
         weight: 5,
         borderWidth: 0,
         borderRadius: 4,
-        backgroundColor: colors[dataset.color]
-          ? colors[dataset.color || "dark"].main
+        backgroundColor: dataset.color
+          ? dataset.color
           : colors.dark.main,
         fill: false,
         maxBarThickness: 35,

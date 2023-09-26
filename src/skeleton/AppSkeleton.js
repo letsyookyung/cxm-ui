@@ -16,7 +16,6 @@ const AppSkeleton = () => (
       display="flex"
       justifyContent="center"
       alignItems="center"
-      verticalAlign="middle"
       mx="auto"
     >
       <PuffLoader size={35} color="#36d7b7" loading speedMultiplier={0.7} />

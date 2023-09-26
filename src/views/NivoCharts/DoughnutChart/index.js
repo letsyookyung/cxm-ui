@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 // porp-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -24,6 +24,10 @@ import { colorHslList2 } from "variables/constantList";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DoughnutChart({ icon, title, description, height, chart, isLoading }) {
+
+  useEffect(() => {
+    console.log(chart)
+  }, []);
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
@@ -73,7 +77,7 @@ function DoughnutChart({ icon, title, description, height, chart, isLoading }) {
                 layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends']}
                 data={chart}
                 // colors={{ scheme: 'nivo' }}
-                colors={colorHslList2}
+                colors={chart.map((item) => item.color) ?? [colorHslList2]}
                 margin={{ top: 50, right: 60, bottom: 30, left: 0 }}
                 innerRadius={0.5}
                 padAngle={0.7}

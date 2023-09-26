@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 
 import Agent from "utils/Agent";
 
-import { colorHslList } from "variables/constantList";
+import { colorHslList2 } from "variables/constantList";
 
 const apiURL = "/ui/analytics/chart";
 
@@ -59,7 +59,7 @@ const AgeChart = ({
           "id": item?.name == 60 ? `${item?.name}+ 대` : `${item?.name} 대`,
           "label": item?.name == 60 ? `${item?.name}+ 대` : `${item?.name} 대`,
           "value": item?.count,
-          "color": colorHslList[index % colorHslList.length],
+          "color": colorHslList2[index % colorHslList2.length],
         };
       });
       setPieChartData((prev) => (chartData));

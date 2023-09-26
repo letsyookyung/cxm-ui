@@ -3,6 +3,9 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import VerticalBarChart from "views/Charts/BarCharts/VerticalBarChart";
 
+// Material Dashboard 2 PRO React base styles
+import colors from "assets_carrot/theme/base/colors";
+
 import { useQuery } from "react-query";
 
 import Agent from "utils/Agent";
@@ -54,13 +57,16 @@ const SexcdChart = ({
         return accumulator + currentValue
       },0);
       setTitle(`성별 (전체: ${countTotal.toLocaleString()})`);
+      const colorList = nameList.map((item, index) => (
+        index == 0 ? colors.primary.main : colors.dark.main
+      ));
       setVerticalBarChartData((prev) => ({
         ...prev,
         labels: nameList,
         datasets: [
           {
             label: "성별",
-            color: "dark",
+            color: colorList,
             data: countList,
           },
         ]

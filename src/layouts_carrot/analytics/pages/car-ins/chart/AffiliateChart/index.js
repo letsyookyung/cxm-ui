@@ -3,6 +3,9 @@ import React, { useEffect, useState, Suspense } from "react";
 // Material Dashboard 2 PRO React examples
 import HorizontalBarChart from "views/Charts/BarCharts/HorizontalBarChart";
 
+// Material Dashboard 2 PRO React base styles
+import colors from "assets_carrot/theme/base/colors";
+
 import { useQuery } from "react-query";
 import { afccdNmList } from "variables/constantList";
 
@@ -56,13 +59,16 @@ const AffiliateChart = ({
         return accumulator + currentValue
       },0);
       setTitle(`제휴사 (전체: ${countTotal.toLocaleString()})`);
+      const colorList = nameList.map((item, index) => (
+        index == 0 ? colors.primary.main : colors.dark.main
+      ));
       setHorizontalBarChartData((prev) => ({
         ...prev,
         labels: nameList,
         datasets: [
           {
             label: "제휴사",
-            color: "dark",
+            color: colorList,
             data: countList,
           },
         ]
