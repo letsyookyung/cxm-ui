@@ -22,40 +22,38 @@ const AuthErrorBoundary = ({ children }) => {
   const [errorDetail, setErrorDetail] = useState("");
 
   // 에러 화면
-  const authFallback = ({ error, resetErrorBoundary }) => {
-    return(
-      <MDBox my={25}>
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={12} md={8} lg={6}>
-            <Card>
-              <MDBox pt={2} px={2} textAlign="center">
-                <MDTypography component="p" variant="h4" fontWeight="regular" color="text">
-                  <b>{error?.response?.data?.code ?? error?.response?.status}: {errorTitle}</b>
-                </MDTypography>
-              </MDBox>
-              <MDBox pt={2} px={2} textAlign="center">
-                <MDTypography component="p" variant="h6" fontWeight="regular" color="text">
-                  {errorDetail}
-                </MDTypography>
-              </MDBox>
-              <MDBox my={5} />
-              <Divider />
-              <MDBox pt={2} px={2}>
-                <Grid container spacing={3} justifyContent="flex-end">
-                  {/* <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => navigate(-1)}>
-                    이전 화면
-                  </MDButton> */}
-                  <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => resetErrorBoundary()}>
-                    재 로그인
-                  </MDButton>
-                </Grid>
-              </MDBox>
-            </Card>
-          </Grid>
+  const authFallback = ({ error, resetErrorBoundary }) => (
+    <MDBox width="100%" height="100%">
+      <Grid container spacing={3} justifyContent="center">
+        <Grid item xs={12}>
+          <Card>
+            <MDBox pt={2} px={2} textAlign="center">
+              <MDTypography component="p" fontSize="0.9vw" color="text">
+                <b>{error?.response?.data?.code ?? error?.response?.status}: {errorTitle}</b>
+              </MDTypography>
+            </MDBox>
+            <MDBox pt={2} px={2} textAlign="center">
+              <MDTypography component="p" fontSize="0.9vw" color="text">
+                {errorDetail}
+              </MDTypography>
+            </MDBox>
+            <MDBox my={5} />
+            <Divider />
+            <MDBox pt={2} px={2}>
+              <Grid container spacing={3} justifyContent="flex-end">
+                {/* <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => navigate(-1)}>
+                  이전 화면
+                </MDButton> */}
+                <MDButton variant="outlined" color="dark" sx={{ marginY: 2, marginLeft: 2}} onClick={() => resetErrorBoundary()}>
+                  재 로그인
+                </MDButton>
+              </Grid>
+            </MDBox>
+          </Card>
         </Grid>
-      </MDBox>
-    );
-  };
+      </Grid>
+    </MDBox>
+  );
 
   return (
       <ErrorBoundary

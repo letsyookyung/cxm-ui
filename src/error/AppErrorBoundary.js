@@ -30,17 +30,17 @@ const AppErrorBoundary = ({ children }) => {
 
   // 에러 화면
   const authFallback = ({ error, resetErrorBoundary }) => (
-    <MDBox my={25}>
+    <MDBox width="100%" height="100%">
       <Grid container spacing={3} justifyContent="center">
-        <Grid item xs={12} md={8} lg={6}>
+        <Grid item xs={12}>
           <Card>
             <MDBox pt={2} px={2} textAlign="center">
-              <MDTypography component="p" variant="h4" fontWeight="regular" color="text">
+              <MDTypography component="p" fontSize="0.9vw" color="text">
                 <b>{error?.response?.data?.code ?? error?.response?.status}: {errorTitle}</b>
               </MDTypography>
             </MDBox>
             <MDBox pt={2} px={2} textAlign="center">
-              <MDTypography component="p" variant="h6" fontWeight="regular" color="text">
+              <MDTypography component="p" fontSize="0.9vw" color="text">
                 {errorDetail}
               </MDTypography>
             </MDBox>
