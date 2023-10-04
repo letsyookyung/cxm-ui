@@ -21,13 +21,13 @@ import Card from "@mui/material/Card";
 import Autocomplete from "@mui/material/Autocomplete";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDEditor from "components/MDEditor";
-import MDInput from "components/MDInput";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDEditor from "components_carrot/MDEditor";
+import MDInput from "components_carrot/MDInput";
 
 // NewProduct page components
-import FormField from "layouts/ecommerce/products/edit-product/components/FormField";
+import FormField from "layouts_carrot/ecommerce/products/edit-product/components/FormField";
 
 function ProductInfo() {
   const [editorValue, setEditorValue] = useState(

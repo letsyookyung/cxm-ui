@@ -18,11 +18,11 @@ import { useState } from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Pricing page components
-import FaqCollapse from "layouts/pages/pricing-page/components/FaqCollapse";
+import FaqCollapse from "layouts_carrot/pages/pricing-page/components/FaqCollapse";
 
 function Faq() {
   const [collapse, setCollapse] = useState(false);

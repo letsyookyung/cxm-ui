@@ -22,16 +22,16 @@ import { Link } from "react-router-dom";
 import Switch from "@mui/material/Switch";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDInput from "components_carrot/MDInput";
+import MDButton from "components_carrot/MDButton";
 
 // Authentication layout components
-import IllustrationLayout from "layouts/authentication/components/IllustrationLayout";
+import IllustrationLayout from "layouts_carrot/authentication/components/IllustrationLayout";
 
 // Image
-import bgImage from "assets/images/illustrations/illustration-reset.jpg";
+import bgImage from "assets_carrot/images/illustrations/illustration-reset.jpg";
 
 function Illustration() {
   const [rememberMe, setRememberMe] = useState(false);

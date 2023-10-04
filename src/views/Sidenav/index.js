@@ -46,7 +46,14 @@ import {
   setMiniSidenav,
   setTransparentSidenav,
   setWhiteSidenav,
-} from "context";
+} from "context_carrot";
+
+import UserStore from "store/UserStore";
+import PageStore from "store/PageStore";
+import { useCallback } from "react";
+import { observer } from "mobx-react-lite";
+
+const { REACT_APP_ENV } = window.runConfig;
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
@@ -59,6 +66,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const items = pathname.split("/").slice(1);
   const itemParentName = items[1];
   const itemName = items[items.length - 1];
+  const [envText, setEnvText] = useState("");
 
   let textColor = "white";
 
@@ -71,13 +79,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
-    console.log(`@@ Sidenav: ${collapseName}, ${itemParentName}`)
+    console.log(`@@ Sidenav: ${collapseName}, ${itemParentName}`);
     setOpenCollapse(collapseName);
     setOpenNestedCollapse(itemParentName);
   }, []);
 
   useEffect(() => {
-    console.log(routes)
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
@@ -97,31 +104,44 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
 
+  useEffect(() => {
+    if (REACT_APP_ENV.startsWith("LOCAL")) {
+      setEnvText(" (LOCAL)");
+    } else if (REACT_APP_ENV.includes("DEV")) {
+      setEnvText(" (DEV)");
+    }
+  });
+
+
   // Render all the nested collapse items from the routes.js
   const renderNestedCollapse = (collapse) => {
-    const template = collapse.map(({ name, route, key, href }) =>
-      href ? (
-        <Link
-          key={key}
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          sx={{ textDecoration: "none" }}
-        >
-          <SidenavItem name={name} nested />
-        </Link>
-      ) : (
-        <NavLink to={route} key={key} sx={{ textDecoration: "none" }}>
-          <SidenavItem name={name} active={route === pathname} nested />
-        </NavLink>
-      )
-    );
+    const template = collapse.map(({ name, route, key, href, role }) => {
+      if (href) {
+        return (
+          <Link
+            key={key}
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            sx={{ textDecoration: "none" }}
+          >
+            <SidenavItem name={name} nested />
+          </Link>
+        );
+      } else {
+        return (
+          <NavLink to={route} key={key} sx={{ textDecoration: "none" }}>
+            <SidenavItem name={name} active={route === pathname} nested />
+          </NavLink>
+        );
+      }
+    });
 
     return template;
   };
   // Render the all the collpases from the routes.js
   const renderCollapse = (collapses) =>
-    collapses.map(({ name, collapse, route, href, key }) => {
+    collapses.map(({ name, collapse, route, href, key, role }) => {
       let returnValue;
 
       if (collapse) {
@@ -142,6 +162,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </SidenavItem>
         );
       } else {
+        if (key === itemName) {
+          PageStore.setPageKey(key);
+          PageStore.setPageName(name);
+          PageStore.setPagePath(pathname);
+          PageStore.setRole(role);
+        }
+
         returnValue = href ? (
           <Link
             href={href}
@@ -163,8 +190,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(
-    ({ type, name, icon, title, collapse, noCollapse, key, href, route }) => {
+    ({ type, name, icon, title, collapse, noCollapse, key, href, route, role }) => {
       let returnValue;
+
+      if (UserStore.currentUserRole === undefined || UserStore.currentUserRole.indexOf(role) == -1) {
+        return null;
+      }
 
       if (type === "collapse") {
         if (href) {
@@ -185,6 +216,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             </Link>
           );
         } else if (noCollapse && route) {
+          if (key === collapseName) {
+            PageStore.setPageKey(key);
+            PageStore.setPageName(name);
+            PageStore.setPagePath(pathname);
+            PageStore.setRole(role);
+          }
+
           returnValue = (
             <NavLink to={route} key={key}>
               <SidenavCollapse
@@ -270,8 +308,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             width={!brandName && "100%"}
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
-            <MDTypography component="h6" variant="button" fontWeight="medium" color={textColor}>
-              {brandName}
+            <MDTypography pl={1} component="h6" variant="button" fontWeight="medium" color={textColor}>
+              {brandName + envText}
             </MDTypography>
           </MDBox>
         </MDBox>
@@ -301,4 +339,4 @@ Sidenav.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default Sidenav;
+export default observer(Sidenav);

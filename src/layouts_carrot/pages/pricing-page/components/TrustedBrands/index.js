@@ -17,16 +17,16 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Images
-import coinbase from "assets/images/logos/gray-logos/logo-coinbase.svg";
-import nasa from "assets/images/logos/gray-logos/logo-nasa.svg";
-import netflix from "assets/images/logos/gray-logos/logo-netflix.svg";
-import pinterest from "assets/images/logos/gray-logos/logo-pinterest.svg";
-import spotify from "assets/images/logos/gray-logos/logo-spotify.svg";
-import vodafone from "assets/images/logos/gray-logos/logo-vodafone.svg";
+import coinbase from "assets_carrot/images/logos/gray-logos/logo-coinbase.svg";
+import nasa from "assets_carrot/images/logos/gray-logos/logo-nasa.svg";
+import netflix from "assets_carrot/images/logos/gray-logos/logo-netflix.svg";
+import pinterest from "assets_carrot/images/logos/gray-logos/logo-pinterest.svg";
+import spotify from "assets_carrot/images/logos/gray-logos/logo-spotify.svg";
+import vodafone from "assets_carrot/images/logos/gray-logos/logo-vodafone.svg";
 
 function PricingCards() {
   return (

@@ -19,10 +19,10 @@ import { forwardRef, createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
+import MDBox from "components_carrot/MDBox";
 
 // Custom styles for MDPagination
-import MDPaginationItemRoot from "components/MDPagination/MDPaginationItemRoot";
+import MDPaginationItemRoot from "components_carrot/MDPagination/MDPaginationItemRoot";
 
 // The Pagination main context
 const Context = createContext(null);
@@ -40,7 +40,7 @@ const MDPagination = forwardRef(
           <MDPaginationItemRoot
             {...rest}
             ref={ref}
-            variant={active ? context.variant : "outlined"}
+            variant={active ? context.variant : "filled"}
             color={active ? context.color : "secondary"}
             iconOnly
             circular

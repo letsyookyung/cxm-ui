@@ -17,17 +17,17 @@ Coded by www.creative-tim.com
 import { v4 as uuidv4 } from "uuid";
 
 // Kanban application components
-import Card from "layouts/applications/kanban/components/Card";
+import Card from "layouts_carrot/applications/kanban/components/Card";
 
 // Images
-import officeDark from "assets/images/office-dark.jpg";
-import meeting from "assets/images/meeting.jpg";
-import homeDecore from "assets/images/home-decor-1.jpg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
-import team5 from "assets/images/team-5.jpg";
+import officeDark from "assets_carrot/images/office-dark.jpg";
+import meeting from "assets_carrot/images/meeting.jpg";
+import homeDecore from "assets_carrot/images/home-decor-1.jpg";
+import team1 from "assets_carrot/images/team-1.jpg";
+import team2 from "assets_carrot/images/team-2.jpg";
+import team3 from "assets_carrot/images/team-3.jpg";
+import team4 from "assets_carrot/images/team-4.jpg";
+import team5 from "assets_carrot/images/team-5.jpg";
 
 const boards = {
   columns: [

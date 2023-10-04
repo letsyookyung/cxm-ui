@@ -29,7 +29,7 @@ import MDBox from "components_carrot/MDBox";
 import { item, itemContent, itemArrow } from "views/Sidenav/styles/sidenavItem";
 
 // Material Dashboard 2 PRO React contexts
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function SidenavItem({ color, name, active, nested, children, open, ...rest }) {
   const [controller] = useMaterialUIController();

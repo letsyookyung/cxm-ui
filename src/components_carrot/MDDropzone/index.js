@@ -25,13 +25,13 @@ import Dropzone from "dropzone";
 import "dropzone/dist/dropzone.css";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
+import MDBox from "components_carrot/MDBox";
 
 // Custom styles for the MDDropzone
-import MDDropzoneRoot from "components/MDDropzone/MDDropzoneRoot";
+import MDDropzoneRoot from "components_carrot/MDDropzone/MDDropzoneRoot";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function MDDropzone({ options }) {
   const [controller] = useMaterialUIController();

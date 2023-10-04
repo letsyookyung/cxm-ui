@@ -17,11 +17,11 @@ Coded by www.creative-tim.com
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Billing page components
-import Bill from "layouts/pages/account/billing/components/Bill";
+import Bill from "layouts_carrot/pages/account/billing/components/Bill";
 
 function BillingInformation() {
   return (

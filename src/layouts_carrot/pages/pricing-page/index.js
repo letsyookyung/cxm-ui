@@ -22,11 +22,11 @@ import Container from "@mui/material/Container";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 
 // Pricing page components
-import Header from "layouts/pages/pricing-page/components/Header";
-import Footer from "layouts/pages/pricing-page/components/Footer";
-import PricingCards from "layouts/pages/pricing-page/components/PricingCards";
-import TrustedBrands from "layouts/pages/pricing-page/components/TrustedBrands";
-import Faq from "layouts/pages/pricing-page/components/Faq";
+import Header from "layouts_carrot/pages/pricing-page/components/Header";
+import Footer from "layouts_carrot/pages/pricing-page/components/Footer";
+import PricingCards from "layouts_carrot/pages/pricing-page/components/PricingCards";
+import TrustedBrands from "layouts_carrot/pages/pricing-page/components/TrustedBrands";
+import Faq from "layouts_carrot/pages/pricing-page/components/Faq";
 
 function PricingPage() {
   const [tabValue, setTabValue] = useState(0);

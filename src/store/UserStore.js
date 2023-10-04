@@ -86,18 +86,6 @@ class UserClass {
   setEmail = (email) => {
     this.email = email;
   }
-
-  get getUserRole() {
-    return this.currentUserRole;
-  }
-
-  get getUserName() {
-    return this.currentUserName;
-  }
-
-  get getEmail() {
-    return this.email;
-  }
 }
 
 const UserStore = new UserClass();

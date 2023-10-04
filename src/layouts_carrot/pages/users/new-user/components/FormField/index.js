@@ -20,9 +20,9 @@ import PropTypes from "prop-types";
 import { ErrorMessage, Field } from "formik";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDInput from "components_carrot/MDInput";
 
 function FormField({ label, name, ...rest }) {
   return (

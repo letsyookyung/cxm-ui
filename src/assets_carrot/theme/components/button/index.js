@@ -14,10 +14,10 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 PRO React Button Styles
-import root from "assets/theme/components/button/root";
-import contained from "assets/theme/components/button/contained";
-import outlined from "assets/theme/components/button/outlined";
-import buttonText from "assets/theme/components/button/text";
+import root from "assets_carrot/theme/components/button/root";
+import contained from "assets_carrot/theme/components/button/contained";
+import outlined from "assets_carrot/theme/components/button/outlined";
+import buttonText from "assets_carrot/theme/components/button/text";
 
 const button = {
   defaultProps: {

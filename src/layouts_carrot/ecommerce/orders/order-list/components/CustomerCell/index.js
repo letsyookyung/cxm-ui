@@ -17,9 +17,9 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDAvatar from "components_carrot/MDAvatar";
 
 function CustomerCell({ image, name, color }) {
   return (

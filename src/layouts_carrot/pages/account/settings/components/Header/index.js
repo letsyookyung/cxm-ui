@@ -21,12 +21,12 @@ import Grid from "@mui/material/Grid";
 import Switch from "@mui/material/Switch";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDAvatar from "components_carrot/MDAvatar";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import burceMars from "assets_carrot/images/bruce-mars.jpg";
 
 function Header() {
   const [visible, setVisible] = useState(true);

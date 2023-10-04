@@ -4,8 +4,8 @@ import React, { createContext } from "react";
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import MDSnackbar from "components_carrot/MDSnackbar";
 
-class CommonStore {
-  @observable appName = "Carrot-MABD";
+class CommonClass {
+  @observable appName = "Carrot-CXBD";
   @observable appLoaded = false;
   @observable noti = null;
   @observable copyNoti = null;
@@ -63,4 +63,5 @@ class CommonStore {
   }
 }
 
-export default createContext(new CommonStore());
+const CommonStore = new CommonClass();
+export default CommonStore;

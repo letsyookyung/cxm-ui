@@ -23,20 +23,20 @@ import Tooltip from "@mui/material/Tooltip";
 import Divider from "@mui/material/Divider";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDAvatar from "components_carrot/MDAvatar";
+import MDInput from "components_carrot/MDInput";
+import MDButton from "components_carrot/MDButton";
 
 // Images
-import logoSlack from "assets/images/small-logos/logo-slack.svg";
-import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
-import logoAtlassian from "assets/images/small-logos/logo-atlassian.svg";
-import logoAsana from "assets/images/small-logos/logo-asana.svg";
+import logoSlack from "assets_carrot/images/small-logos/logo-slack.svg";
+import logoSpotify from "assets_carrot/images/small-logos/logo-spotify.svg";
+import logoAtlassian from "assets_carrot/images/small-logos/logo-atlassian.svg";
+import logoAsana from "assets_carrot/images/small-logos/logo-asana.svg";
 
 // Material Dashboard 2 PRO React components
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function Accounts() {
   const [controller] = useMaterialUIController();

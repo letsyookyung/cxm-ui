@@ -44,7 +44,7 @@ import DefaultNavbarMobile from "views/Navbars/DefaultNavbar/DefaultNavbarMobile
 import breakpoints from "assets_carrot/theme/base/breakpoints";
 
 // Material Dashboard 2 PRO React context
-import { useMaterialUIController } from "context";
+import { useMaterialUIController } from "context_carrot";
 
 function DefaultNavbar({ routes, brand, transparent, light, action }) {
   const [controller] = useMaterialUIController();

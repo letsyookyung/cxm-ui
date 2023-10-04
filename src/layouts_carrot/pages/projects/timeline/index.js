@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
+import MDBox from "components_carrot/MDBox";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -27,7 +27,7 @@ import TimelineList from "examples/Timeline/TimelineList";
 import TimelineItem from "examples/Timeline/TimelineItem";
 
 // Data
-import timelineData from "layouts/pages/projects/timeline/data/timelineData";
+import timelineData from "layouts_carrot/pages/projects/timeline/data/timelineData";
 
 function Timeline() {
   const renderTimelineItems = timelineData.map(

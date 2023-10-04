@@ -26,32 +26,27 @@ import MDTypography from "components_carrot/MDTypography";
 // Material Dashboard 2 PRO React base styles
 import typography from "assets_carrot/theme/base/typography";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+import PageStore from "store/PageStore";
+import { observer } from "mobx-react-lite";
 
 function Footer({ company }) {
   // const agentStore = useContext(AgentStore);
   const { href, name } = company;
   const { size, fontWeightBold } = typography;
   const [isViewWarning, setIsViewWarning] = useState(true);
+  const location = useLocation();
+  const { pathname } = location;
 
-  // TODO
-  // useEffect(() => {
-  //   if (
-  //     agentStore.pageName === "리워드이력" ||
-  //     agentStore.pageName === "영수이력" ||
-  //     agentStore.pageName === "리워드추첨" ||
-  //     agentStore.pageName === "영수정산" ||
-  //     agentStore.pageName === "설계정산" ||
-  //     agentStore.pageName === "캠페인정산" ||
-  //     agentStore.pageName === "제휴사정산" ||
-  //     agentStore.pageName === "리워드정산" ||
-  //     agentStore.pageName === "고객이력"
-  //   ) {
-  //     setIsViewWarning(true);
-  //   } else {
-  //     setIsViewWarning(false);
-  //   }
-  // }, [agentStore.pageName, agentStore.pagePath]);
+  useEffect(() => {
+    if (PageStore.pageName === "고객 정보 조회") {
+      setIsViewWarning(true);
+    } else {
+      setIsViewWarning(false);
+    }
+  }, [PageStore]);
 
   return (
     <MDBox
@@ -128,4 +123,4 @@ Footer.propTypes = {
   company: PropTypes.objectOf(PropTypes.string),
 };
 
-export default Footer;
+export default observer(Footer);

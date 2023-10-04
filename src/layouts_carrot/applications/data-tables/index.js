@@ -17,8 +17,8 @@ Coded by www.creative-tim.com
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -27,7 +27,7 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import dataTableData from "layouts/applications/data-tables/data/dataTableData";
+import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
 
 function DataTables() {
   return (

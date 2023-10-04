@@ -44,17 +44,20 @@ import configs from "views/Charts/BarCharts/VerticalBarChart/configs";
 // Material Dashboard 2 PRO React base styles
 import colors from "assets_carrot/theme/base/colors";
 
+// Spinner
+import ClipLoader from "react-spinners/ClipLoader";
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function VerticalBarChart({ icon, title, description, height, chart }) {
+function VerticalBarChart({ icon, title, description, height, chart, isLoading }) {
   const chartDatasets = chart.datasets
     ? chart.datasets.map((dataset) => ({
         ...dataset,
         weight: 5,
         borderWidth: 0,
         borderRadius: 4,
-        backgroundColor: colors[dataset.color]
-          ? colors[dataset.color || "dark"].main
+        backgroundColor: dataset.color
+          ? dataset.color
           : colors.dark.main,
         fill: false,
         maxBarThickness: 35,
@@ -93,6 +96,14 @@ function VerticalBarChart({ icon, title, description, height, chart }) {
               </MDTypography>
             </MDBox>
           </MDBox>
+          <MDBox ml="auto">
+            <ClipLoader
+              size={20}
+              color="#36d7b7"
+              loading={isLoading}
+              speedMultiplier={0.7}
+            />
+          </MDBox>
         </MDBox>
       ) : null}
       {useMemo(
@@ -115,6 +126,7 @@ VerticalBarChart.defaultProps = {
   title: "",
   description: "",
   height: "19.125rem",
+  isLoading: false,
 };
 
 // Typechecking props for the VerticalBarChart
@@ -136,6 +148,7 @@ VerticalBarChart.propTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   chart: PropTypes.objectOf(PropTypes.array).isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default VerticalBarChart;

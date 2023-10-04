@@ -13,61 +13,148 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { useEffect, useContext } from "react";
-
-// @mui material components
-import Card from "@mui/material/Card";
+import React, { useEffect, useState, Suspense } from "react";
+import moment from "moment";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
 import MDTypography from "components_carrot/MDTypography";
-import MDButton from "components_carrot/MDButton";
 
 // Material Dashboard 2 PRO React examples
 import DashboardLayout from "views/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "views/Navbars/DashboardNavbar";
 import Footer from "views/Footer";
-import DataTable from "views/Tables/DataTable";
 
-// Store
-import AgentStore from "store/AgentStore";
+import AppErrorBoundary from "error/AppErrorBoundary";
+import AppSkeleton from "skeleton/AppSkeleton";
 
-// Data
-import dataTableData from "layouts_carrot/applications/data-tables/data/dataTableData";
+import CarrotTable from "views/Tables/CarrotTable";
+import SearchBox from "views/Tables/SearchBox";
 
-export const apiURL = "/ui/cs/customer-info";
+import { pageOptionInit, pageTotalInit } from "variables/constantPage"
+import { region } from "variables/constantList";
+
+const apiURL = "/ui/cs/customer";
 
 const CustomerInfo = () => {
-  const agentStore = useContext(AgentStore);
+  const [pageOption, setPageOption] = useState(pageOptionInit);
+  const [pageTotal, setPageTotal] = useState(pageTotalInit);
+  const [rows, setRows] = useState([]);
 
-  // 처음 렌더링 시 API 호출
-  const getPage = async () => {
-    let param;
-    const response = await agentStore.requests.get(`${apiURL}/retrieve`, param);
+  const searchDataInit = {
+    startDate: moment().subtract(1, "months").set({
+      hour: 0,
+      minute: 0,
+    }).format("YYYY-MM-DD HH:mm").toString(),
+    endDate: moment().set({
+      hour: 23,
+      minute: 59,
+    }).format("YYYY-MM-DD HH:mm").toString(),
+    ctmno: "",
+    age: "",
+    region: null,
   };
 
-  // 초기 메서드
+  const searchForm = [
+    {
+      label: "From",
+      key: "startDate",
+      type: "dateTime",
+    },
+    {
+      label: "To",
+      key: "endDate",
+      type: "dateTime",
+    },
+    {
+      label: "고객번호",
+      key: "ctmno",
+      type: "text",
+    },
+    {
+      label: "나이",
+      key: "age",
+      type: "number",
+    },
+    {
+      label: "지역",
+      key: "region",
+      type: "select",
+      options: [{ label: "선택 안함", id: null }, ...region],
+    },
+  ];
+
+  const columns = [
+    { Header: "ndscId", accessor: "ndscId" },
+    { Header: "ctmno", accessor: "ctmno" },
+    { Header: "ctmDscNo", accessor: "ctmDscNo" },
+    { Header: "hnglCtmnm", accessor: "hnglCtmnm" },
+    { Header: "plyno", accessor: "plyno" },
+    { Header: "mbId", accessor: "mbId" },
+    { Header: "nrdpsCtmDscno", accessor: "nrdpsCtmDscno" },
+    { Header: "nrdpsRelnm", accessor: "nrdpsRelnm" },
+    { Header: "licno", accessor: "licno" },
+    { Header: "nrdpsLicno", accessor: "nrdpsLicno" },
+    { Header: "adId", accessor: "adId" },
+    { Header: "nrdpsDivcNo", accessor: "nrdpsDivcNo" },
+    { Header: "ldlId", accessor: "ldlId" },
+    { Header: "gaid", accessor: "gaid" },
+    { Header: "idfa", accessor: "idfa" },
+    { Header: "ipAdr", accessor: "ipAdr" },
+    { Header: "macAdr", accessor: "macAdr" },
+    { Header: "mailId", accessor: "mailId" },
+    { Header: "rlBrtyrMndy", accessor: "rlBrtyrMndy" },
+    { Header: "pspno", accessor: "pspno" },
+    { Header: "hmpagAdr", accessor: "hmpagAdr" },
+    { Header: "tlno", accessor: "tlno" },
+    { Header: "hpno", accessor: "hpno" },
+    { Header: "bkActno", accessor: "bkActno" },
+    { Header: "tmapId", accessor: "tmapId" },
+    { Header: "kakaoId", accessor: "kakaoId" },
+    { Header: "naverId", accessor: "naverId" },
+    { Header: "loadDthms", accessor: "loadDthms" },
+    { Header: "mdfDthms", accessor: "mdfDthms" },
+  ];
+
+  const table = {
+    columns: columns,
+    rows: rows,
+  };
+
   useEffect(() => {
-    console.log("@@ CustomerInfo: useEffect");
-    // getPage();
   }, []);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Card>
-          <MDBox p={3} lineHeight={1}>
-            <MDTypography variant="h5" fontWeight="medium">
-              Datatable Search
-            </MDTypography>
-            <MDTypography variant="button" color="text">
-              A lightweight, extendable, dependency-free javascript HTML table plugin.
-            </MDTypography>
-          </MDBox>
-          <DataTable table={dataTableData} canSearch />
-        </Card>
-      </MDBox>
+        <MDBox py={3} lineHeight={1}>
+          <AppErrorBoundary>
+            <Suspense fallback={<AppSkeleton />}>
+              <SearchBox
+                searchDataInit={searchDataInit}
+                searchForm={searchForm}
+                searchURL={`${apiURL}/retrieve`}
+                setRows={setRows}
+                pageOption={pageOption}
+                setPageTotal={setPageTotal}
+              />
+              <MDBox p={3}>
+                <MDTypography variant="h5" fontWeight="medium">
+                  {/* Datatable Search */}
+                </MDTypography>
+              </MDBox>
+              <CarrotTable
+                entriesPerPage
+                searchURL={`${apiURL}/retrieve`}
+                table={table}
+                cxmPageOption={pageOption}
+                setCxmPageOption={setPageOption}
+                cxmPageTotal={pageTotal}
+                cxmSetPageTotal={setPageTotal}
+              />
+            </Suspense>
+          </AppErrorBoundary>
+        </MDBox>
       <Footer />
     </DashboardLayout>
   );

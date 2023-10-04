@@ -22,14 +22,14 @@ import ImgsViewer from "react-images-viewer";
 import Stack from "@mui/material/Stack";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
+import MDBox from "components_carrot/MDBox";
 
 // Images
-import image1 from "assets/images/products/product-details-1.jpg";
-import image2 from "assets/images/products/product-details-2.jpg";
-import image3 from "assets/images/products/product-details-3.jpg";
-import image4 from "assets/images/products/product-details-4.jpg";
-import image5 from "assets/images/products/product-details-5.jpg";
+import image1 from "assets_carrot/images/products/product-details-1.jpg";
+import image2 from "assets_carrot/images/products/product-details-2.jpg";
+import image3 from "assets_carrot/images/products/product-details-3.jpg";
+import image4 from "assets_carrot/images/products/product-details-4.jpg";
+import image5 from "assets_carrot/images/products/product-details-5.jpg";
 
 function ProductImages() {
   const [currentImage, setCurrentImage] = useState(image1);

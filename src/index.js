@@ -18,24 +18,47 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 // Material Dashboard 2 PRO React Context Provider
-import { MaterialUIControllerProvider } from "context";
+import { MaterialUIControllerProvider } from "context_carrot";
+
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import RootErrorBoundary from "error/RootErrorBoundary";
-import RootSkeleton from "main/RootSkeleton"
-// import App from "App";
-const App = React.lazy(() => import("App")); // test suspense
+import RootSkeleton from "skeleton/RootSkeleton"
+import Auth from "main/Auth";
+
+const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
 const container = document.getElementById("app");
 const root = createRoot(container);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: Infinity,
+      suspense: true,
+      useErrorBoundary: true,
+    },
+    mutations: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: Infinity,
+      suspense: true,
+      useErrorBoundary: true,
+    },
+  }
+});
 
 root.render(
-  <RootErrorBoundary>
-    <Suspense fallback={<RootSkeleton />}>
-      <BrowserRouter>
-        <MaterialUIControllerProvider>
-          <App />
-        </MaterialUIControllerProvider>
-      </BrowserRouter>
-    </Suspense>
-  </RootErrorBoundary>
+  <QueryClientProvider client={queryClient}>
+    <RootErrorBoundary>
+      <Suspense fallback={<RootSkeleton />}>
+        <BrowserRouter basename={REACT_APP_HISTORY_PREFIX}>
+          <MaterialUIControllerProvider>
+            <Auth />
+          </MaterialUIControllerProvider>
+        </BrowserRouter>
+      </Suspense>
+    </RootErrorBoundary>
+  </QueryClientProvider>
 );

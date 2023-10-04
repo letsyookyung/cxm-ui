@@ -14,10 +14,10 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 PRO React base styles
-import breakpoints from "assets/theme/base/breakpoints";
+import breakpoints from "assets_carrot/theme/base/breakpoints";
 
 // Material Dashboard 2 PRO React helper functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets_carrot/theme/functions/pxToRem";
 
 const {
   values: { sm, md, lg, xl, xxl },

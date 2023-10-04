@@ -8,7 +8,8 @@
         "airbnb",
         "prettier",
         "plugin:import/errors",
-        "plugin:import/warnings"
+        "plugin:import/warnings",
+        "plugin:react-hooks/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": { "jsx": true },
@@ -63,7 +64,9 @@
         "class-methods-use-this": "warn",
         "jsx-a11y/label-has-associated-control": "off",
         "arrow-body-style": ["warn", "as-needed"],
-        "no-promise-executor-return": "off"
+        "no-promise-executor-return": "off",
+        "object-shorthand": "off",
+        "default-param-last": "off"
     },
     "settings": { "import/resolver": { "node": { "paths": ["src"] } } }
 }

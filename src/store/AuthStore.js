@@ -1,91 +1,65 @@
-import { makeAutoObservable } from "mobx";
-
+import { flow, makeAutoObservable, flowResult } from "mobx";
 import Agent from "utils/Agent";
+import UserStore from "./UserStore";
 
-const { REACT_APP_AUTH_REDIRECT_URL, REACT_APP_HISTORY_PREFIX } = window.runConfig;
+const { REACT_APP_HISTORY_PREFIX } = window.runConfig;
 
 class AuthClass {
-  accessToken = "";
-  refreshToken = "";
-  role = "";
+  accessToken = undefined;
+  refreshToken = undefined;
 
   constructor() {
-    makeAutoObservable(this);
-    this.accessToken = window.localStorage.getItem("cxmAccessToken");
-    this.refreshToken = window.localStorage.getItem("cxmRefreshToken");
+    makeAutoObservable(this, {
+      logout: flow,
+      tokenRefreshRequest: flow,
+    });
   }
 
   setAccessToken = (accessToken) => {
     this.accessToken = accessToken;
-    window.localStorage.setItem("cxmAccessToken", accessToken);
+    if (accessToken) window.localStorage.setItem("cxmAccessToken", accessToken);
+    else window.localStorage.removeItem("cxmAccessToken");
   }
 
   setRefreshToken = (refreshToken) => {
     this.refreshToken = refreshToken;
-    window.localStorage.setItem("cxmRefreshToken", refreshToken);
+    if (refreshToken) window.localStorage.setItem("cxmRefreshToken", refreshToken);
+    else window.localStorage.removeItem("cxmRefreshToken");
   }
 
-  setRole = (role) => {
-    this.role = role;
-  }
-
-  ssoLogin = async () => {
-    const response = await Agent.authRequests.post("/auth/sso/login", {
-      redirectUrl: REACT_APP_AUTH_REDIRECT_URL,
-    });
-
-    if (response.redirectUrl) {
-      window.location.href = response.redirectUrl;
-    }
-    return response;
-  }
-
-  jwtLogin = async (ssoId) => {
-    const jwtResponse = await Agent.authRequests.post("/auth/login", {
-      id: ssoId,
-      realm: window.runConfig.REACT_APP_AUTH_REALM,
-    });
-
-    console.log(jwtResponse);
-    console.log(`@@ ssoId: ${ssoId}`);
-
-    this.setAccessToken(jwtResponse.access_token);
-    this.setRefreshToken(jwtResponse.refresh_token);
-
-    return ssoId;
-  }
-
-  logout = async () => {
-    window.localStorage.removeItem("cxmAccessToken");
-    window.localStorage.removeItem("cxmRefreshToken");
-    const response = await Agent.authRequests.put("/auth/sso/logout");
-
-    if (response.redirectUrl === undefined) {
-      return;
-    }
-
+  // generator function
+  *logout() {
+    UserStore.forgetUser();
     this.setAccessToken(undefined);
     this.setRefreshToken(undefined);
-
-    Agent.superagent
-    .get(response.redirectUrl)
-    .withCredentials()
-    .then(() => {})
-    .finally(() => {
-      window.location.href = `${REACT_APP_HISTORY_PREFIX}/`;
-    });
+    try {
+      yield Agent.authRequests.put("/auth/sso/logout");
+    } catch(error) {
+      // session.invalidate() failure
+      console.log("sso logout failure.");
+    }
+    window.location.href = `${REACT_APP_HISTORY_PREFIX}/`;
   }
 
-  get getAccessToken() {
-      return this.accessToken;
-  }
+  // RT 로 AT 신규 발급 시도
+  *tokenRefreshRequest() {
+    window.localStorage.removeItem("cxmAccessToken");
+    const rt = window.localStorage.getItem("cxmRefreshToken");
+    if (rt) {
+      const payload = {
+        refreshToken: rt,
+      };
 
-  get getRefreshToken() {
-      return this.refreshToken;
-  }
-
-  get getRole() {
-    return this.role;
+      try {
+        const response = yield Agent.authRequests.post("/auth/refresh", payload);
+        this.setAccessToken(response.access_token);
+        this.setRefreshToken(response.refresh_token);
+      } catch (e) {
+        console.log("@@ Refresh token failure.")
+        console.log(e);
+        this.logout();
+      }
+    }
   }
 }
 

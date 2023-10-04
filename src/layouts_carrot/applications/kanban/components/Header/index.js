@@ -18,17 +18,17 @@ import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
-import MDButton from "components/MDButton";
+import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
+import MDAvatar from "components_carrot/MDAvatar";
+import MDButton from "components_carrot/MDButton";
 
 // Image
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
-import team5 from "assets/images/team-5.jpg";
+import team1 from "assets_carrot/images/team-1.jpg";
+import team2 from "assets_carrot/images/team-2.jpg";
+import team3 from "assets_carrot/images/team-3.jpg";
+import team4 from "assets_carrot/images/team-4.jpg";
+import team5 from "assets_carrot/images/team-5.jpg";
 
 function Header() {
   const avatarStyles = {

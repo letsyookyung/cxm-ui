@@ -30,6 +30,7 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
+import MDTypography from "components_carrot/MDTypography";
 import MDInput from "components_carrot/MDInput";
 import MDBadge from "components_carrot/MDBadge";
 
@@ -53,7 +54,12 @@ import {
   setTransparentNavbar,
   setMiniSidenav,
   setOpenConfigurator,
-} from "context";
+} from "context_carrot";
+
+import { observer } from "mobx-react-lite";
+import UserStore from "store/UserStore";
+import AuthStore from "store/AuthStore";
+import { flowResult } from "mobx";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -93,6 +99,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
+  const logout = async () => {
+    await flowResult(AuthStore.logout());
+  };
+
   // Render the notifications menu
   const renderMenu = () => (
     <Menu
@@ -106,9 +116,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
       onClose={handleCloseMenu}
       sx={{ mt: 2 }}
     >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+      <NotificationItem icon={<Icon>logout</Icon>} title="Log Out" onClick={logout} />
     </Menu>
   );
 
@@ -142,15 +150,30 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <MDBox pr={1}>
+            {/* <MDBox pr={1}>
               <MDInput label="Search here" />
-            </MDBox>
+            </MDBox> */}
             <MDBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
-                </IconButton>
-              </Link>
+              {/* {AuthStore.accessToken && (
+                <>
+                  <IconButton
+                    sx={navbarIconButton}
+                    size="small"
+                    disableRipple
+                    // onClick={AuthStore.logout}
+                    aria-controls="notification-menu"
+                    aria-haspopup="true"
+                    variant="contained"
+                    onClick={handleOpenMenu}
+                  >
+                    <Icon sx={iconsStyle}>account_circle</Icon>
+                    <MDTypography variant="button" fontWeight="medium">
+                      {UserStore.currentUserName}
+                    </MDTypography>
+                  </IconButton>
+                  {renderMenu}
+                </>
+              )} */}
               <IconButton
                 size="small"
                 disableRipple
@@ -162,7 +185,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              <IconButton
+
+              {/* <IconButton
                 size="small"
                 disableRipple
                 color="inherit"
@@ -170,7 +194,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 onClick={handleConfiguratorOpen}
               >
                 <Icon sx={iconsStyle}>settings</Icon>
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 size="small"
                 disableRipple
@@ -181,9 +205,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                <MDBadge badgeContent={9} color="error" size="xs" circular>
-                  <Icon sx={iconsStyle}>notifications</Icon>
-                </MDBadge>
+                <Icon sx={iconsStyle}>account_circle</Icon>
+                <MDTypography px={0.5} variant="button" fontWeight="medium">
+                  {UserStore.currentUserName}
+                </MDTypography>
               </IconButton>
               {renderMenu()}
             </MDBox>
@@ -208,4 +233,4 @@ DashboardNavbar.propTypes = {
   isMini: PropTypes.bool,
 };
 
-export default DashboardNavbar;
+export default observer(DashboardNavbar);
