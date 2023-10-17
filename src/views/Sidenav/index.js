@@ -115,87 +115,88 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   // Render all the nested collapse items from the routes.js
   const renderNestedCollapse = (collapse) => {
-    const template = collapse.map(({ name, route, key, href, role }) => {
-      if (href) {
-        return (
-          <Link
-            key={key}
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-            sx={{ textDecoration: "none" }}
-          >
-            <SidenavItem name={name} nested />
-          </Link>
-        );
-      } else {
-        return (
-          <NavLink to={route} key={key} sx={{ textDecoration: "none" }}>
-            <SidenavItem name={name} active={route === pathname} nested />
-          </NavLink>
-        );
-      }
-    });
+    const template = collapse
+      .filter((route) => UserStore.currentUserRole && UserStore.currentUserRole.indexOf(route.role) > -1)
+      .map(({ name, route, key, href, role }) => {
+        if (href) {
+          return (
+            <Link
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              sx={{ textDecoration: "none" }}
+            >
+              <SidenavItem name={name} nested />
+            </Link>
+          );
+        } else {
+          return (
+            <NavLink to={route} key={key} sx={{ textDecoration: "none" }}>
+              <SidenavItem name={name} active={route === pathname} nested />
+            </NavLink>
+          );
+        }
+      });
 
     return template;
   };
   // Render the all the collpases from the routes.js
   const renderCollapse = (collapses) =>
-    collapses.map(({ name, collapse, route, href, key, role }) => {
-      let returnValue;
+    collapses
+      .filter((route) => UserStore.currentUserRole && UserStore.currentUserRole.indexOf(route.role) > -1)
+      .map(({ name, collapse, route, href, key, role }) => {
+        let returnValue;
 
-      if (collapse) {
-        returnValue = (
-          <SidenavItem
-            key={key}
-            color={color}
-            name={name}
-            active={key === itemParentName ? "isParent" : false}
-            open={openNestedCollapse === key}
-            onClick={({ currentTarget }) =>
-              openNestedCollapse === key && currentTarget.classList.contains("MuiListItem-root")
-                ? setOpenNestedCollapse(false)
-                : setOpenNestedCollapse(key)
-            }
-          >
-            {renderNestedCollapse(collapse)}
-          </SidenavItem>
-        );
-      } else {
-        if (key === itemName) {
-          PageStore.setPageKey(key);
-          PageStore.setPageName(name);
-          PageStore.setPagePath(pathname);
-          PageStore.setRole(role);
+        if (collapse) {
+          returnValue = (
+            <SidenavItem
+              key={key}
+              color={color}
+              name={name}
+              active={key === itemParentName ? "isParent" : false}
+              open={openNestedCollapse === key}
+              onClick={({ currentTarget }) =>
+                openNestedCollapse === key && currentTarget.classList.contains("MuiListItem-root")
+                  ? setOpenNestedCollapse(false)
+                  : setOpenNestedCollapse(key)
+              }
+            >
+              {renderNestedCollapse(collapse)}
+            </SidenavItem>
+          );
+        } else {
+          if (key === itemName) {
+            PageStore.setPageKey(key);
+            PageStore.setPageName(name);
+            PageStore.setPagePath(pathname);
+            PageStore.setRole(role);
+          }
+
+          returnValue = href ? (
+            <Link
+              href={href}
+              key={key}
+              target="_blank"
+              rel="noreferrer"
+              sx={{ textDecoration: "none" }}
+            >
+              <SidenavItem color={color} name={name} active={key === itemName} />
+            </Link>
+          ) : (
+            <NavLink to={route} key={key} sx={{ textDecoration: "none" }}>
+              <SidenavItem color={color} name={name} active={key === itemName} />
+            </NavLink>
+          );
         }
-
-        returnValue = href ? (
-          <Link
-            href={href}
-            key={key}
-            target="_blank"
-            rel="noreferrer"
-            sx={{ textDecoration: "none" }}
-          >
-            <SidenavItem color={color} name={name} active={key === itemName} />
-          </Link>
-        ) : (
-          <NavLink to={route} key={key} sx={{ textDecoration: "none" }}>
-            <SidenavItem color={color} name={name} active={key === itemName} />
-          </NavLink>
-        );
-      }
-      return <SidenavList key={key}>{returnValue}</SidenavList>;
+        return <SidenavList key={key}>{returnValue}</SidenavList>;
     });
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.map(
-    ({ type, name, icon, title, collapse, noCollapse, key, href, route, role }) => {
+  const renderRoutes = routes
+    .filter((route) => UserStore.currentUserRole && UserStore.currentUserRole.indexOf(route.role) > -1)
+    .map(({ type, name, icon, title, collapse, noCollapse, key, href, route, role }) => {
       let returnValue;
-
-      if (UserStore.currentUserRole === undefined || UserStore.currentUserRole.indexOf(role) == -1) {
-        return null;
-      }
 
       if (type === "collapse") {
         if (href) {
@@ -279,8 +280,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       }
 
       return returnValue;
-    }
-  );
+    });
 
   return (
     <SidenavRoot
