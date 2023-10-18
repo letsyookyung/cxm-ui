@@ -15,11 +15,14 @@ Coded by www.creative-tim.com
 import Analytics from "layouts_carrot/dashboards";
 import DataTables from "layouts_carrot/cs/customer-info";
 import CarIns from "layouts_carrot/analytics/pages/car-ins";
+import SegmentMgmt from "layouts_carrot/segments/pages/segment-mgmt";
+import SegmentMgmtDetails from "layouts_carrot/segments/pages/segment-mgmt/details";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import ScatterPlot from '@mui/icons-material/ScatterPlot';
 
 const routes = [
   {
@@ -61,6 +64,29 @@ const routes = [
         route: "/analytics/car-ins",
         component: <CarIns />,
         role: "ROLE_ANALYTICS",
+      },
+    ],
+  },
+  {
+    type: "collapse",
+    name: "세그먼트",
+    key: "segments",
+    icon: <ScatterPlot fontSize="medium" />,
+    role: "ROLE_SEGMENT",
+    collapse: [
+      {
+        name: "세그먼트관리",
+        key: "segment-mgmt",
+        route: "/segments/segment-mgmt",
+        component: <SegmentMgmt />,
+        role: "ROLE_SEGMENT",
+      },
+      {
+        name: "세그먼트관리 상세",
+        key: "segment-mgmt/details",
+        route: "/segments/segment-mgmt/:recid",
+        component: <SegmentMgmtDetails />,
+        role: "NOT_USED",
       },
     ],
   },

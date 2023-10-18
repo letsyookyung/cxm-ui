@@ -78,7 +78,7 @@ const App = () => {
 
   const getRoutes = (allRoutes) =>
     allRoutes
-    .filter((route) => UserStore.currentUserRole && UserStore.currentUserRole.indexOf(route.role) > -1)
+    // .filter((route) => UserStore.currentUserRole && UserStore.currentUserRole.indexOf(route.role) > -1)
     .map((route) => {
       if (route.collapse) {
         return getRoutes(route.collapse);

@@ -40,7 +40,7 @@ const MDPagination = forwardRef(
           <MDPaginationItemRoot
             {...rest}
             ref={ref}
-            variant={active ? context.variant : "filled"}
+            variant={active ? context.variant : "text"}
             color={active ? context.color : "secondary"}
             iconOnly
             circular
