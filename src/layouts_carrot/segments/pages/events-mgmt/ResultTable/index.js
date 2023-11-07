@@ -32,7 +32,7 @@ const ResultTable = ({ results }) => {
       <Paper sx={{width:'100%', overflow: 'hidden', borderRadius: '16px' }}>
         <TableContainer sx={{ maxHeight: '90%' }}>
           <Table stickyHeader aria-label="sticky table">
-          <TableHed>
+          <TableHead>
           <TableRow >
                 {columns.map((column) => (
                   <TableCell key={column.id} sx={{ width: column.width}} style={{ width: column.width, background: "white" }} align="center">
@@ -57,7 +57,7 @@ const ResultTable = ({ results }) => {
                     );
                   })}
               </TableBody>
-          </TableHed>
+          </TableHead>
           </Table>
         </TableContainer>
         <TablePagination
