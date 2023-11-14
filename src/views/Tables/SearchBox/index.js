@@ -46,7 +46,7 @@ const SearchBox = ({
 
   const createSearchForm = () => {
     return searchForm.map((form) => {
-      if (form.hide) return;
+      if (form.hide) return null;
 
       if (form.type === "dateTime") {
         return (
@@ -124,7 +124,7 @@ const SearchBox = ({
         );
       }
 
-      return;
+      return null;
     });
   };
 

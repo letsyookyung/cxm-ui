@@ -9,7 +9,7 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import MDBox from "components_carrot/MDBox";
 import MDButton from "components_carrot/MDButton";
-import { formatResponseDateFields } from 'layouts_carrot/segment/pages/dateFormatter';
+import { formatResponseDateFields } from 'layouts_carrot/segments/pages/event-mgmt-test/dateFormatter';
 
 
 const CustomTextField = styled(TextField)({
@@ -71,7 +71,7 @@ const SearchBox = ({ searchForm, jwtToken, onSearchComplete, resetSelectedIds })
                   value={formValues[form.id] || ""}
                   onChange={handleInputChange(form.id)}
                   placeholder=" 전체"
-                  helperText="예: EVENT1"
+                  helperText={form.helperText}
                 />
             </FormControl>
           </Grid>

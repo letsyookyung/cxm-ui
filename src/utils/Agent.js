@@ -48,6 +48,7 @@ axios.defaults.withCredentials = true;
       return axios.delete(`${API_ROOT}${url}`, config).then((r) => r.data);
     }
   };
+
   
   const authHeaders = () => {
     const at = window.localStorage.getItem("cxmAccessToken");

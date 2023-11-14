@@ -13,7 +13,7 @@ import Footer from "views/Footer";
 import SearchBox from "./SearchBox"
 import ResultTable from "./ResultTable";
 
-const AttributesMgmt = () => {
+const AttributeMgmt = () => {
     const searchDataInit = {
         tabnm: null,
         colNm: null,

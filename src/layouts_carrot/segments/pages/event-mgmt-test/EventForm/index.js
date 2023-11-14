@@ -10,10 +10,8 @@ import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export default function EventForm({jwtToken }) {
-
   const [formValues, setFormValues] = useState({});
   const [segmentArray, setSegmentArray] = useState([]);
 
@@ -44,7 +42,7 @@ export default function EventForm({jwtToken }) {
     }
 
     fetchSegments();
-  }, []); // 빈 의존성 배열을 사용하여 컴포넌트 마운트 시 한 번만 호출
+  }, []);
   
   
 
@@ -67,9 +65,7 @@ export default function EventForm({jwtToken }) {
     });
   };
 
-  // 폼 제출을 처리할 함수입니다.
   const handleSubmit = () => {
-    // 여기에 백엔드 서버로 데이터를 보내는 로직을 구현합니다.
     console.log(eventData);
   };
 
@@ -113,34 +109,34 @@ export default function EventForm({jwtToken }) {
   };
 
   return (
-    <Grid container direction="column" alignItems="center" sx={{ padding: '16px', paddingTop: '0px' }}>
-      <Grid item style={{ padding: '0px', margin: '5px'}} >
-        <Typography variant="h5">이벤트 등록</Typography>
-      </Grid>
-      {eventForm.map((form) => (
-        <Grid item key={form.id} style={{ display: 'flex', marginTop: '7%', width: '90%' }}>
-          <Box display="flex" alignItems="center" justifyContent="flex-start" width="95%">
-            <Box width="80px" flexGrow={0} marginRight="7%">
-              <Typography variant="subtitle1" align="right" style={{ fontSize: '15px' }}>
-                {form.label}:
-              </Typography>
-            </Box>
-            <Box flexGrow={1}>
-              {renderFormField(form)}
-            </Box>
-          </Box>
+      <Grid container direction="column" alignItems="center" sx={{ padding: '16px', paddingTop: '0px'}}>
+        <Grid item style={{ padding: '0px', margin: '5px'}} >
+          <Typography variant="h5">이벤트 등록</Typography>
         </Grid>
-      ))}
-      <MDBox py={0} lineHeight={4}>
-        <MDButton
-          variant="outlined"
-          color="info"
-          size="medium"
-          onClick={handleSubmit}
-        >
-          등록
-        </MDButton>
-      </MDBox>
-    </Grid>
+        {eventForm.map((form) => (
+          <Grid item key={form.id} style={{ display: 'flex', marginTop: '7%', width: '90%' }}>
+            <Box display="flex" alignItems="center" justifyContent="flex-start" width="95%">
+              <Box width="80px" flexGrow={0} marginRight="7%">
+                <Typography variant="subtitle1" align="right" style={{ fontSize: '15px' }}>
+                  {form.label}:
+                </Typography>
+              </Box>
+              <Box flexGrow={1}>
+                {renderFormField(form)}
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+        <MDBox py={0} lineHeight={4}>
+          <MDButton
+            variant="outlined"
+            color="info"
+            size="medium"
+            onClick={handleSubmit}
+          >
+            등록
+          </MDButton>
+        </MDBox>
+      </Grid>
   );
 }

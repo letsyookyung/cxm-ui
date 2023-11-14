@@ -11,19 +11,6 @@ Coded by www.creative-tim.com
  =========================================================
 */
 
-/**
- =========================================================
- * Material Dashboard 2 PRO React - v2.2.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
- * Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
- Coded by www.creative-tim.com
-
- =========================================================
- */
-
 // Material Dashboard 2 PRO React layouts
 import Analytics from "layouts_carrot/dashboards";
 import DataTables from "layouts_carrot/cs/customer-info";
@@ -31,6 +18,7 @@ import CarIns from "layouts_carrot/analytics/pages/car-ins";
 import SegmentMgmt from "layouts_carrot/segments/pages/segment-mgmt";
 import SegmentMgmtDetails from "layouts_carrot/segments/pages/segment-mgmt/details";
 import EventMgmt from "layouts_carrot/segments/pages/event-mgmt";
+import EventMgmtTest from "layouts_carrot/segments/pages/event-mgmt-test";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -109,13 +97,13 @@ const routes = [
         component: <EventMgmt />,
         role: "ROLE_SEGMENT",
       },
-      // {
-      //   name: "속성관리",
-      //   key: "attributes-mgmt",
-      //   route: "/segments/attribute-mgmt",
-      //   component: <AttributeMgmt />,
-      //   role: "ROLE_SEGMENT",
-      // },
+      {
+        name: "이벤트관리 테스트",
+        key: "events-mgmt-test",
+        route: "/segments/event-mgmt-test",
+        component: <EventMgmtTest />,
+        role: "ROLE_SEGMENT",
+      },
     ],
   },
 ];

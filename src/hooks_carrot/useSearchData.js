@@ -15,6 +15,7 @@ const useSearchData = (initalForm) => {
   const onChangeSelect = useCallback((key, value) => {
     setSearchData((form) => ({ ...form, [key]: value }));
   }, []);
+  
 
   // useEffect(() => {
   //   console.log(searchData);
