@@ -16,6 +16,7 @@
     "@mui/icons-material": "5.11.16",
     "@mui/material": "5.12.3",
     "@mui/styles": "^5.14.17",
+    "@mui/x-date-pickers": "^6.18.2",
     "@nivo/bar": "^0.83.0",
     "@nivo/core": "^0.83.0",
     "@nivo/pie": "^0.83.0",
@@ -62,7 +63,8 @@
     "sweetalert2": "^11.7.27",
     "uuid": "9.0.0",
     "ws": "^8.13.0",
-    "yup": "1.1.1"
+    "yup": "1.1.1",
+    "dayjs": "^1.11.10"
   },
   "scripts": {
     "start": "cp ./env/.env.local ./.env && mkdir -p ./public/config && cp ./config/config_fin.js ./public/config/config.js && react-app-rewired start",

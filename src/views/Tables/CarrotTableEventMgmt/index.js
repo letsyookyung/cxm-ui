@@ -14,6 +14,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Icon from "@mui/material/Icon";
 import Autocomplete from "@mui/material/Autocomplete";
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
@@ -25,6 +27,9 @@ import BpCheckbox from "components_carrot/CheckboxEventMgmt";
 // Material Dashboard 2 PRO React examples
 import DataTableHeadCell from "views/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "views/Tables/DataTable/DataTableBodyCell";
+import SideDrawer from "views/SideDrawer";
+
+import { DetailFields } from "layouts_carrot/segments/pages/event-mgmt/DetailForm/DetailFields"
 
 const CarrotTableEventMgmt = ({
                        entriesPerPage,
@@ -50,9 +55,11 @@ const CarrotTableEventMgmt = ({
 
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
+  const [displayedData, setDisplayedData] = useState([]);
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
+    // { columns, data: displayedData, initialState: { pageIndex: 0 } },
     useGlobalFilter,
     useSortBy,
     usePagination
@@ -112,13 +119,13 @@ const CarrotTableEventMgmt = ({
             pageNo: index
           }));
         }}
-        active={cxmPageOption.pageNo == index}
+        active={cxmPageOption.pageNo === index}
       >
         {index + 1}
       </MDPagination>
     );
   };
-
+  
   // Render the paginations
   const renderPagination = pageArr.map((option) => {
     if (cxmPageOption.pageNo < displayMidButtonCount) { // 1 ~ 3 페이지 선택의 경우
@@ -206,6 +213,14 @@ const CarrotTableEventMgmt = ({
     onCheckboxClick(rowId);
   };
 
+  // 상세보기 click & 상세보기 side drawer
+  const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
+  const [selectedDetail, setSelectedDetail] = useState({});
+  const handleDetailClick = (rowData) => {
+    setSelectedDetail(rowData); //선택된 행의 데이터를 상태에 저장
+    setIsDetailDrawerOpen(true); //Side Drawer 열기
+  };
+
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       <Table {...getTableProps()}>
@@ -248,7 +263,13 @@ const CarrotTableEventMgmt = ({
                     align={cell.column.align ? cell.column.align : "left"}
                     {...cell.getCellProps()}
                   >
-                    {cell.render("Cell")}
+                    {idx === row.cells.length - 1 ? ( //마지막 셀 = 상세보기
+                      <InfoIcon
+                        onClick={() => handleDetailClick(row.original)}
+                        style={{ cursor: 'pointer' }}  />
+                    ) : (
+                      cell.render("Cell")
+                    )}
                   </DataTableBodyCell>
                 ))}
               </TableRow>
@@ -302,53 +323,60 @@ const CarrotTableEventMgmt = ({
               </MDBox>
             )}
             <MDPagination item
-                          onClick={() => {
-                            setCxmPageOption((prev) => ({
-                              ...prev,
-                              pageNo: 0
-                            }));
-                          }}
-                          disabled={cxmPageOption.pageNo == 0}
-            >
-              <Icon sx={{ fontWeight: "bold" }}>first_page</Icon>
-            </MDPagination>
-            <MDPagination item
-                          onClick={() => {
-                            setCxmPageOption((prev) => ({
-                              ...prev,
-                              pageNo: prev.pageNo - 1
-                            }));
-                          }}
-                          disabled={cxmPageOption.pageNo == 0}
-            >
-              <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
-            </MDPagination>
+                onClick={() => {
+                  setCxmPageOption((prev) => ({
+                    ...prev,
+                    pageNo: 0
+                  }));
+                }}
+                disabled={cxmPageOption.pageNo == 0}
+              >
+                <Icon sx={{ fontWeight: "bold" }}>first_page</Icon>
+              </MDPagination>
+              <MDPagination item
+                onClick={() => {
+                  setCxmPageOption((prev) => ({
+                    ...prev,
+                    pageNo: prev.pageNo - 1
+                  }));
+                }}
+                disabled={cxmPageOption.pageNo == 0}
+              >  
+                <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
+              </MDPagination>
             {renderPagination}
-            <MDPagination item
-                          onClick={() => {
-                            setCxmPageOption((prev) => ({
-                              ...prev,
-                              pageNo: prev.pageNo + 1
-                            }));
-                          }}
-                          disabled={cxmPageOption.pageNo == pageArr.length - 1}
-            >
-              <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
-            </MDPagination>
-            <MDPagination item
-                          onClick={() => {
-                            setCxmPageOption((prev) => ({
-                              ...prev,
-                              pageNo: pageArr.length - 1
-                            }));
-                          }}
-                          disabled={cxmPageOption.pageNo == pageArr.length - 1}
-            >
-              <Icon sx={{ fontWeight: "bold" }}>last_page</Icon>
-            </MDPagination>
+              <MDPagination item
+                onClick={() => {
+                  setCxmPageOption((prev) => ({
+                    ...prev,
+                    pageNo: prev.pageNo + 1
+                  }));
+                }}
+                disabled={cxmPageOption.pageNo == pageArr.length - 1}
+              >
+                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+              </MDPagination>
+              <MDPagination item
+                onClick={() => {
+                  setCxmPageOption((prev) => ({
+                    ...prev,
+                    pageNo: pageArr.length - 1
+                  }));
+                }}
+                disabled={cxmPageOption.pageNo == pageArr.length - 1}
+              >
+                <Icon sx={{ fontWeight: "bold" }}>last_page</Icon>
+            </MDPagination> 
           </MDPagination>
         )}
       </MDBox>
+          <SideDrawer
+            open={isDetailDrawerOpen}
+            onClose={() => setIsDetailDrawerOpen(false)}
+            formType="detail"
+            formData={DetailFields}
+            rowData={selectedDetail}
+            />
     </TableContainer>
   );
 }

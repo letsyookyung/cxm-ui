@@ -55,6 +55,16 @@ const CustomTextField = styled(TextField)({
   },
 });
 
+const CustomMDInput = styled(MDInput)({
+  '& .MuiInput-underline:before': {
+    borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
+  },
+  '& .MuiInputBase-input': {
+    padding: '4px 0 5px !important', // 인풋 필드 패딩
+  },
+});
+
+
 const SearchBoxEventMgmt = ({
        searchDataInit,
        searchForm,
@@ -124,9 +134,31 @@ const SearchBoxEventMgmt = ({
             </Grid>
           );
         }
+      } else if (form.type === "select") {
+        return (
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={form.key}>
+            <FormControl fullWidth variant="standard" style={{ width: '90%' }}>
+              <Autocomplete
+                disableClearable
+                options={form.options}
+                onChange={(event, newValue) => {
+                  onChangeInput({ target: { value: newValue ? newValue.value : '' } }, form.key);
+                }}
+                size="small"
+                renderInput={(params) => (
+                  <CustomMDInput {...params} variant="standard" label={form.label}
+                    InputLabelProps={{ shrink: true, style: { fontSize: '1rem' } }} />
+                    // inputProps={{ style: { padding: '4px 0 5px' } }} />
+                  // <MDInput {...params} variant="standard" label={form.label}
+                    // InputLabelProps={{ shrink: true, style: { fontSize: '1rem' } }}/>
+                    // inputProps={{ style: { padding: '4px 0 5px' } }} />
+                )}
+                disabled={form.isDisabled}
+              />
+            </FormControl>
+          </Grid>
+        )
       }
-
-      // 다른 form.type에 대한 처리가 필요하다면 여기에 추가
     });
   };
 
@@ -158,9 +190,7 @@ const SearchBoxEventMgmt = ({
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("-----1111")
       if (data.content.length === 0) {
-        console.log("---")
         setRows([]);
         setPageTotal({
           totalPages: 0,

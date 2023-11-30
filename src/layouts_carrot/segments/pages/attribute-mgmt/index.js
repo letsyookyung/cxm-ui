@@ -93,4 +93,4 @@ const AttributeMgmt = () => {
     );
 };
 
-export default AttributesMgmt;
+export default AttributeMgmt;

@@ -2,32 +2,17 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import Agent from "utils/Agent";
 
-const useSelectOptionsData = (searchURL, param) => {
+const useSelectOptionsData = (searchURL, param, labelField, valueField) => {
   const [options, setOptions] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
 
   const extractDataFunction = (data) => {
     return data.content.map((item) => ({
-      label: item.sgmtName,
-      value: item.recid,
+      label: item[labelField],
+      value: item[valueField],
     }));
   };
 
-//   useQuery({
-//     queryKey: param,
-//     queryFn: () => Agent.requests.get(searchURL, param),
-//     enabled: true,
-//     onSuccess: (data) => {
-//       console.log("---", data);
-//       if (isMounted) {
-//         setOptions(extractDataFunction(data));
-//       }
-//     }
-//   });
-//
-//   return { options };
-// };
-  
   const { data, isSuccess, refetch } = useQuery({
     queryKey: param,
     queryFn: () => Agent.requests.get(searchURL, param),
@@ -40,8 +25,8 @@ const useSelectOptionsData = (searchURL, param) => {
   useEffect(() => {
     if (isSuccess && data) {
       const newOptions = data.content.map((item) => ({
-        label: item.sgmtName,
-        value: item.recid,
+        label: item[labelField],
+        value: item[valueField],
       }));
       setOptions(newOptions);
     }

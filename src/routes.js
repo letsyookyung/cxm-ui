@@ -18,7 +18,7 @@ import CarIns from "layouts_carrot/analytics/pages/car-ins";
 import SegmentMgmt from "layouts_carrot/segments/pages/segment-mgmt";
 import SegmentMgmtDetails from "layouts_carrot/segments/pages/segment-mgmt/details";
 import EventMgmt from "layouts_carrot/segments/pages/event-mgmt";
-import EventMgmtTest from "layouts_carrot/segments/pages/event-mgmt-test";
+import AttributeMgmt from "layouts_carrot/segments/pages/attribute-mgmt";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -98,10 +98,10 @@ const routes = [
         role: "ROLE_SEGMENT",
       },
       {
-        name: "이벤트관리 테스트",
-        key: "events-mgmt-test",
-        route: "/segments/event-mgmt-test",
-        component: <EventMgmtTest />,
+        name: "속성관리",
+        key: "attribute-mgmt",
+        route: "/segments/attribute-mgmt",
+        component: <AttributeMgmt />,
         role: "ROLE_SEGMENT",
       },
     ],

@@ -30,6 +30,7 @@ axios.defaults.withCredentials = true;
     post: (url, data) => {
       const header = headers();
       const config = { headers: header };
+      console.log('---agent', `${url}`, 'data=>?', data)
       return axios.post(`${API_ROOT}${url}`, data, config).then((r) => r.data);
     },
     get: (url, params) => {
