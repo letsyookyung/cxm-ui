@@ -10,8 +10,8 @@ import Button from '@mui/material/Button';
 
 import MDBox from "components_carrot/MDBox";
 import MDButton from "components_carrot/MDButton";
-import UpdateColorButton from "components_carrot/ButtonEventMgmt/UpdateColorButton";
-import CreateColorButton from "components_carrot/ButtonEventMgmt/CreateColorButton";
+import YellowColorButton from "components_carrot/MDColorButton/YellowColorButton";
+import GreenColorButton from "components_carrot/MDColorButton/GreenColorButton";
 
 const useStyles = makeStyles((theme) => ({
   gridItem: {
@@ -92,13 +92,13 @@ const DetailForm = ({ detailForm, rowData }) => {
       <Grid item style={{ marginTop: '20px', width: '90%' }}>
         <Box display="flex" justifyContent="center">
           <MDBox py={0} lineHeight={4}>
-            <UpdateColorButton variant="contained" color="info" size="medium" onClick={toggleEditable}>
+            <YellowColorButton variant="contained" color="info" size="medium" onClick={toggleEditable}>
               {editable ? '취소' : '수정'} {/* Toggle button label based on editable state */}
-            </UpdateColorButton>
+            </YellowColorButton>
             {editable && (
-              <CreateColorButton variant="contained" color="info" size="medium" onClick={handleSubmit}>
+              <GreenColorButton variant="contained" color="info" size="medium" onClick={handleSubmit}>
                 저장
-              </CreateColorButton>
+              </GreenColorButton>
             )}
           </MDBox>
         </Box>

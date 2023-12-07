@@ -19,71 +19,63 @@ import Slide from '@mui/material/Slide';
 import { makeStyles } from '@mui/styles';
 import styled from 'styled-components';
 
-import CreateForm from 'layouts_carrot/segments/pages/event-mgmt/CreateForm';
-import DetailForm from 'layouts_carrot/segments/pages/event-mgmt/DetailForm';
+import MDBox from "components_carrot/MDBox";
+
 import useCreateData from 'hooks_carrot/useCreateData';
+import useUpdateData from 'hooks_carrot/useUpdateData';
 
-
+// styles
 const useStyles = makeStyles({
   drawerPaper: {
-    width: '30%',
-    height: '73%',
-    top: 'auto',
-    bottom: '1%',
-    border: '1px solid rgba(0, 0, 0, 1)',
+    width: '25% !important',
+    height: '73% !important',
+    top: 'auto !important',
+    bottom: '1% !important',
+    border: '1px solid rgba(0, 0, 0, 0.22) !important',
     transition: 'width 0.3s ease-in-out !important',
   },
   compactDrawerPaper: {
-    width: '10%',
-    height: '73%',
-    top: 'auto',
-    bottom: '1%',
-    border: '1px solid rgba(0, 0, 0, 1)',
+    width: '10% !important',
+    height: '73% !important',
+    top: 'auto !important',
+    bottom: '1% !important',
+    border: '1px solid rgba(0, 0, 0, 0.22) !important',
     transition: 'width 0.3s ease-in-out !important',
   },
 });
 
-const eventApiURL = "/ui/events-mgmt";
 
-const SideDrawer = ({ open, onClose, formType, formData, rowData }) => {
+const SideDrawer = ({ open, onClose, formType, formComponent: FormComponent, formField, apiURL, rowData }) => {
+  // side drawer open&close
   const classes = useStyles();
   const [compact, setCompact] = useState(false);
-  const createEventData = useCreateData(); 
-
   const toggleCompact = () => {
     setCompact(prev => !prev);
   };
 
+  // api hooks
+  const createData = useCreateData();
+  const updateData = useUpdateData();
+
+  // api handler
   const handleDataSubmit = async (submitData) => {
     try {
       switch (formType) {
         case 'create':
-          console.log("Creating event with data:", submitData);
+          console.log("Creating attribute data:", submitData);
+          await createData.mutate({ url: apiURL, data: submitData });
           break;
         case 'update':
-          console.log("Updating event with data:", submitData);
+          console.log("Updating attribute data:", submitData);
+          await updateData.mutate({ url: `${apiURL}/${rowData.recid}`, data: submitData });
           break;
         default:
       }
-      await createEventData.mutate({ url: eventApiURL, data: submitData });
     } catch (error) {
       console.error("handle Data Submit error:", error);
     }
   };
   
-  const FormComponent = () => {
-    switch (formType) {
-      case 'create':
-        return <CreateForm createForm={formData} onSubmit={handleDataSubmit} />;
-      case 'detail':
-        return <DetailForm detailForm={formData} rowData={rowData} />;
-      case 'update':
-        return <UpdateForm updateForm={formDta} rowData={rowData} onSubmit={handleDataSubmit} />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <Drawer
       variant="persistent"
@@ -94,20 +86,25 @@ const SideDrawer = ({ open, onClose, formType, formData, rowData }) => {
     >
       <AppBar position="sticky" sx={{ backgroundColor: 'white', paddingBottom: '0px'}} >
           <Toolbar sx={{ paddingBottom: '0px' }} variant="dense" >
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-          <IconButton onClick={toggleCompact}>
-            {compact ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRightIcon />}
-          </IconButton>
+            <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <IconButton onClick={toggleCompact}>
+              {compact ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRightIcon />}
+            </IconButton>
+          </Toolbar>
+      </AppBar>
+      {FormComponent && (
+        <FormComponent
+          formField={formField}
+          rowData={rowData}
+          onSubmit={handleDataSubmit}
+        />
+      )}
+      <AppBar position="sticky" sx={{ backgroundColor: 'white', paddingBottom: '0px'}} >
+        <Toolbar sx={{ paddingBottom: '0px' }} variant="dense" >
         </Toolbar>
       </AppBar>
-      <FormComponent />
     </Drawer>
   );
 };

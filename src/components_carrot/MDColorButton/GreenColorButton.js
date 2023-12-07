@@ -2,7 +2,8 @@ import { red, green, purple, teal } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 
-const CreateColorButton = styled(Button)(({ theme }) => ({
+
+const GreenColorButton = styled(Button)(({ theme }) => ({
   fontSize: '14px',
   padding: '0 16px',
   color: theme.palette.getContrastText(green[900]),
@@ -12,4 +13,4 @@ const CreateColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default CreateColorButton;
+export default GreenColorButton;

@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Autocomplete from "@mui/material/Autocomplete";
 
 import MDInput from "components_carrot/MDInput";
-import CreateColorButton from "components_carrot/ButtonEventMgmt/CreateColorButton";
+import GreenColorButton from "components_carrot/MDColorButton/GreenColorButton";
 
 import FrequencyForm from 'layouts_carrot/segments/pages/event-mgmt/CreateForm/FrequencyForm';
 import PeriodForm from 'layouts_carrot/segments/pages/event-mgmt/CreateForm/PeriodForm';
@@ -257,14 +257,14 @@ const CreateForm = ({ createForm, onSubmit }) => {
       <Grid item style={{ marginTop: '20px', width: '90%' }}>
         <Box display="flex" justifyContent="center">
           <MDBox py={0} lineHeight={4}>
-            <CreateColorButton
+            <GreenColorButton
               variant="contained"
               color="info"
               size="medium"
               onClick={handleSubmit}
             >
               등록
-            </CreateColorButton>
+            </GreenColorButton>
           </MDBox>
         </Box>
       </Grid>

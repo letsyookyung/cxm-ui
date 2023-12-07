@@ -4,7 +4,7 @@ import { useMemo, useEffect, useState, forwardRef, useRef, useImperativeHandle }
 import PropTypes from "prop-types";
 
 // react-table components
-import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy } from "react-table";
+import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy, useRowSelect } from "react-table";
 
 // @mui material components
 import Table from "@mui/material/Table";
@@ -14,8 +14,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Icon from "@mui/material/Icon";
 import Autocomplete from "@mui/material/Autocomplete";
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components_carrot/MDBox";
@@ -23,28 +21,30 @@ import MDTypography from "components_carrot/MDTypography";
 import MDInput from "components_carrot/MDInput";
 import MDPagination from "components_carrot/MDPagination";
 import BpCheckbox from "components_carrot/MDCheckbox";
+import { defaultCell, dateCell, updateCell, detailCell } from 'components_carrot/MDTable/cellFunctions';
+
+import { createColumns }  from "layouts_carrot/segments/pages/attribute-mgmt/result_table/ResultTableInfo";
 
 // Material Dashboard 2 PRO React examples
 import DataTableHeadCell from "views/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "views/Tables/DataTable/DataTableBodyCell";
-import SideDrawer from "views/SideDrawer";
 
-import { DetailFields } from "layouts_carrot/segments/pages/event-mgmt/DetailForm/DetailFields"
 
-const CarrotTableEventMgmt = ({
+const CarrotResultTable = ({
                        entriesPerPage,
                        showTotalEntries,
                        table,
                        pagination,
-                       isSorted,
+                       // isSorted,
                        noEndBorder,
                        cxmPageOption,
                        setCxmPageOption,
                        cxmPageTotal,
                        cxmSetPageTotal,
-                       selectedIds,
-                       onCheckboxClick,
+                       onSelectedRecIds,
                      }) => {
+  console.log("pageOption =>", cxmPageOption)
+  
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
@@ -56,11 +56,43 @@ const CarrotTableEventMgmt = ({
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
 
+  const [selectedIds, setSelectedIds] = useState([]);
+
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0 } },
+    {
+      columns,
+      data,
+      initialState: {
+        pageIndex: 0,
+        pageSize: defaultValue,
+        // sortBy: [{ id: 'mdfDthms', desc: false }], //이건 한 페이지에서의 
+      },
+    },
     useGlobalFilter,
     useSortBy,
-    usePagination
+    usePagination,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
+        // 체크박스 열 추가
+        {
+          id: 'selection',
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div>
+              <input type="checkbox" {...getToggleAllRowsSelectedProps()} />
+            </div>
+          ),
+          Cell: ({ row }) => (
+            <div>
+              <input type="checkbox" {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+          width: "3%",
+          align: "center",
+        },
+        ...columns,
+      ]);
+    }
   );
 
   const {
@@ -79,6 +111,7 @@ const CarrotTableEventMgmt = ({
     setPageSize,
     setGlobalFilter,
     state: { pageIndex, pageSize, globalFilter },
+    selectedFlatRows,
   } = tableInstance;
 
   // Set the entries per page value based on the select value
@@ -111,7 +144,7 @@ const CarrotTableEventMgmt = ({
         item
         key={index}
         onClick={() => {
-          console.log(`cxmPageOption.pageNo: ${cxmPageOption.pageNo}, index: ${index}`);
+          console.log("clicked button index =>", index)
           setCxmPageOption((prev) => ({
             ...prev,
             pageNo: index
@@ -119,11 +152,15 @@ const CarrotTableEventMgmt = ({
         }}
         active={cxmPageOption.pageNo == index}
       >
-        {index + 1}
+        {index +1}
       </MDPagination>
     );
   };
-  
+
+  useEffect(() => {
+    console.log("Updated pageNo: ", cxmPageOption.pageNo);
+  }, [cxmPageOption.pageNo]);
+
   // Render the paginations
   const renderPagination = pageArr.map((option) => {
     if (cxmPageOption.pageNo < displayMidButtonCount) { // 1 ~ 3 페이지 선택의 경우
@@ -193,31 +230,26 @@ const CarrotTableEventMgmt = ({
   }, 100);
 
   // A function that sets the sorted value for the table
-  const setSortedValue = (column) => {
-    let sortedValue;
+  // const setSortedValue = (column) => {
+  //   let sortedValue;
+  //
+  //   if (isSorted && column.isSorted) {
+  //     sortedValue = column.isSortedDesc ? "desc" : "asce";
+  //   } else if (isSorted) {
+  //     sortedValue = "none";
+  //   } else {
+  //     sortedValue = false;
+  //   }
+  //
+  //   return sortedValue;
+  // };
 
-    if (isSorted && column.isSorted) {
-      sortedValue = column.isSortedDesc ? "desc" : "asce";
-    } else if (isSorted) {
-      sortedValue = "none";
-    } else {
-      sortedValue = false;
-    }
-
-    return sortedValue;
-  };
-
-  const handleCheckboxChange = (rowId) => {
-    onCheckboxClick(rowId);
-  };
-
-  // 상세보기 click & 상세보기 side drawer
-  const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
-  const [selectedDetail, setSelectedDetail] = useState({});
-  const handleDetailClick = (rowData) => {
-    setSelectedDetail(rowData); //선택된 행의 데이터를 상태에 저장
-    setIsDetailDrawerOpen(true); //Side Drawer 열기
-  };
+  // 선택된 행들이 변경될 때마다 실행되는 useEffect
+  useEffect(() => {
+    const newSelectedRecIds = selectedFlatRows.map((row) => row.original.recid);
+    setSelectedIds(newSelectedRecIds);
+    onSelectedRecIds(newSelectedRecIds);
+  }, [selectedFlatRows]);
 
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
@@ -225,18 +257,20 @@ const CarrotTableEventMgmt = ({
         <MDBox component="thead" bgColor="light" variant="gradient">
           {headerGroups.map((headerGroup, key) => (
             <TableRow key={key} {...headerGroup.getHeaderGroupProps()}>
-              <TableHead></TableHead>
-              {headerGroup.headers.map((column, idx) => (
-                <DataTableHeadCell
-                  key={idx}
-                  {...column.getHeaderProps(isSorted && column.getSortByToggleProps())}
-                  width={column.width ? column.width : "auto"}
-                  align={column.align ? column.align : "left"}
-                  sorted={setSortedValue(column)}
-                >
-                  {column.render("Header")}
-                </DataTableHeadCell>
-              ))}
+              {headerGroup.headers.map((column, idx) => {
+                const isCheckboxColumn = column.id === 'selection';
+                return (
+                  <DataTableHeadCell
+                    key={idx}
+                    {...column.getHeaderProps}
+                    width={column.width ? column.width : "auto"}
+                    align={column.align ? column.align : "left"}
+                    // sorted={isCheckboxColumn ? false : setSortedValue(column)}
+                  >
+                    {column.render("Header")}
+                  </DataTableHeadCell>
+                );
+              })}
             </TableRow>
           ))}
         </MDBox>
@@ -245,31 +279,18 @@ const CarrotTableEventMgmt = ({
             prepareRow(row);
             return (
               <TableRow key={key} {...row.getRowProps()}>
-                <DataTableBodyCell
-                  key={`checkbox-${key}`}
-                  align="center"
-                >
-                  <BpCheckbox
-                    checked={selectedIds.includes(row.original.recid)}
-                    onChange={() => handleCheckboxChange(row.original.recid)}
-                  />
-                </DataTableBodyCell>
-                {row.cells.map((cell, idx) => (
-                  <DataTableBodyCell
-                    key={idx}
-                    noBorder={noEndBorder && rows.length - 1 === key}
-                    align={cell.column.align ? cell.column.align : "left"}
-                    {...cell.getCellProps()}
-                  >
-                    {idx === row.cells.length - 1 ? ( //마지막 셀 = 상세보기
-                      <InfoIcon
-                        onClick={() => handleDetailClick(row.original)}
-                        style={{ cursor: 'pointer' }}  />
-                    ) : (
-                      cell.render("Cell")
-                    )}
-                  </DataTableBodyCell>
-                ))}
+                {row.cells.map((cell, idx) => {
+                  return (
+                    <DataTableBodyCell
+                      key={idx}
+                      noBorder={noEndBorder && rows.length - 1 === key}
+                      align={cell.column.align ? cell.column.align : "left"}
+                      {...cell.getCellProps()}
+                    >
+                      {cell.render("Cell")}
+                    </DataTableBodyCell>
+                  );
+                })}
               </TableRow>
             );
           })}
@@ -368,28 +389,21 @@ const CarrotTableEventMgmt = ({
           </MDPagination>
         )}
       </MDBox>
-          <SideDrawer
-            open={isDetailDrawerOpen}
-            onClose={() => setIsDetailDrawerOpen(false)}
-            formType="detail"
-            formData={DetailFields}
-            rowData={selectedDetail}
-            />
     </TableContainer>
   );
 }
 
 // Setting default values for the props of CarrotTable
-CarrotTableEventMgmt.defaultProps = {
+CarrotResultTable.defaultProps = {
   entriesPerPage: { defaultValue: 20, entries: [20, 30, 50, 100] },
   showTotalEntries: true,
   pagination: { variant: "gradient", color: "info" },
-  isSorted: true,
+  // isSorted: true,
   noEndBorder: false,
 };
 
 // Typechecking props for the CarrotTable
-CarrotTableEventMgmt.propTypes = {
+CarrotResultTable.propTypes = {
   entriesPerPage: PropTypes.oneOfType([
     PropTypes.shape({
       defaultValue: PropTypes.number,
@@ -412,8 +426,8 @@ CarrotTableEventMgmt.propTypes = {
       "light",
     ]),
   }),
-  isSorted: PropTypes.bool,
+  // isSorted: PropTypes.bool,
   noEndBorder: PropTypes.bool,
 };
 
-export default CarrotTableEventMgmt;
+export default CarrotResultTable;

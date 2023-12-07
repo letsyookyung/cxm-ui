@@ -2,7 +2,8 @@ import { red, green, purple, teal } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 
-const DeleteColorButton = styled(Button)(({ theme }) => ({
+
+const RedColorButton = styled(Button)(({ theme }) => ({
   fontSize: '14px',
   padding: '0 16px',
   color: theme.palette.getContrastText(red[700]),
@@ -12,4 +13,4 @@ const DeleteColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default DeleteColorButton;
+export default RedColorButton;

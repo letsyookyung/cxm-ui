@@ -29,8 +29,8 @@ import DefaultCell from "layouts_carrot/table/components/DefaultCell";
 import MDBox from "components_carrot/MDBox";
 import MDButton from "components_carrot/MDButton";
 import MDTypography from "components_carrot/MDTypography";
-import CreateColorButton from "components_carrot/ButtonEventMgmt/CreateColorButton";
-import DeleteColorButton from "components_carrot/ButtonEventMgmt/DeleteColorButton";
+import GreenColorButton from "components_carrot/MDColorButton/GreenColorButton";
+import RedColorButton from "components_carrot/MDColorButton/RedColorButton";
 
 import useSelectOptionsData from "hooks_carrot/useSelectOptionsData";
 
@@ -55,7 +55,6 @@ const eventApiURL = "/ui/events-mgmt";
 const routeURL = "/test/event-mgmt";
 
 const EventMgmt = () => {
-    const navigate = useNavigate();
     const [pageOption, setPageOption] = useState(pageOptionInit);
     const [pageTotal, setPageTotal] = useState(pageTotalInit);
     const [rows, setRows] = useState([]);
@@ -217,13 +216,11 @@ const EventMgmt = () => {
             id: "sgmtRecId",
             label: '세그먼트 이름',
             type: "select",
-            options:[...segmentOptions]
         },
         {
             id: "extrAtrRecId",
             label: '추출컬럼',
             type: "select",
-            options:[...extrAtrOptions]
         },
         {
             id: "rstTyp",
@@ -293,20 +290,20 @@ const EventMgmt = () => {
                             {/* Datatable Search */}
                         </MDBox>
                         <MDBox py={0} display="flex" justifyContent="flex-end" my={1}>
-                            <CreateColorButton
+                            <GreenColorButton
                               variant="contained"
                               style={{ marginRight: "10px"}}
                               onClick={handleOpenDrawer}
                             >
                                 등록
-                            </CreateColorButton>
-                            <DeleteColorButton
+                            </GreenColorButton>
+                            <RedColorButton
                               variant="contained"
                               style={{ marginRight: "3px"}}
                               onClick={deleteBtn}
                             >
                                 삭제
-                            </DeleteColorButton>
+                            </RedColorButton>
                         </MDBox>
                         <CarrotTableEventMgmt
                             entriesPerPage
