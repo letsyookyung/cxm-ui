@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateForm = ({ formField, onSubmit }) => {
+const CreateForm = ({ formField, onSubmit, resetForm, setResetForm }) => {
   const classes = useStyles();
+  const [fieldErrors, setFieldErrors] = useState({});
 
   // create data init
   const [submitData, setSubmitData] = useState({
@@ -47,56 +48,121 @@ const CreateForm = ({ formField, onSubmit }) => {
       ...prev,
       [id]: value
     }));
+
+    if (fieldErrors[id]) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        [id]: false
+      }));
+    }
   };
   const handleSubmit = () => {
-    if (onSubmit) {
-      onSubmit(submitData);
+    const errors = {};
+    let isValid = true;
+
+    formField.forEach(field => {
+      if (field.required && !submitData[field.id]) {
+        errors[field.id] = true;
+        isValid = false;
+      }
+    });
+
+    setFieldErrors(errors);
+
+    if (isValid) {
+      if (onSubmit) {
+        onSubmit(submitData);
+
+        setResetForm(prev => !prev);
+      }
     }
+
   };
 
   // creating form by field type
   const renderFormField = (field) => {
+    const error = fieldErrors[field.id];
+
     switch (field.type) {
       case 'text':
         return (
-          <FormControl style={{ width: '90%' }}>
+          <FormControl style={{ width: '90%' }} error={error}>
             <TextField
-              required
+              required={field.required}
               fullWidth
               id={field.id}
               label={field.label}
               value={submitData[field.id] || ''}
               onChange={handleInputChange}
-              helperText={field.helperText}
+              helperText={error ? "이 필드는 필수입니다" : field.helperText}
               variant="standard"
               multiline
+              error={error}
             />
           </FormControl>
         );
-      case 'select' :
+      case 'select' : {
+        const currentOption = field.id === 'psinfYn'
+          ? field.options.find(option => option.id === submitData[field.id]) || null
+          : null;
         return (
           <FormControl fullWidth variant="standard" style={{ width: '90%' }}>
             <Autocomplete
               disableClearable
+              value={currentOption}
               options={field.options}
               getOptionLabel={(option) => option.label}
               onChange={(event, newValue) => {
                 setSubmitData((prev) => ({
                   ...prev,
-                  [field.id]: newValue ? newValue.id : null 
+                  [field.id]: newValue ? newValue.id : null
                 }));
+
+                if (error) {
+                  setFieldErrors((prev) => ({
+                    ...prev,
+                    [field.id]: false
+                  }));
+                }
               }}
               size="small"
               renderInput={(params) => (
-                <MDInput {...params} variant="standard" label={field.label} InputLabelProps={{ shrink: true }} />
+                <MDInput
+                  {...params}
+                  variant="standard"
+                  label={field.label}
+                  InputLabelProps={{ shrink: true }}
+                  error={error}
+                  helperText={error ? "이 필드는 필수입니다" : field.helperText}
+                  FormHelperTextProps={{
+                    style: { color: error ? 'red' : 'rgba(0, 0, 0, 0.6)' }
+                  }}
+                />
               )}
             />
           </FormControl>
         );
+      }
       default:
         return null;
     }
   };
+
+  // resetting submit data
+  useEffect(() => {
+    setSubmitData({
+      tabnm: null,
+      tablXpnm: null,
+      clmNm: null,
+      clmXpnm: null,
+      clmTyp: null,
+      psinfYn: null,
+      xpnm: null,
+    });
+
+    setFieldErrors({});
+  }, [resetForm]);
+
 
   return (
     <Grid container direction="column" alignItems="center" sx={{ padding: '16px', paddingTop: '0px' }}>

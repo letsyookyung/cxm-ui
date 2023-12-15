@@ -3,10 +3,7 @@
 import { defaultCell, dateCell, updateCell, detailCell } from 'components_carrot/MDTable/cellFunctions';
 
 
-export const createColumns = (
-  handleDetailClick,
-  handleUpdateClick,
-  ) => (
+export const createColumns = (handleDetailClick, handleUpdateClick,) => (
     [
   {
     Header: "테이블명",
@@ -65,13 +62,13 @@ export const createColumns = (
   {
     Header: "수정자",
     accessor: "mdfUsrId",
-    width: "5%",
+    width: "7%",
     Cell: ({ value }) => defaultCell(value),
   },
   {
     Header: "수정일시",
     accessor: "mdfDthms",
-    width: "10%",
+    width: "7%",
     Cell: ({ value }) => dateCell(value),
   },
   {

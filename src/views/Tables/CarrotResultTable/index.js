@@ -1,4 +1,5 @@
 import { useMemo, useEffect, useState, forwardRef, useRef, useImperativeHandle } from "react";
+import Draggable from 'react-draggable';
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -43,8 +44,6 @@ const CarrotResultTable = ({
                        cxmSetPageTotal,
                        onSelectedRecIds,
                      }) => {
-  console.log("pageOption =>", cxmPageOption)
-  
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 20;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
@@ -208,6 +207,17 @@ const CarrotResultTable = ({
         ...prev,
         pageNo: value
       }));
+  }
+
+  const handleSortingByColumn = (columnId) => {
+    console.log("sorting click => ", columnId )
+    const isAsc = cxmPageOption.sortField === columnId && cxmPageOption.sortDirection === 'DESC';
+    setCxmPageOption(prev => ({
+      ...prev,
+      sortField: columnId,
+      sortDirection: isAsc ? 'ASC' : 'DESC',
+      pageNo: 0 
+    }));
   };
 
   // Customized page options starting from 1
@@ -229,20 +239,6 @@ const CarrotResultTable = ({
     setGlobalFilter(value || undefined);
   }, 100);
 
-  // A function that sets the sorted value for the table
-  // const setSortedValue = (column) => {
-  //   let sortedValue;
-  //
-  //   if (isSorted && column.isSorted) {
-  //     sortedValue = column.isSortedDesc ? "desc" : "asce";
-  //   } else if (isSorted) {
-  //     sortedValue = "none";
-  //   } else {
-  //     sortedValue = false;
-  //   }
-  //
-  //   return sortedValue;
-  // };
 
   // 선택된 행들이 변경될 때마다 실행되는 useEffect
   useEffect(() => {
@@ -259,13 +255,19 @@ const CarrotResultTable = ({
             <TableRow key={key} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, idx) => {
                 const isCheckboxColumn = column.id === 'selection';
+                const isDetailColumn = column.id === 'detail';
+                const isUpdateColumn = column.id === 'update';
+                const isSortable = !isCheckboxColumn && !isDetailColumn && !isUpdateColumn;
+                const currentSortDirection = cxmPageOption.sortField === column.id ? cxmPageOption.sortDirection : null;
                 return (
                   <DataTableHeadCell
+                    id={column.id}
                     key={idx}
-                    {...column.getHeaderProps}
                     width={column.width ? column.width : "auto"}
                     align={column.align ? column.align : "left"}
-                    // sorted={isCheckboxColumn ? false : setSortedValue(column)}
+                    isSortable={isSortable}
+                    sortDirection={currentSortDirection}
+                    onSort={() => handleSortingByColumn(column.id)}
                   >
                     {column.render("Header")}
                   </DataTableHeadCell>

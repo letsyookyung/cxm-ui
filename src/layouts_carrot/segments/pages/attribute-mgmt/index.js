@@ -14,9 +14,13 @@
  */
 import { useMemo, useEffect, useState, Suspense } from "react";
 
+import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
+import IconButton from '@mui/material/IconButton';
+
 import MDBox from "components_carrot/MDBox";
 import GreenColorButton from "components_carrot/MDColorButton/GreenColorButton";
 import RedColorButton from "components_carrot/MDColorButton/RedColorButton";
+import ConfirmModal from "components_carrot/MDModal/ConfirmModal"
 
 import DashboardLayout from "views/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "views/Navbars/DashboardNavbar";
@@ -97,11 +101,23 @@ const AttributeMgmt = () => {
   // delete
   const deleteData = useDeleteData();
   const [selectedRecIds, setSelectedRecIds] = useState([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const handleOpenConfirmModal = () => setIsConfirmModalOpen(true);
+  const handleCloseConfirmModal = () => setIsConfirmModalOpen(false);
+  const [modalContent, setModalContent] = useState('');
+
   const handleSelectedRecIds = (newSelectedRecIds) => {
     setSelectedRecIds(newSelectedRecIds);
   };
 
-  const handleDeleteClick = async () => {
+  const handleDeleteClick = () => {
+    const deleteCount = selectedRecIds.length;
+    const modalContent = `선택한 ${deleteCount}개의 항목을 정말로 삭제하시겠습니까?`;
+    setModalContent(modalContent);
+    handleOpenConfirmModal();
+  };
+
+  const handleDeleteConfirm = async () => {
     try {
       console.log('Deleting attribute data:', selectedRecIds)
       await Promise.all(
@@ -113,13 +129,14 @@ const AttributeMgmt = () => {
       // update table UI after deleting row
       const newRows = rows.filter(row => !selectedRecIds.includes(row.recid));
       setRows(newRows);
-
       setSelectedRecIds([]);
+
+      handleCloseConfirmModal();
     } catch (error) {
       console.error("Error deleting data", error);
     }
   };
-  
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -180,6 +197,13 @@ const AttributeMgmt = () => {
         rowData={rowData}
       />
       <Footer />
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        handleClose={handleCloseConfirmModal}
+        title="삭제 확인"
+        content={modalContent}
+        onConfirm={handleDeleteConfirm}
+      />
     </DashboardLayout>
   );
 };

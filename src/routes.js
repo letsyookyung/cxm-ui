@@ -90,13 +90,13 @@ const routes = [
         component: <SegmentMgmtDetails />,
         role: "NOT_USED",
       },
-      {
-        name: "이벤트관리",
-        key: "events-mgmt",
-        route: "/segments/event-mgmt",
-        component: <EventMgmt />,
-        role: "ROLE_SEGMENT",
-      },
+      // {
+      //   name: "이벤트관리",
+      //   key: "events-mgmt",
+      //   route: "/segments/event-mgmt",
+      //   component: <EventMgmt />,
+      //   role: "ROLE_SEGMENT",
+      // },
       {
         name: "속성관리",
         key: "attribute-mgmt",

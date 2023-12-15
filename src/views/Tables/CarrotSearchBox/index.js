@@ -148,7 +148,9 @@ const CarrotSearchBox = ({
   const searchBtn = () => {
     refetch();
   };
-  
+
+
+  // useEffect
   useEffect(() => {
     setParam((prev) => ({
       ...prev,
@@ -164,8 +166,13 @@ const CarrotSearchBox = ({
   }, [pageOption]);
 
   useEffect(() => {
-    console.log("changed param =>", param);
-    if (pageOption.pageNo !== 0 || pageOption.pageSize !== pageOptionInit.pageSize) {
+    if (
+      pageOption.pageNo !== 0 ||
+      pageOption.pageSize !== pageOptionInit.pageSize ||
+      pageOption.sortField !== pageOptionInit.sortField ||
+      pageOption.sortDirection !== pageOptionInit.sortDirection
+    ) {
+      console.log("changed param =>", param);
       refetch();
     }
   }, [param]);

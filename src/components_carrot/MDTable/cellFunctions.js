@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const defaultCell = (value) => {
-  const MAX_LENGTH = 20; 
+  const MAX_LENGTH = 15;
   const displayValue = value && value.toString().length > MAX_LENGTH
     ? `${value.toString().substring(0, MAX_LENGTH)}...`
     : value;
